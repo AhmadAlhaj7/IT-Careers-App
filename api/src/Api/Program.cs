@@ -1,4 +1,8 @@
+using System.Text.Json.Serialization;
+using ItCareers.Application.Roadmaps;
 using ItCareers.Infrastructure.Data;
+using ItCareers.Infrastructure.Data.Queries;
+using ItCareers.Infrastructure.Data.Seeding;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
@@ -8,12 +12,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    // Enum values as readable strings ("Free", not "0") — much easier for the frontend
+    // to work with, and self-explanatory when inspecting a response by eye.
+    .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<ItCareersDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.AddScoped<IRoadmapQueries, RoadmapQueries>();
 
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<ItCareersDbContext>();
@@ -69,6 +78,7 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ItCareersDbContext>();
     dbContext.Database.Migrate();
+    await CatalogSeeder.SeedAsync(dbContext);
 }
 
 // Configure the HTTP request pipeline.
