@@ -22,7 +22,7 @@ public class AdminResourcesController : ControllerBase
         var id = await _resourceCommands.CreateAsync(request, cancellationToken);
         if (id is null)
         {
-            return BadRequest(new { message = "PhaseId does not refer to an existing phase." });
+            return BadRequest(new { message = "المرحلة المحددة غير موجودة." });
         }
 
         return CreatedAtAction(nameof(Create), new { id }, new { id });

@@ -1,28 +1,41 @@
-import { auth } from "@clerk/nextjs/server";
-
-const API_URL = process.env.API_URL ?? "http://localhost:5212";
+import Link from "next/link";
+import { listRoadmaps } from "@/lib/admin-api";
+import { AdminForbidden } from "@/components/admin/AdminForbidden";
 
 export default async function AdminPage() {
-  const { getToken } = await auth.protect();
-  const token = await getToken();
+  const result = await listRoadmaps();
 
-  const response = await fetch(`${API_URL}/api/admin/ping`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  if (!response.ok) {
-    return (
-      <div className="mx-auto max-w-2xl px-4 py-12">
-        <p>ليست لديك صلاحية الوصول إلى هذه الصفحة.</p>
-      </div>
-    );
+  if (result.status === "forbidden") {
+    return <AdminForbidden />;
   }
 
-  const data: { message: string } = await response.json();
+  const roadmaps = result.status === "ok" ? result.data : [];
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
-      <p>{data.message}</p>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-semibold text-neutral-900">المسارات التعليمية</h1>
+        <Link href="/admin/roadmaps/new" className="text-sm text-[#0F6E56]">
+          + مسار جديد
+        </Link>
+      </div>
+
+      <div className="mt-6 flex flex-col gap-3">
+        {roadmaps.length === 0 && <p className="text-sm text-neutral-500">لا توجد مسارات بعد.</p>}
+        {roadmaps.map((roadmap) => (
+          <Link
+            key={roadmap.id}
+            href={`/admin/roadmaps/${roadmap.id}`}
+            className="rounded-lg border border-neutral-200 px-4 py-3 hover:border-neutral-300"
+          >
+            <div className="flex items-center justify-between">
+              <span className="font-medium text-neutral-900">{roadmap.title.ar}</span>
+              <span className="text-xs text-neutral-500">{roadmap.status}</span>
+            </div>
+            <span className="text-xs text-neutral-400">{roadmap.slug}</span>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

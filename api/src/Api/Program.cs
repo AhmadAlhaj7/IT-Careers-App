@@ -25,6 +25,7 @@ builder.Services.AddDbContext<ItCareersDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddScoped<IRoadmapQueries, RoadmapQueries>();
+builder.Services.AddScoped<IAdminRoadmapQueries, AdminRoadmapQueries>();
 builder.Services.AddScoped<IRoadmapCommands, RoadmapCommands>();
 builder.Services.AddScoped<IPhaseCommands, PhaseCommands>();
 builder.Services.AddScoped<IResourceCommands, ResourceCommands>();

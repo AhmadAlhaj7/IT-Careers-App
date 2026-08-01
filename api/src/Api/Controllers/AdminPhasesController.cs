@@ -10,10 +10,19 @@ namespace ItCareers.Api.Controllers;
 public class AdminPhasesController : ControllerBase
 {
     private readonly IPhaseCommands _phaseCommands;
+    private readonly IAdminRoadmapQueries _roadmapQueries;
 
-    public AdminPhasesController(IPhaseCommands phaseCommands)
+    public AdminPhasesController(IPhaseCommands phaseCommands, IAdminRoadmapQueries roadmapQueries)
     {
         _phaseCommands = phaseCommands;
+        _roadmapQueries = roadmapQueries;
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<AdminPhaseDetailDto>> Get(Guid id, CancellationToken cancellationToken)
+    {
+        var phase = await _roadmapQueries.GetPhaseAsync(id, cancellationToken);
+        return phase is null ? NotFound() : Ok(phase);
     }
 
     [HttpPost]
@@ -22,7 +31,7 @@ public class AdminPhasesController : ControllerBase
         var id = await _phaseCommands.CreateAsync(request, cancellationToken);
         if (id is null)
         {
-            return BadRequest(new { message = "RoadmapId does not refer to an existing roadmap." });
+            return BadRequest(new { message = "المسار المحدد غير موجود." });
         }
 
         return CreatedAtAction(nameof(Create), new { id }, new { id });

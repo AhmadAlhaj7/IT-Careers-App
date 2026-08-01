@@ -21,6 +21,8 @@ public class RoadmapCommands : IRoadmapCommands
             return null;
         }
 
+        await EnsureSlugAvailableAsync(request.Slug, excludingId: null, cancellationToken);
+
         var roadmap = new Roadmap(Guid.NewGuid(), request.TrackId, request.Title, request.Slug, request.Price, request.Status);
         _context.Roadmaps.Add(roadmap);
         await _context.SaveChangesAsync(cancellationToken);
@@ -36,10 +38,26 @@ public class RoadmapCommands : IRoadmapCommands
             return false;
         }
 
+        await EnsureSlugAvailableAsync(request.Slug, excludingId: id, cancellationToken);
+
         roadmap.UpdateDetails(request.Title, request.Slug, request.Price, request.Status);
         await _context.SaveChangesAsync(cancellationToken);
 
         return true;
+    }
+
+    // Slug carries a unique index at the database level; checking here first turns what
+    // would otherwise be a raw, unhandled constraint-violation crash into a clear error the
+    // admin UI can actually show.
+    private async Task EnsureSlugAvailableAsync(string slug, Guid? excludingId, CancellationToken cancellationToken)
+    {
+        var slugTaken = await _context.Roadmaps
+            .AnyAsync(r => r.Slug == slug && r.Id != excludingId, cancellationToken);
+
+        if (slugTaken)
+        {
+            throw new RoadmapSlugConflictException(slug);
+        }
     }
 
     public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
