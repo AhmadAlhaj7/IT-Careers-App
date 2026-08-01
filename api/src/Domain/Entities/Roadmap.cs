@@ -28,4 +28,12 @@ public class Roadmap : Entity
         Price = price;
         Status = status;
     }
+
+    public void UpdateDetails(LocalizedText title, string slug, decimal price, RoadmapStatus status)
+    {
+        Title = title;
+        Slug = slug;
+        Price = price;
+        Status = status;
+    }
 }

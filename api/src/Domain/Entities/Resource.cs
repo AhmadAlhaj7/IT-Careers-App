@@ -31,4 +31,12 @@ public class Resource : Entity
         ResourceType = resourceType;
         AccessType = accessType;
     }
+
+    public void UpdateDetails(LocalizedText title, string url, ResourceType resourceType, ResourceAccessType accessType)
+    {
+        Title = title;
+        Url = url;
+        ResourceType = resourceType;
+        AccessType = accessType;
+    }
 }

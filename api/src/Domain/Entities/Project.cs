@@ -22,4 +22,11 @@ public class Project : Entity
         Description = description;
         IsCapstone = isCapstone;
     }
+
+    public void UpdateDetails(LocalizedText title, LocalizedText description, bool isCapstone)
+    {
+        Title = title;
+        Description = description;
+        IsCapstone = isCapstone;
+    }
 }

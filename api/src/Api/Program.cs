@@ -2,6 +2,7 @@ using System.Security.Claims;
 using System.Text.Json.Serialization;
 using ItCareers.Application.Roadmaps;
 using ItCareers.Infrastructure.Data;
+using ItCareers.Infrastructure.Data.Commands;
 using ItCareers.Infrastructure.Data.Queries;
 using ItCareers.Infrastructure.Data.Seeding;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -24,6 +25,10 @@ builder.Services.AddDbContext<ItCareersDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddScoped<IRoadmapQueries, RoadmapQueries>();
+builder.Services.AddScoped<IRoadmapCommands, RoadmapCommands>();
+builder.Services.AddScoped<IPhaseCommands, PhaseCommands>();
+builder.Services.AddScoped<IResourceCommands, ResourceCommands>();
+builder.Services.AddScoped<IProjectCommands, ProjectCommands>();
 
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<ItCareersDbContext>();

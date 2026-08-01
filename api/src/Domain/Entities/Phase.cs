@@ -40,4 +40,18 @@ public class Phase : Entity
         PdfUrl = pdfUrl;
         PhaseType = phaseType;
     }
+
+    public void UpdateDetails(
+        LocalizedText title,
+        int orderIndex,
+        LocalizedText explanation,
+        string? pdfUrl,
+        PhaseType phaseType)
+    {
+        Title = title;
+        OrderIndex = orderIndex;
+        Explanation = explanation;
+        PdfUrl = pdfUrl;
+        PhaseType = phaseType;
+    }
 }
