@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text.Json.Serialization;
 using ItCareers.Application.Roadmaps;
 using ItCareers.Infrastructure.Data;
@@ -52,6 +53,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 if (azp is not null && !authorizedParties.Contains(azp))
                 {
                     context.Fail("Token was not issued to an authorized party.");
+                    return Task.CompletedTask;
+                }
+
+                // Clerk carries our custom "role" claim as a plain string (configured in
+                // Clerk's session token settings) — map it onto the standard .NET role
+                // claim type so [Authorize(Roles = "Admin")] works the normal way below.
+                var role = context.Principal?.FindFirst("role")?.Value;
+                if (!string.IsNullOrEmpty(role) && context.Principal?.Identity is ClaimsIdentity identity)
+                {
+                    identity.AddClaim(new Claim(ClaimTypes.Role, role));
                 }
 
                 return Task.CompletedTask;
