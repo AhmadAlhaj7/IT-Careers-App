@@ -4,6 +4,7 @@ import { getPhase } from "@/lib/admin-api";
 import { deletePhaseAction, deleteProjectAction, deleteResourceAction } from "@/app/admin/actions";
 import { AdminForbidden } from "@/components/admin/AdminForbidden";
 import { DeleteButton } from "@/components/admin/DeleteButton";
+import { BackLink } from "@/components/layout/BackLink";
 
 export default async function AdminPhaseDetailPage({
   params,
@@ -25,9 +26,7 @@ export default async function AdminPhaseDetailPage({
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
-      <Link href={`/admin/roadmaps/${id}`} className="text-sm text-neutral-500">
-        ← رجوع إلى المسار
-      </Link>
+      <BackLink href={`/admin/roadmaps/${id}`} label="المسار" />
 
       <h1 className="mt-2 text-2xl font-semibold text-neutral-900">
         #{phase.orderIndex} {phase.title.ar}

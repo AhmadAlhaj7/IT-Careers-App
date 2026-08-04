@@ -4,6 +4,7 @@ import { getRoadmap } from "@/lib/admin-api";
 import { deleteRoadmapAction } from "@/app/admin/actions";
 import { AdminForbidden } from "@/components/admin/AdminForbidden";
 import { DeleteButton } from "@/components/admin/DeleteButton";
+import { BackLink } from "@/components/layout/BackLink";
 
 export default async function AdminRoadmapDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -21,7 +22,8 @@ export default async function AdminRoadmapDetailPage({ params }: { params: Promi
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
-      <h1 className="text-2xl font-semibold text-neutral-900">{roadmap.title.ar}</h1>
+      <BackLink href="/admin" label="المسارات" />
+      <h1 className="mt-2 text-2xl font-semibold text-neutral-900">{roadmap.title.ar}</h1>
       <p className="mt-1 text-sm text-neutral-500">
         {roadmap.slug} · {roadmap.status} · ${roadmap.price.toFixed(2)}
       </p>

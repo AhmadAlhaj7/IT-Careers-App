@@ -14,6 +14,12 @@ public class RoadmapsController : ControllerBase
         _roadmapQueries = roadmapQueries;
     }
 
+    [HttpGet]
+    public async Task<ActionResult<IReadOnlyList<RoadmapSummaryDto>>> List(CancellationToken cancellationToken)
+    {
+        return Ok(await _roadmapQueries.ListPublishedAsync(cancellationToken));
+    }
+
     [HttpGet("{slug}")]
     public async Task<ActionResult<RoadmapDetailDto>> GetBySlug(string slug, CancellationToken cancellationToken)
     {

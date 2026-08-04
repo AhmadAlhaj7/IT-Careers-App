@@ -18,6 +18,12 @@ export type RoadmapDetail = {
   phases: PhaseSummary[];
 };
 
+export type RoadmapSummary = {
+  slug: string;
+  title: LocalizedText;
+  price: number;
+};
+
 export type ResourceType = "Video" | "Article" | "Documentation" | "Course";
 export type ResourceAccessType = "Free" | "Paid";
 export type RoadmapStatus = "Draft" | "Published";

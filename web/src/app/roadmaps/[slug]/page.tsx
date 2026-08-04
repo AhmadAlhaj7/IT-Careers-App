@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getRoadmap } from "@/lib/api";
 import { PhaseListItem } from "@/components/roadmaps/PhaseListItem";
+import { BackLink } from "@/components/layout/BackLink";
 
 export default async function RoadmapPage({
   params,
@@ -16,7 +17,8 @@ export default async function RoadmapPage({
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
-      <h1 className="text-2xl font-semibold text-neutral-900">{roadmap.title.ar}</h1>
+      <BackLink href="/" label="الرئيسية" />
+      <h1 className="mt-2 text-2xl font-semibold text-neutral-900">{roadmap.title.ar}</h1>
       <p className="mt-2 text-lg text-[#0F6E56]">${roadmap.price.toFixed(2)}</p>
 
       <h2 className="mt-10 text-sm font-medium text-neutral-500">المراحل</h2>

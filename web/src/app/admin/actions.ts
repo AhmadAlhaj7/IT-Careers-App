@@ -1,7 +1,8 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { adminDelete, adminPost, adminPut } from "@/lib/admin-api";
+import { revalidatePath } from "next/cache";
+import { adminDelete, adminPost, adminPut, getRoadmap } from "@/lib/admin-api";
 
 export type ActionState = { message?: string };
 
@@ -24,6 +25,11 @@ export async function createRoadmapAction(_prevState: ActionState, formData: For
   if (!result.ok) {
     return { message: result.message };
   }
+
+  // The public home page and roadmap page cache their fetches for 60s (ISR) — without this,
+  // a roadmap you just published wouldn't show up there until that window naturally expires.
+  revalidatePath("/");
+  revalidatePath(`/roadmaps/${slug}`);
 
   redirect(`/admin/roadmaps/${result.id}`);
 }
@@ -120,16 +126,28 @@ export async function updateRoadmapAction(_prevState: ActionState, formData: For
     return { message: result.message };
   }
 
+  revalidatePath("/");
+  revalidatePath(`/roadmaps/${slug}`);
+
   redirect(`/admin/roadmaps/${id}`);
 }
 
 export async function deleteRoadmapAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
   const id = String(formData.get("id") ?? "");
 
+  // Fetched before deleting: once soft-deleted, the admin GET would 404 and we'd lose the
+  // slug needed to invalidate that roadmap's now-stale public page.
+  const existing = await getRoadmap(id);
+
   const result = await adminDelete(`/api/admin/roadmaps/${id}`);
 
   if (!result.ok) {
     return { message: result.message };
+  }
+
+  revalidatePath("/");
+  if (existing.status === "ok") {
+    revalidatePath(`/roadmaps/${existing.data.slug}`);
   }
 
   redirect("/admin");

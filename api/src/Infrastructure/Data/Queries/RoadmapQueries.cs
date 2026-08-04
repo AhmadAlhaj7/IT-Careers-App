@@ -13,6 +13,16 @@ public class RoadmapQueries : IRoadmapQueries
         _context = context;
     }
 
+    public async Task<IReadOnlyList<RoadmapSummaryDto>> ListPublishedAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Roadmaps
+            .AsNoTracking()
+            .Where(r => r.Status == RoadmapStatus.Published && !r.IsDeleted)
+            .OrderBy(r => r.Slug)
+            .Select(r => new RoadmapSummaryDto(r.Slug, r.Title, r.Price))
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<RoadmapDetailDto?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default)
     {
         var roadmap = await _context.Roadmaps

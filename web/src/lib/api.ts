@@ -1,6 +1,18 @@
-import { PhaseDetail, RoadmapDetail } from "./types";
+import { PhaseDetail, RoadmapDetail, RoadmapSummary } from "./types";
 
 const API_URL = process.env.API_URL ?? "http://localhost:5212";
+
+export async function listRoadmaps(): Promise<RoadmapSummary[]> {
+  const response = await fetch(`${API_URL}/api/roadmaps`, {
+    next: { revalidate: 60 },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to load roadmaps: ${response.status}`);
+  }
+
+  return response.json();
+}
 
 export async function getRoadmap(slug: string): Promise<RoadmapDetail | null> {
   const response = await fetch(`${API_URL}/api/roadmaps/${slug}`, {

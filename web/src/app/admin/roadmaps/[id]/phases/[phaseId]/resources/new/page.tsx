@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getPhase } from "@/lib/admin-api";
 import { AdminForbidden } from "@/components/admin/AdminForbidden";
+import { BackLink } from "@/components/layout/BackLink";
 import { CreateResourceForm } from "./CreateResourceForm";
 
 export default async function NewResourcePage({
@@ -23,8 +24,8 @@ export default async function NewResourcePage({
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
-      <p className="text-sm text-neutral-500">{phase.title.ar}</p>
-      <h1 className="text-2xl font-semibold text-neutral-900">مورد جديد</h1>
+      <BackLink href={`/admin/roadmaps/${id}/phases/${phase.id}`} label={phase.title.ar} />
+      <h1 className="mt-2 text-2xl font-semibold text-neutral-900">مورد جديد</h1>
       <CreateResourceForm roadmapId={id} phaseId={phase.id} />
     </div>
   );
