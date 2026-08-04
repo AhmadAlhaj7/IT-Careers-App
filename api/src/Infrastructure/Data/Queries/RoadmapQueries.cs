@@ -17,7 +17,7 @@ public class RoadmapQueries : IRoadmapQueries
     {
         var roadmap = await _context.Roadmaps
             .Include(r => r.Phases)
-            .Where(r => r.Slug == slug && r.Status == RoadmapStatus.Published)
+            .Where(r => r.Slug == slug && r.Status == RoadmapStatus.Published && !r.IsDeleted)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (roadmap is null)
@@ -26,6 +26,7 @@ public class RoadmapQueries : IRoadmapQueries
         }
 
         var phases = roadmap.Phases
+            .Where(p => !p.IsDeleted)
             .OrderBy(p => p.OrderIndex)
             .Select(p => new PhaseSummaryDto(p.OrderIndex, p.Title))
             .ToList();
@@ -43,7 +44,9 @@ public class RoadmapQueries : IRoadmapQueries
             .Include(p => p.Projects)
             .Where(p => p.Roadmap!.Slug == roadmapSlug
                 && p.Roadmap.Status == RoadmapStatus.Published
-                && p.OrderIndex == orderIndex)
+                && !p.Roadmap.IsDeleted
+                && p.OrderIndex == orderIndex
+                && !p.IsDeleted)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (phase is null)
@@ -52,10 +55,12 @@ public class RoadmapQueries : IRoadmapQueries
         }
 
         var resources = phase.Resources
+            .Where(r => !r.IsDeleted)
             .Select(r => new ResourceDto(r.Title, r.Url, r.ResourceType, r.AccessType))
             .ToList();
 
         var projects = phase.Projects
+            .Where(p => !p.IsDeleted)
             .Select(p => new ProjectDto(p.Title, p.Description, p.IsCapstone))
             .ToList();
 

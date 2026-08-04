@@ -54,4 +54,18 @@ public class Phase : Entity
         PdfUrl = pdfUrl;
         PhaseType = phaseType;
     }
+
+    public override void Delete()
+    {
+        base.Delete();
+        foreach (var resource in _resources)
+        {
+            resource.Delete();
+        }
+
+        foreach (var project in _projects)
+        {
+            project.Delete();
+        }
+    }
 }

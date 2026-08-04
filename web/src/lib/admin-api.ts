@@ -51,18 +51,25 @@ export function listTracks() {
   return adminGet<TrackSummary[]>("/api/admin/tracks");
 }
 
-type AdminPostResult = { ok: true; id: string } | { ok: false; message: string };
+type AdminMutateResult = { ok: true; id?: string } | { ok: false; message: string };
 
-export async function adminPost(path: string, body: unknown): Promise<AdminPostResult> {
+async function adminMutate(method: "POST" | "PUT" | "DELETE", path: string, body?: unknown): Promise<AdminMutateResult> {
   const token = await getAdminToken();
   const response = await fetch(`${API_URL}${path}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify(body),
+    method,
+    headers:
+      body === undefined
+        ? { Authorization: `Bearer ${token}` }
+        : { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: body === undefined ? undefined : JSON.stringify(body),
   });
 
   if (response.status === 401 || response.status === 403) {
     return { ok: false, message: "ليست لديك صلاحية القيام بهذا الإجراء." };
+  }
+
+  if (response.status === 404) {
+    return { ok: false, message: "العنصر غير موجود." };
   }
 
   if (!response.ok) {
@@ -78,6 +85,27 @@ export async function adminPost(path: string, body: unknown): Promise<AdminPostR
     return { ok: false, message };
   }
 
+  if (response.status === 204) {
+    return { ok: true };
+  }
+
   const data: { id: string } = await response.json();
   return { ok: true, id: data.id };
+}
+
+export async function adminPost(path: string, body: unknown): Promise<{ ok: true; id: string } | { ok: false; message: string }> {
+  const result = await adminMutate("POST", path, body);
+  if (!result.ok) {
+    return result;
+  }
+  // Every POST create endpoint returns 201 with { id } — this cast just documents that contract.
+  return { ok: true, id: result.id! };
+}
+
+export function adminPut(path: string, body: unknown) {
+  return adminMutate("PUT", path, body);
+}
+
+export function adminDelete(path: string) {
+  return adminMutate("DELETE", path);
 }

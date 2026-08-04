@@ -15,7 +15,7 @@ public class PhaseCommands : IPhaseCommands
 
     public async Task<Guid?> CreateAsync(CreatePhaseRequest request, CancellationToken cancellationToken = default)
     {
-        var roadmapExists = await _context.Roadmaps.AnyAsync(r => r.Id == request.RoadmapId, cancellationToken);
+        var roadmapExists = await _context.Roadmaps.AnyAsync(r => r.Id == request.RoadmapId && !r.IsDeleted, cancellationToken);
         if (!roadmapExists)
         {
             return null;
@@ -38,7 +38,7 @@ public class PhaseCommands : IPhaseCommands
 
     public async Task<bool> UpdateAsync(Guid id, UpdatePhaseRequest request, CancellationToken cancellationToken = default)
     {
-        var phase = await _context.Phases.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+        var phase = await _context.Phases.FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted, cancellationToken);
         if (phase is null)
         {
             return false;
@@ -52,13 +52,17 @@ public class PhaseCommands : IPhaseCommands
 
     public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var phase = await _context.Phases.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+        var phase = await _context.Phases
+            .Include(p => p.Resources)
+            .Include(p => p.Projects)
+            .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted, cancellationToken);
+
         if (phase is null)
         {
             return false;
         }
 
-        _context.Phases.Remove(phase);
+        phase.Delete();
         await _context.SaveChangesAsync(cancellationToken);
 
         return true;

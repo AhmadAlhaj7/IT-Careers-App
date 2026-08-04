@@ -15,7 +15,7 @@ public class ProjectCommands : IProjectCommands
 
     public async Task<Guid?> CreateAsync(CreateProjectRequest request, CancellationToken cancellationToken = default)
     {
-        var phaseExists = await _context.Phases.AnyAsync(p => p.Id == request.PhaseId, cancellationToken);
+        var phaseExists = await _context.Phases.AnyAsync(p => p.Id == request.PhaseId && !p.IsDeleted, cancellationToken);
         if (!phaseExists)
         {
             return null;
@@ -30,7 +30,7 @@ public class ProjectCommands : IProjectCommands
 
     public async Task<bool> UpdateAsync(Guid id, UpdateProjectRequest request, CancellationToken cancellationToken = default)
     {
-        var project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+        var project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted, cancellationToken);
         if (project is null)
         {
             return false;
@@ -44,13 +44,13 @@ public class ProjectCommands : IProjectCommands
 
     public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+        var project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted, cancellationToken);
         if (project is null)
         {
             return false;
         }
 
-        _context.Projects.Remove(project);
+        project.Delete();
         await _context.SaveChangesAsync(cancellationToken);
 
         return true;

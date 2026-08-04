@@ -15,7 +15,7 @@ public class ResourceCommands : IResourceCommands
 
     public async Task<Guid?> CreateAsync(CreateResourceRequest request, CancellationToken cancellationToken = default)
     {
-        var phaseExists = await _context.Phases.AnyAsync(p => p.Id == request.PhaseId, cancellationToken);
+        var phaseExists = await _context.Phases.AnyAsync(p => p.Id == request.PhaseId && !p.IsDeleted, cancellationToken);
         if (!phaseExists)
         {
             return null;
@@ -37,7 +37,7 @@ public class ResourceCommands : IResourceCommands
 
     public async Task<bool> UpdateAsync(Guid id, UpdateResourceRequest request, CancellationToken cancellationToken = default)
     {
-        var resource = await _context.Resources.FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+        var resource = await _context.Resources.FirstOrDefaultAsync(r => r.Id == id && !r.IsDeleted, cancellationToken);
         if (resource is null)
         {
             return false;
@@ -51,13 +51,13 @@ public class ResourceCommands : IResourceCommands
 
     public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var resource = await _context.Resources.FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+        var resource = await _context.Resources.FirstOrDefaultAsync(r => r.Id == id && !r.IsDeleted, cancellationToken);
         if (resource is null)
         {
             return false;
         }
 
-        _context.Resources.Remove(resource);
+        resource.Delete();
         await _context.SaveChangesAsync(cancellationToken);
 
         return true;

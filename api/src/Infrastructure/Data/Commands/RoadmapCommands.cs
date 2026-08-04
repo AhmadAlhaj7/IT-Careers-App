@@ -32,7 +32,7 @@ public class RoadmapCommands : IRoadmapCommands
 
     public async Task<bool> UpdateAsync(Guid id, UpdateRoadmapRequest request, CancellationToken cancellationToken = default)
     {
-        var roadmap = await _context.Roadmaps.FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+        var roadmap = await _context.Roadmaps.FirstOrDefaultAsync(r => r.Id == id && !r.IsDeleted, cancellationToken);
         if (roadmap is null)
         {
             return false;
@@ -51,8 +51,10 @@ public class RoadmapCommands : IRoadmapCommands
     // admin UI can actually show.
     private async Task EnsureSlugAvailableAsync(string slug, Guid? excludingId, CancellationToken cancellationToken)
     {
+        // A soft-deleted roadmap no longer counts as "using" its slug — from the admin's
+        // perspective it's gone, so the slug should be free to reuse.
         var slugTaken = await _context.Roadmaps
-            .AnyAsync(r => r.Slug == slug && r.Id != excludingId, cancellationToken);
+            .AnyAsync(r => r.Slug == slug && r.Id != excludingId && !r.IsDeleted, cancellationToken);
 
         if (slugTaken)
         {
@@ -62,13 +64,19 @@ public class RoadmapCommands : IRoadmapCommands
 
     public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var roadmap = await _context.Roadmaps.FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+        // Soft delete: load every descendant so Roadmap.Delete() can cascade the flag down to
+        // its Phases, Resources, and Projects instead of removing rows from the database.
+        var roadmap = await _context.Roadmaps
+            .Include(r => r.Phases).ThenInclude(p => p.Resources)
+            .Include(r => r.Phases).ThenInclude(p => p.Projects)
+            .FirstOrDefaultAsync(r => r.Id == id && !r.IsDeleted, cancellationToken);
+
         if (roadmap is null)
         {
             return false;
         }
 
-        _context.Roadmaps.Remove(roadmap);
+        roadmap.Delete();
         await _context.SaveChangesAsync(cancellationToken);
 
         return true;

@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getRoadmap } from "@/lib/admin-api";
+import { deleteRoadmapAction } from "@/app/admin/actions";
 import { AdminForbidden } from "@/components/admin/AdminForbidden";
+import { DeleteButton } from "@/components/admin/DeleteButton";
 
 export default async function AdminRoadmapDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -23,6 +25,21 @@ export default async function AdminRoadmapDetailPage({ params }: { params: Promi
       <p className="mt-1 text-sm text-neutral-500">
         {roadmap.slug} · {roadmap.status} · ${roadmap.price.toFixed(2)}
       </p>
+
+      <div className="mt-4 flex items-center gap-4">
+        <Link href={`/admin/roadmaps/${roadmap.id}/edit`} className="text-sm text-[#0F6E56]">
+          تعديل
+        </Link>
+        <DeleteButton
+          action={deleteRoadmapAction}
+          hiddenFields={{ id: roadmap.id }}
+          confirmMessage={
+            roadmap.phases.length > 0
+              ? `سيتم حذف هذا المسار و${roadmap.phases.length} مرحلة تابعة له. هل أنت متأكد؟`
+              : "سيتم حذف هذا المسار نهائيًا. هل أنت متأكد؟"
+          }
+        />
+      </div>
 
       <div className="mt-8 flex items-center justify-between">
         <h2 className="text-sm font-medium text-neutral-500">المراحل</h2>

@@ -20,6 +20,7 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
         // present in the result. Read-only queries should never track anyway.
         return await _context.Roadmaps
             .AsNoTracking()
+            .Where(r => !r.IsDeleted)
             .OrderBy(r => r.Slug)
             .Select(r => new AdminRoadmapSummaryDto(r.Id, r.Slug, r.Title, r.Status))
             .ToListAsync(cancellationToken);
@@ -30,7 +31,7 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
         var roadmap = await _context.Roadmaps
             .AsNoTracking()
             .Include(r => r.Phases)
-            .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+            .FirstOrDefaultAsync(r => r.Id == id && !r.IsDeleted, cancellationToken);
 
         if (roadmap is null)
         {
@@ -38,6 +39,7 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
         }
 
         var phases = roadmap.Phases
+            .Where(p => !p.IsDeleted)
             .OrderBy(p => p.OrderIndex)
             .Select(p => new AdminPhaseSummaryDto(p.Id, p.OrderIndex, p.Title))
             .ToList();
@@ -51,7 +53,7 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
             .AsNoTracking()
             .Include(p => p.Resources)
             .Include(p => p.Projects)
-            .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+            .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted, cancellationToken);
 
         if (phase is null)
         {
@@ -59,10 +61,12 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
         }
 
         var resources = phase.Resources
+            .Where(r => !r.IsDeleted)
             .Select(r => new AdminResourceDto(r.Id, r.Title, r.Url, r.ResourceType, r.AccessType))
             .ToList();
 
         var projects = phase.Projects
+            .Where(p => !p.IsDeleted)
             .Select(p => new AdminProjectDto(p.Id, p.Title, p.Description, p.IsCapstone))
             .ToList();
 

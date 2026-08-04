@@ -36,4 +36,13 @@ public class Roadmap : Entity
         Price = price;
         Status = status;
     }
+
+    public override void Delete()
+    {
+        base.Delete();
+        foreach (var phase in _phases)
+        {
+            phase.Delete();
+        }
+    }
 }

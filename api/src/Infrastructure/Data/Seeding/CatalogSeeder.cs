@@ -11,7 +11,12 @@ public static class CatalogSeeder
 {
     public static async Task SeedAsync(ItCareersDbContext context)
     {
-        if (await context.Roadmaps.AnyAsync())
+        // Check Tracks, not Roadmaps: there's no admin UI to delete a Track (deliberately —
+        // it's seed-only), so its presence is a reliable "has this database ever been seeded"
+        // signal even after an admin deletes every Roadmap through the CRUD screens. Checking
+        // Roadmaps instead would make the seeder try to re-insert the same Track on every
+        // restart once it's empty, crashing on the unique slug constraint.
+        if (await context.Tracks.AnyAsync())
         {
             return;
         }
