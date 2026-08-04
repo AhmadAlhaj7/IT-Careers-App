@@ -41,12 +41,13 @@ public class RoadmapQueries : IRoadmapQueries
             .Select(p => new PhaseSummaryDto(p.OrderIndex, p.Title))
             .ToList();
 
-        return new RoadmapDetailDto(roadmap.Slug, roadmap.Title, roadmap.Price, phases);
+        return new RoadmapDetailDto(roadmap.Id, roadmap.Slug, roadmap.Title, roadmap.Price, roadmap.PaddlePriceId, phases);
     }
 
-    public async Task<PhaseDetailDto?> GetPhaseAsync(
+    public async Task<PhaseAccessResult> GetPhaseAsync(
         string roadmapSlug,
         int orderIndex,
+        string? userId,
         CancellationToken cancellationToken = default)
     {
         var phase = await _context.Phases
@@ -61,7 +62,21 @@ public class RoadmapQueries : IRoadmapQueries
 
         if (phase is null)
         {
-            return null;
+            return new PhaseAccessResult(PhaseAccessStatus.NotFound, null, null);
+        }
+
+        // Phase 1 of every roadmap is a free preview — the spec's "try before you buy," no
+        // enrollment required. Every later phase needs a matching Enrollment for this roadmap.
+        var hasAccess = phase.OrderIndex == 1;
+        if (!hasAccess && userId is not null)
+        {
+            hasAccess = await _context.Enrollments
+                .AnyAsync(e => e.UserId == userId && e.RoadmapId == phase.RoadmapId, cancellationToken);
+        }
+
+        if (!hasAccess)
+        {
+            return new PhaseAccessResult(PhaseAccessStatus.Locked, phase.Title, null);
         }
 
         var resources = phase.Resources
@@ -74,6 +89,7 @@ public class RoadmapQueries : IRoadmapQueries
             .Select(p => new ProjectDto(p.Title, p.Description, p.IsCapstone))
             .ToList();
 
-        return new PhaseDetailDto(phase.OrderIndex, phase.Title, phase.Explanation, phase.PdfUrl, resources, projects);
+        var dto = new PhaseDetailDto(phase.OrderIndex, phase.Title, phase.Explanation, phase.PdfUrl, resources, projects);
+        return new PhaseAccessResult(PhaseAccessStatus.Granted, null, dto);
     }
 }

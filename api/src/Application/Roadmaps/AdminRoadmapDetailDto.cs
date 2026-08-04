@@ -10,4 +10,5 @@ public record AdminRoadmapDetailDto(
     string Slug,
     decimal Price,
     RoadmapStatus Status,
+    string? PaddlePriceId,
     IReadOnlyList<AdminPhaseSummaryDto> Phases);

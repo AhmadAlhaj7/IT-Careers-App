@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
 import { getRoadmap } from "@/lib/api";
 import { PhaseListItem } from "@/components/roadmaps/PhaseListItem";
 import { BackLink } from "@/components/layout/BackLink";
+import { BuyButton } from "@/components/roadmaps/BuyButton";
 
 export default async function RoadmapPage({
   params,
@@ -9,7 +11,7 @@ export default async function RoadmapPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const roadmap = await getRoadmap(slug);
+  const [roadmap, { userId }] = await Promise.all([getRoadmap(slug), auth()]);
 
   if (!roadmap) {
     notFound();
@@ -20,6 +22,12 @@ export default async function RoadmapPage({
       <BackLink href="/" label="الرئيسية" />
       <h1 className="mt-2 text-2xl font-semibold text-neutral-900">{roadmap.title.ar}</h1>
       <p className="mt-2 text-lg text-[#0F6E56]">${roadmap.price.toFixed(2)}</p>
+
+      {roadmap.paddlePriceId && (
+        <div className="mt-4">
+          <BuyButton paddlePriceId={roadmap.paddlePriceId} roadmapId={roadmap.id} userId={userId} />
+        </div>
+      )}
 
       <h2 className="mt-10 text-sm font-medium text-neutral-500">المراحل</h2>
       <div className="mt-3 flex flex-col gap-3">

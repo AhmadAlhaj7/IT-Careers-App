@@ -114,12 +114,14 @@ export async function updateRoadmapAction(_prevState: ActionState, formData: For
   const slug = String(formData.get("slug") ?? "");
   const price = Number(formData.get("price"));
   const status = String(formData.get("status") ?? "Draft");
+  const paddlePriceIdRaw = String(formData.get("paddlePriceId") ?? "").trim();
 
   const result = await adminPut(`/api/admin/roadmaps/${id}`, {
     title: { ar: titleAr, en: titleEn },
     slug,
     price,
     status,
+    paddlePriceId: paddlePriceIdRaw.length > 0 ? paddlePriceIdRaw : null,
   });
 
   if (!result.ok) {

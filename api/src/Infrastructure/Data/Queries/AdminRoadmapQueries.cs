@@ -44,7 +44,15 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
             .Select(p => new AdminPhaseSummaryDto(p.Id, p.OrderIndex, p.Title))
             .ToList();
 
-        return new AdminRoadmapDetailDto(roadmap.Id, roadmap.TrackId, roadmap.Title, roadmap.Slug, roadmap.Price, roadmap.Status, phases);
+        return new AdminRoadmapDetailDto(
+            roadmap.Id,
+            roadmap.TrackId,
+            roadmap.Title,
+            roadmap.Slug,
+            roadmap.Price,
+            roadmap.Status,
+            roadmap.PaddlePriceId,
+            phases);
     }
 
     public async Task<AdminPhaseDetailDto?> GetPhaseAsync(Guid id, CancellationToken cancellationToken = default)

@@ -10,6 +10,7 @@ public class ItCareersDbContext : DbContext
     public DbSet<Phase> Phases => Set<Phase>();
     public DbSet<Resource> Resources => Set<Resource>();
     public DbSet<Project> Projects => Set<Project>();
+    public DbSet<Enrollment> Enrollments => Set<Enrollment>();
 
     public ItCareersDbContext(DbContextOptions<ItCareersDbContext> options)
         : base(options)

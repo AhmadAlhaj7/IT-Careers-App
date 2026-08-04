@@ -15,6 +15,8 @@ public class RoadmapConfiguration : IEntityTypeConfiguration<Roadmap>
 
         builder.Property(r => r.Price).HasPrecision(10, 2);
 
+        builder.Property(r => r.PaddlePriceId).HasMaxLength(255);
+
         builder.Property(r => r.Status)
             .HasConversion<string>()
             .HasMaxLength(20);

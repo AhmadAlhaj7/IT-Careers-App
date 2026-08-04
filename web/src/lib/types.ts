@@ -12,9 +12,11 @@ export type PhaseSummary = {
 };
 
 export type RoadmapDetail = {
+  id: string;
   slug: string;
   title: LocalizedText;
   price: number;
+  paddlePriceId: string | null;
   phases: PhaseSummary[];
 };
 
@@ -79,6 +81,7 @@ export type AdminRoadmapDetail = {
   slug: string;
   price: number;
   status: RoadmapStatus;
+  paddlePriceId: string | null;
   phases: AdminPhaseSummary[];
 };
 

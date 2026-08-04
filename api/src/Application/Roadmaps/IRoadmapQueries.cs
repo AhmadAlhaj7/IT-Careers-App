@@ -8,5 +8,9 @@ public interface IRoadmapQueries
 
     Task<RoadmapDetailDto?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
 
-    Task<PhaseDetailDto?> GetPhaseAsync(string roadmapSlug, int orderIndex, CancellationToken cancellationToken = default);
+    Task<PhaseAccessResult> GetPhaseAsync(
+        string roadmapSlug,
+        int orderIndex,
+        string? userId,
+        CancellationToken cancellationToken = default);
 }

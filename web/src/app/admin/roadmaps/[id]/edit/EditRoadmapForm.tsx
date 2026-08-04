@@ -53,6 +53,20 @@ export function EditRoadmapForm({ roadmap }: { roadmap: AdminRoadmapDetail }) {
         </select>
       </label>
 
+      <label className="flex flex-col gap-1">
+        <span className="text-sm font-medium text-neutral-700">معرّف السعر في Paddle (اختياري)</span>
+        <input
+          name="paddlePriceId"
+          dir="ltr"
+          defaultValue={roadmap.paddlePriceId ?? ""}
+          placeholder="pri_01xxxxxxxxxxxxxxxxxxxxxxxx"
+          className="rounded-md border border-neutral-300 px-3 py-2 text-sm"
+        />
+        <span className="text-xs text-neutral-400">
+          يُنشأ يدويًا من لوحة Paddle، ويُستخدم لفتح صفحة الدفع لهذا المسار.
+        </span>
+      </label>
+
       {state.message && <p className="text-sm text-red-600">{state.message}</p>}
 
       <button
