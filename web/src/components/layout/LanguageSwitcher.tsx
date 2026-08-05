@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { setLocaleAction } from "@/lib/i18n/actions";
 import { useLocale } from "@/lib/i18n/LocaleContext";
@@ -20,6 +20,26 @@ export function LanguageSwitcher() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [pending, setPending] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // A "fixed inset-0" click-away overlay would normally handle this, but the nav bar's
+  // backdrop-blur (backdrop-filter) establishes a containing block for its fixed-position
+  // descendants, so that overlay would only ever cover the header's own bounds — never the
+  // rest of the page. A document-level listener sidesteps that entirely.
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    function handlePointerDown(event: PointerEvent) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, [open]);
 
   async function selectLocale(next: Locale) {
     if (next === locale) {
@@ -34,7 +54,7 @@ export function LanguageSwitcher() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative" ref={containerRef}>
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
@@ -45,36 +65,32 @@ export function LanguageSwitcher() {
       </button>
 
       {open && (
-        <>
-          {/* Transparent click-away layer — closes the dropdown without dimming the page. */}
-          <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute end-0 top-full z-50 mt-2 w-36 overflow-hidden rounded-xl border border-neutral-100 bg-white py-1 shadow-lg">
-            <button
-              type="button"
-              disabled={pending}
-              onClick={() => selectLocale("en")}
-              className={
-                locale === "en"
-                  ? "block w-full px-4 py-2 text-start text-sm font-medium text-[#0F6E56] disabled:opacity-60"
-                  : "block w-full px-4 py-2 text-start text-sm text-neutral-700 hover:bg-neutral-50 disabled:opacity-60"
-              }
-            >
-              {dict.languageSwitcher.english}
-            </button>
-            <button
-              type="button"
-              disabled={pending}
-              onClick={() => selectLocale("ar")}
-              className={
-                locale === "ar"
-                  ? "block w-full px-4 py-2 text-start text-sm font-medium text-[#0F6E56] disabled:opacity-60"
-                  : "block w-full px-4 py-2 text-start text-sm text-neutral-700 hover:bg-neutral-50 disabled:opacity-60"
-              }
-            >
-              {dict.languageSwitcher.arabic}
-            </button>
-          </div>
-        </>
+        <div className="absolute end-0 top-full z-50 mt-2 w-36 overflow-hidden rounded-xl border border-neutral-100 bg-white py-1 shadow-lg">
+          <button
+            type="button"
+            disabled={pending}
+            onClick={() => selectLocale("en")}
+            className={
+              locale === "en"
+                ? "block w-full px-4 py-2 text-start text-sm font-medium text-[#0F6E56] disabled:opacity-60"
+                : "block w-full px-4 py-2 text-start text-sm text-neutral-700 hover:bg-neutral-50 disabled:opacity-60"
+            }
+          >
+            {dict.languageSwitcher.english}
+          </button>
+          <button
+            type="button"
+            disabled={pending}
+            onClick={() => selectLocale("ar")}
+            className={
+              locale === "ar"
+                ? "block w-full px-4 py-2 text-start text-sm font-medium text-[#0F6E56] disabled:opacity-60"
+                : "block w-full px-4 py-2 text-start text-sm text-neutral-700 hover:bg-neutral-50 disabled:opacity-60"
+            }
+          >
+            {dict.languageSwitcher.arabic}
+          </button>
+        </div>
       )}
     </div>
   );
