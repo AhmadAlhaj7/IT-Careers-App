@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-accent: var(--font-reem-kufi);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +24,38 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Soft blurred gradient blobs behind every page, matching the reference's "floating card
+   over color" look. Fixed so it doesn't scroll or affect layout height; low-opacity enough
+   to sit quietly behind both the marketing pages' white cards and the plain admin screens. */
+.app-background {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.app-background::before,
+.app-background::after {
+  content: "";
+  position: absolute;
+  width: 60vmax;
+  height: 60vmax;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.35;
+}
+
+.app-background::before {
+  top: -20vmax;
+  inset-inline-end: -15vmax;
+  background: #e8764a;
+}
+
+.app-background::after {
+  bottom: -25vmax;
+  inset-inline-start: -15vmax;
+  background: #1d9e75;
 }
