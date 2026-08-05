@@ -32,6 +32,7 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
         var roadmap = await _context.Roadmaps
             .AsNoTracking()
             .Include(r => r.Phases)
+            .Include(r => r.FinalExamQuestions)
             .FirstOrDefaultAsync(r => r.Id == id && !r.IsDeleted, cancellationToken);
 
         if (roadmap is null)
@@ -45,6 +46,16 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
             .Select(p => new AdminPhaseSummaryDto(p.Id, p.OrderIndex, p.Title))
             .ToList();
 
+        var finalExamQuestions = roadmap.FinalExamQuestions
+            .Where(q => !q.IsDeleted)
+            .OrderBy(q => q.OrderIndex)
+            .Select(q => new AdminFinalExamQuestionDto(
+                q.Id,
+                q.Text,
+                q.OrderIndex,
+                q.Options.Select(o => new AdminQuizOptionDto(o.Text, o.IsCorrect)).ToList()))
+            .ToList();
+
         return new AdminRoadmapDetailDto(
             roadmap.Id,
             roadmap.TrackId,
@@ -53,7 +64,8 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
             roadmap.Price,
             roadmap.Status,
             roadmap.PaddlePriceId,
-            phases);
+            phases,
+            finalExamQuestions);
     }
 
     public async Task<AdminPhaseDetailDto?> GetPhaseAsync(Guid id, CancellationToken cancellationToken = default)
@@ -101,14 +113,5 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
             resources,
             projects,
             quizQuestions);
-    }
-
-    public async Task<IReadOnlyList<TrackSummaryDto>> ListTracksAsync(CancellationToken cancellationToken = default)
-    {
-        return await _context.Tracks
-            .AsNoTracking()
-            .OrderBy(t => t.Slug)
-            .Select(t => new TrackSummaryDto(t.Id, t.Name))
-            .ToListAsync(cancellationToken);
     }
 }

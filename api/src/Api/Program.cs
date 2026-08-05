@@ -1,8 +1,12 @@
 using System.Security.Claims;
 using System.Text.Json.Serialization;
+using ItCareers.Application.Analytics;
+using ItCareers.Application.CareerQuiz;
+using ItCareers.Application.Certificates;
 using ItCareers.Application.Enrollments;
 using ItCareers.Application.Quizzes;
 using ItCareers.Application.Roadmaps;
+using ItCareers.Application.Tracks;
 using ItCareers.Infrastructure.Data;
 using ItCareers.Infrastructure.Data.Commands;
 using ItCareers.Infrastructure.Data.Queries;
@@ -36,6 +40,17 @@ builder.Services.AddScoped<IProjectCommands, ProjectCommands>();
 builder.Services.AddScoped<IEnrollmentCommands, EnrollmentCommands>();
 builder.Services.AddScoped<IQuizQuestionCommands, QuizQuestionCommands>();
 builder.Services.AddScoped<IQuizSubmissionService, QuizSubmissionService>();
+builder.Services.AddScoped<IFinalExamQuestionCommands, FinalExamQuestionCommands>();
+builder.Services.AddScoped<IFinalExamSubmissionService, FinalExamSubmissionService>();
+builder.Services.AddScoped<ICertificateQueries, CertificateQueries>();
+builder.Services.AddScoped<IAdminTrackQueries, AdminTrackQueries>();
+builder.Services.AddScoped<ITrackCommands, TrackCommands>();
+builder.Services.AddScoped<ITrackQueries, TrackQueries>();
+builder.Services.AddScoped<ICareerQuizQueries, CareerQuizQueries>();
+builder.Services.AddScoped<ICareerQuizSubmissionService, CareerQuizSubmissionService>();
+builder.Services.AddScoped<IAdminCareerQuizQueries, AdminCareerQuizQueries>();
+builder.Services.AddScoped<ICareerQuizQuestionCommands, CareerQuizQuestionCommands>();
+builder.Services.AddScoped<IAdminAnalyticsQueries, AdminAnalyticsQueries>();
 
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<ItCareersDbContext>();

@@ -16,6 +16,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         >
           + مسار جديد
         </Link>
+        <Link
+          href="/admin/tracks"
+          className="shrink-0 rounded-md px-3 py-2 text-sm font-medium whitespace-nowrap text-neutral-700 hover:bg-neutral-50"
+        >
+          المسارات الرئيسية
+        </Link>
+        <Link
+          href="/admin/career-quiz-questions"
+          className="shrink-0 rounded-md px-3 py-2 text-sm font-medium whitespace-nowrap text-neutral-700 hover:bg-neutral-50"
+        >
+          بوصلة المهنة
+        </Link>
+        <Link
+          href="/admin/analytics"
+          className="shrink-0 rounded-md px-3 py-2 text-sm font-medium whitespace-nowrap text-neutral-700 hover:bg-neutral-50"
+        >
+          الإحصائيات
+        </Link>
       </aside>
 
       <div className="min-w-0 flex-1">{children}</div>

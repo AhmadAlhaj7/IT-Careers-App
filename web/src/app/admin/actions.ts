@@ -343,3 +343,193 @@ export async function deleteQuizQuestionAction(_prevState: ActionState, formData
 
   redirect(`/admin/roadmaps/${roadmapId}/phases/${phaseId}`);
 }
+
+export async function createFinalExamQuestionAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const roadmapId = String(formData.get("roadmapId") ?? "");
+  const textAr = String(formData.get("textAr") ?? "");
+  const textEn = String(formData.get("textEn") ?? "");
+  const orderIndex = Number(formData.get("orderIndex"));
+
+  const result = await adminPost("/api/admin/final-exam-questions", {
+    roadmapId,
+    text: { ar: textAr, en: textEn },
+    orderIndex,
+    options: parseQuizOptions(formData),
+  });
+
+  if (!result.ok) {
+    return { message: result.message };
+  }
+
+  redirect(`/admin/roadmaps/${roadmapId}`);
+}
+
+export async function updateFinalExamQuestionAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const id = String(formData.get("id") ?? "");
+  const roadmapId = String(formData.get("roadmapId") ?? "");
+  const textAr = String(formData.get("textAr") ?? "");
+  const textEn = String(formData.get("textEn") ?? "");
+  const orderIndex = Number(formData.get("orderIndex"));
+
+  const result = await adminPut(`/api/admin/final-exam-questions/${id}`, {
+    text: { ar: textAr, en: textEn },
+    orderIndex,
+    options: parseQuizOptions(formData),
+  });
+
+  if (!result.ok) {
+    return { message: result.message };
+  }
+
+  redirect(`/admin/roadmaps/${roadmapId}`);
+}
+
+export async function deleteFinalExamQuestionAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const id = String(formData.get("id") ?? "");
+  const roadmapId = String(formData.get("roadmapId") ?? "");
+
+  const result = await adminDelete(`/api/admin/final-exam-questions/${id}`);
+
+  if (!result.ok) {
+    return { message: result.message };
+  }
+
+  redirect(`/admin/roadmaps/${roadmapId}`);
+}
+
+export async function createTrackAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const slug = String(formData.get("slug") ?? "");
+  const nameAr = String(formData.get("nameAr") ?? "");
+  const nameEn = String(formData.get("nameEn") ?? "");
+  const descriptionAr = String(formData.get("descriptionAr") ?? "");
+  const descriptionEn = String(formData.get("descriptionEn") ?? "");
+  const published = formData.get("published") === "on";
+
+  const result = await adminPost("/api/admin/tracks", {
+    slug,
+    name: { ar: nameAr, en: nameEn },
+    description: { ar: descriptionAr, en: descriptionEn },
+    published,
+  });
+
+  if (!result.ok) {
+    return { message: result.message };
+  }
+
+  redirect("/admin/tracks");
+}
+
+export async function updateTrackAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const id = String(formData.get("id") ?? "");
+  const slug = String(formData.get("slug") ?? "");
+  const nameAr = String(formData.get("nameAr") ?? "");
+  const nameEn = String(formData.get("nameEn") ?? "");
+  const descriptionAr = String(formData.get("descriptionAr") ?? "");
+  const descriptionEn = String(formData.get("descriptionEn") ?? "");
+  const published = formData.get("published") === "on";
+
+  const result = await adminPut(`/api/admin/tracks/${id}`, {
+    slug,
+    name: { ar: nameAr, en: nameEn },
+    description: { ar: descriptionAr, en: descriptionEn },
+    published,
+  });
+
+  if (!result.ok) {
+    return { message: result.message };
+  }
+
+  redirect("/admin/tracks");
+}
+
+export async function deleteTrackAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const id = String(formData.get("id") ?? "");
+
+  const result = await adminDelete(`/api/admin/tracks/${id}`);
+
+  if (!result.ok) {
+    return { message: result.message };
+  }
+
+  redirect("/admin/tracks");
+}
+
+// Same "always 4 slots" shape as parseQuizOptions, but each option also carries a weight
+// toward every track — field names come out as `option{i}Track_{trackId}` from the fieldset,
+// so we scan every FormData key for that prefix rather than needing the track list here too.
+function parseCareerQuizOptions(formData: FormData) {
+  const options: { text: { ar: string; en: string }; trackWeights: { trackId: string; weight: number }[] }[] = [];
+
+  for (let i = 0; i < 4; i++) {
+    const ar = String(formData.get(`option${i}Ar`) ?? "").trim();
+    const en = String(formData.get(`option${i}En`) ?? "").trim();
+    if (ar.length === 0 && en.length === 0) {
+      continue;
+    }
+
+    const prefix = `option${i}Track_`;
+    const trackWeights: { trackId: string; weight: number }[] = [];
+    for (const [key, value] of formData.entries()) {
+      if (!key.startsWith(prefix)) {
+        continue;
+      }
+      const weight = Number(value);
+      if (weight !== 0) {
+        trackWeights.push({ trackId: key.slice(prefix.length), weight });
+      }
+    }
+
+    options.push({ text: { ar, en }, trackWeights });
+  }
+
+  return options;
+}
+
+export async function createCareerQuizQuestionAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const textAr = String(formData.get("textAr") ?? "");
+  const textEn = String(formData.get("textEn") ?? "");
+  const orderIndex = Number(formData.get("orderIndex"));
+
+  const result = await adminPost("/api/admin/career-quiz-questions", {
+    text: { ar: textAr, en: textEn },
+    orderIndex,
+    options: parseCareerQuizOptions(formData),
+  });
+
+  if (!result.ok) {
+    return { message: result.message };
+  }
+
+  redirect("/admin/career-quiz-questions");
+}
+
+export async function updateCareerQuizQuestionAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const id = String(formData.get("id") ?? "");
+  const textAr = String(formData.get("textAr") ?? "");
+  const textEn = String(formData.get("textEn") ?? "");
+  const orderIndex = Number(formData.get("orderIndex"));
+
+  const result = await adminPut(`/api/admin/career-quiz-questions/${id}`, {
+    text: { ar: textAr, en: textEn },
+    orderIndex,
+    options: parseCareerQuizOptions(formData),
+  });
+
+  if (!result.ok) {
+    return { message: result.message };
+  }
+
+  redirect("/admin/career-quiz-questions");
+}
+
+export async function deleteCareerQuizQuestionAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const id = String(formData.get("id") ?? "");
+
+  const result = await adminDelete(`/api/admin/career-quiz-questions/${id}`);
+
+  if (!result.ok) {
+    return { message: result.message };
+  }
+
+  redirect("/admin/career-quiz-questions");
+}

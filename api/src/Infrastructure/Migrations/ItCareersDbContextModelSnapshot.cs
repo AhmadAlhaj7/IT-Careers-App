@@ -22,6 +22,91 @@ namespace ItCareers.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("ItCareers.Domain.Entities.CareerQuizQuestion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("OrderIndex")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CareerQuizQuestions");
+                });
+
+            modelBuilder.Entity("ItCareers.Domain.Entities.CareerQuizSubmission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("RecommendedTrackId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("SubmittedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecommendedTrackId");
+
+                    b.ToTable("CareerQuizSubmissions");
+                });
+
+            modelBuilder.Entity("ItCareers.Domain.Entities.Certificate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset>("IssuedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LearnerName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("RoadmapId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("VerificationCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoadmapId");
+
+                    b.HasIndex("VerificationCode")
+                        .IsUnique();
+
+                    b.HasIndex("UserId", "RoadmapId")
+                        .IsUnique();
+
+                    b.ToTable("Certificates");
+                });
+
             modelBuilder.Entity("ItCareers.Domain.Entities.Enrollment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -56,6 +141,63 @@ namespace ItCareers.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Enrollments");
+                });
+
+            modelBuilder.Entity("ItCareers.Domain.Entities.FinalExamAttempt", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("AttemptedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Passed")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("RoadmapId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TotalCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoadmapId");
+
+                    b.ToTable("FinalExamAttempts");
+                });
+
+            modelBuilder.Entity("ItCareers.Domain.Entities.FinalExamQuestion", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("OrderIndex")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("RoadmapId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoadmapId");
+
+                    b.ToTable("FinalExamQuestions");
                 });
 
             modelBuilder.Entity("ItCareers.Domain.Entities.Phase", b =>
@@ -257,6 +399,148 @@ namespace ItCareers.Infrastructure.Migrations
                     b.ToTable("Tracks");
                 });
 
+            modelBuilder.Entity("ItCareers.Domain.Entities.CareerQuizQuestion", b =>
+                {
+                    b.OwnsMany("ItCareers.Domain.Entities.CareerQuizOption", "Options", b1 =>
+                        {
+                            b1.Property<Guid>("CareerQuizQuestionId");
+
+                            b1.Property<int>("__synthesizedOrdinal")
+                                .ValueGeneratedOnAdd();
+
+                            b1.HasKey("CareerQuizQuestionId", "__synthesizedOrdinal");
+
+                            b1.ToTable("CareerQuizQuestions");
+
+                            b1
+                                .ToJson("Options")
+                                .HasColumnType("jsonb");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CareerQuizQuestionId");
+
+                            b1.OwnsOne("ItCareers.Domain.Common.LocalizedText", "Text", b2 =>
+                                {
+                                    b2.Property<Guid>("CareerQuizOptionCareerQuizQuestionId");
+
+                                    b2.Property<int>("CareerQuizOption__synthesizedOrdinal");
+
+                                    b2.Property<string>("Ar")
+                                        .IsRequired();
+
+                                    b2.Property<string>("En")
+                                        .IsRequired();
+
+                                    b2.HasKey("CareerQuizOptionCareerQuizQuestionId", "CareerQuizOption__synthesizedOrdinal");
+
+                                    b2.ToTable("CareerQuizQuestions");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("CareerQuizOptionCareerQuizQuestionId", "CareerQuizOption__synthesizedOrdinal");
+                                });
+
+                            b1.OwnsMany("ItCareers.Domain.Entities.TrackWeight", "TrackWeights", b2 =>
+                                {
+                                    b2.Property<Guid>("CareerQuizOptionCareerQuizQuestionId");
+
+                                    b2.Property<int>("CareerQuizOption__synthesizedOrdinal");
+
+                                    b2.Property<int>("__synthesizedOrdinal")
+                                        .ValueGeneratedOnAdd();
+
+                                    b2.Property<Guid>("TrackId");
+
+                                    b2.Property<int>("Weight");
+
+                                    b2.HasKey("CareerQuizOptionCareerQuizQuestionId", "CareerQuizOption__synthesizedOrdinal", "__synthesizedOrdinal");
+
+                                    b2.ToTable("CareerQuizQuestions");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("CareerQuizOptionCareerQuizQuestionId", "CareerQuizOption__synthesizedOrdinal");
+                                });
+
+                            b1.Navigation("Text")
+                                .IsRequired();
+
+                            b1.Navigation("TrackWeights");
+                        });
+
+                    b.OwnsOne("ItCareers.Domain.Common.LocalizedText", "Text", b1 =>
+                        {
+                            b1.Property<Guid>("CareerQuizQuestionId");
+
+                            b1.Property<string>("Ar")
+                                .IsRequired();
+
+                            b1.Property<string>("En")
+                                .IsRequired();
+
+                            b1.HasKey("CareerQuizQuestionId");
+
+                            b1.ToTable("CareerQuizQuestions");
+
+                            b1
+                                .ToJson("Text")
+                                .HasColumnType("jsonb");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CareerQuizQuestionId");
+                        });
+
+                    b.Navigation("Options");
+
+                    b.Navigation("Text")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ItCareers.Domain.Entities.CareerQuizSubmission", b =>
+                {
+                    b.HasOne("ItCareers.Domain.Entities.Track", "RecommendedTrack")
+                        .WithMany()
+                        .HasForeignKey("RecommendedTrackId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsMany("ItCareers.Domain.Entities.CareerQuizAnswer", "Answers", b1 =>
+                        {
+                            b1.Property<Guid>("CareerQuizSubmissionId");
+
+                            b1.Property<int>("__synthesizedOrdinal")
+                                .ValueGeneratedOnAdd();
+
+                            b1.Property<Guid>("QuestionId");
+
+                            b1.Property<int>("SelectedOptionIndex");
+
+                            b1.HasKey("CareerQuizSubmissionId", "__synthesizedOrdinal");
+
+                            b1.ToTable("CareerQuizSubmissions");
+
+                            b1
+                                .ToJson("Answers")
+                                .HasColumnType("jsonb");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CareerQuizSubmissionId");
+                        });
+
+                    b.Navigation("Answers");
+
+                    b.Navigation("RecommendedTrack");
+                });
+
+            modelBuilder.Entity("ItCareers.Domain.Entities.Certificate", b =>
+                {
+                    b.HasOne("ItCareers.Domain.Entities.Roadmap", "Roadmap")
+                        .WithMany()
+                        .HasForeignKey("RoadmapId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Roadmap");
+                });
+
             modelBuilder.Entity("ItCareers.Domain.Entities.Enrollment", b =>
                 {
                     b.HasOne("ItCareers.Domain.Entities.Roadmap", "Roadmap")
@@ -266,6 +550,99 @@ namespace ItCareers.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Roadmap");
+                });
+
+            modelBuilder.Entity("ItCareers.Domain.Entities.FinalExamAttempt", b =>
+                {
+                    b.HasOne("ItCareers.Domain.Entities.Roadmap", "Roadmap")
+                        .WithMany()
+                        .HasForeignKey("RoadmapId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Roadmap");
+                });
+
+            modelBuilder.Entity("ItCareers.Domain.Entities.FinalExamQuestion", b =>
+                {
+                    b.HasOne("ItCareers.Domain.Entities.Roadmap", "Roadmap")
+                        .WithMany("FinalExamQuestions")
+                        .HasForeignKey("RoadmapId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsMany("ItCareers.Domain.Entities.QuizOption", "Options", b1 =>
+                        {
+                            b1.Property<Guid>("FinalExamQuestionId");
+
+                            b1.Property<int>("__synthesizedOrdinal")
+                                .ValueGeneratedOnAdd();
+
+                            b1.Property<bool>("IsCorrect");
+
+                            b1.HasKey("FinalExamQuestionId", "__synthesizedOrdinal");
+
+                            b1.ToTable("FinalExamQuestions");
+
+                            b1
+                                .ToJson("Options")
+                                .HasColumnType("jsonb");
+
+                            b1.WithOwner()
+                                .HasForeignKey("FinalExamQuestionId");
+
+                            b1.OwnsOne("ItCareers.Domain.Common.LocalizedText", "Text", b2 =>
+                                {
+                                    b2.Property<Guid>("QuizOptionFinalExamQuestionId");
+
+                                    b2.Property<int>("QuizOption__synthesizedOrdinal");
+
+                                    b2.Property<string>("Ar")
+                                        .IsRequired();
+
+                                    b2.Property<string>("En")
+                                        .IsRequired();
+
+                                    b2.HasKey("QuizOptionFinalExamQuestionId", "QuizOption__synthesizedOrdinal");
+
+                                    b2.ToTable("FinalExamQuestions");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("QuizOptionFinalExamQuestionId", "QuizOption__synthesizedOrdinal");
+                                });
+
+                            b1.Navigation("Text")
+                                .IsRequired();
+                        });
+
+                    b.OwnsOne("ItCareers.Domain.Common.LocalizedText", "Text", b1 =>
+                        {
+                            b1.Property<Guid>("FinalExamQuestionId");
+
+                            b1.Property<string>("Ar")
+                                .IsRequired();
+
+                            b1.Property<string>("En")
+                                .IsRequired();
+
+                            b1.HasKey("FinalExamQuestionId");
+
+                            b1.ToTable("FinalExamQuestions");
+
+                            b1
+                                .ToJson("Text")
+                                .HasColumnType("jsonb");
+
+                            b1.WithOwner()
+                                .HasForeignKey("FinalExamQuestionId");
+                        });
+
+                    b.Navigation("Options");
+
+                    b.Navigation("Roadmap");
+
+                    b.Navigation("Text")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ItCareers.Domain.Entities.Phase", b =>
@@ -619,6 +996,8 @@ namespace ItCareers.Infrastructure.Migrations
 
             modelBuilder.Entity("ItCareers.Domain.Entities.Roadmap", b =>
                 {
+                    b.Navigation("FinalExamQuestions");
+
                     b.Navigation("Phases");
                 });
 

@@ -105,4 +105,40 @@ public class RoadmapQueries : IRoadmapQueries
         var dto = new PhaseDetailDto(phase.OrderIndex, phase.Title, phase.Explanation, phase.PdfUrl, resources, projects, quizQuestions);
         return new PhaseAccessResult(PhaseAccessStatus.Granted, null, dto);
     }
+
+    public async Task<FinalExamAccessResult> GetFinalExamAsync(
+        string roadmapSlug,
+        string? userId,
+        CancellationToken cancellationToken = default)
+    {
+        var roadmap = await _context.Roadmaps
+            .Include(r => r.FinalExamQuestions)
+            .Where(r => r.Slug == roadmapSlug && r.Status == RoadmapStatus.Published && !r.IsDeleted)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (roadmap is null)
+        {
+            return new FinalExamAccessResult(FinalExamAccessStatus.NotFound, null);
+        }
+
+        var isEnrolled = userId is not null && await _context.Enrollments
+            .AnyAsync(e => e.UserId == userId && e.RoadmapId == roadmap.Id, cancellationToken);
+
+        if (!isEnrolled)
+        {
+            return new FinalExamAccessResult(FinalExamAccessStatus.Locked, null);
+        }
+
+        // IsCorrect deliberately never selected here — same principle as the phase quiz.
+        var questions = roadmap.FinalExamQuestions
+            .Where(q => !q.IsDeleted)
+            .OrderBy(q => q.OrderIndex)
+            .Select(q => new PublicFinalExamQuestionDto(
+                q.Id,
+                q.Text,
+                q.Options.Select((o, index) => new PublicQuizOptionDto(index, o.Text)).ToList()))
+            .ToList();
+
+        return new FinalExamAccessResult(FinalExamAccessStatus.Granted, questions);
+    }
 }

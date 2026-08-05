@@ -1,5 +1,13 @@
 import { auth } from "@clerk/nextjs/server";
-import type { AdminPhaseDetail, AdminRoadmapDetail, AdminRoadmapSummary, TrackSummary } from "./types";
+import type {
+  AdminAnalytics,
+  AdminCareerQuizQuestion,
+  AdminPhaseDetail,
+  AdminRoadmapDetail,
+  AdminRoadmapSummary,
+  AdminTrack,
+  TrackSummary,
+} from "./types";
 
 const API_URL = process.env.API_URL ?? "http://localhost:5212";
 
@@ -49,6 +57,22 @@ export function getPhase(id: string) {
 
 export function listTracks() {
   return adminGet<TrackSummary[]>("/api/admin/tracks");
+}
+
+export function listAdminTracks() {
+  return adminGet<AdminTrack[]>("/api/admin/tracks");
+}
+
+export function getAdminTrack(id: string) {
+  return adminGet<AdminTrack>(`/api/admin/tracks/${id}`);
+}
+
+export function listAdminCareerQuizQuestions() {
+  return adminGet<AdminCareerQuizQuestion[]>("/api/admin/career-quiz-questions");
+}
+
+export function getAdminAnalytics() {
+  return adminGet<AdminAnalytics>("/api/admin/analytics");
 }
 
 type AdminMutateResult = { ok: true; id?: string } | { ok: false; message: string };

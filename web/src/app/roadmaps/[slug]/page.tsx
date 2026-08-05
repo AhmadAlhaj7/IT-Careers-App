@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
-import { getRoadmap } from "@/lib/api";
+import { getFinalExam, getRoadmap } from "@/lib/api";
 import { PhaseListItem } from "@/components/roadmaps/PhaseListItem";
 import { BackLink } from "@/components/layout/BackLink";
 import { BuyButton } from "@/components/roadmaps/BuyButton";
+import { FinalExamForm } from "@/components/roadmaps/FinalExamForm";
 
 export default async function RoadmapPage({
   params,
@@ -16,6 +17,8 @@ export default async function RoadmapPage({
   if (!roadmap) {
     notFound();
   }
+
+  const examResult = await getFinalExam(slug);
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
@@ -40,6 +43,18 @@ export default async function RoadmapPage({
           />
         ))}
       </div>
+
+      {examResult.status === "granted" && examResult.questions.length > 0 && (
+        <div className="mt-10">
+          <FinalExamForm slug={roadmap.slug} questions={examResult.questions} />
+        </div>
+      )}
+
+      {examResult.status === "locked" && userId && (
+        <div className="mt-10 rounded-lg border border-neutral-200 p-6 text-center">
+          <p className="text-sm text-neutral-600">أكمل الاشتراك في المسار للوصول إلى الامتحان النهائي والحصول على شهادتك.</p>
+        </div>
+      )}
     </div>
   );
 }

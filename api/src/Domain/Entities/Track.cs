@@ -27,4 +27,12 @@ public class Track : Entity
         Description = description;
         Published = published;
     }
+
+    public void UpdateDetails(string slug, LocalizedText name, LocalizedText description, bool published)
+    {
+        Slug = slug;
+        Name = name;
+        Description = description;
+        Published = published;
+    }
 }

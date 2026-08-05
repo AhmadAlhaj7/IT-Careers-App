@@ -13,6 +13,11 @@ public class ItCareersDbContext : DbContext
     public DbSet<Enrollment> Enrollments => Set<Enrollment>();
     public DbSet<QuizQuestion> QuizQuestions => Set<QuizQuestion>();
     public DbSet<PhaseCompletion> PhaseCompletions => Set<PhaseCompletion>();
+    public DbSet<FinalExamQuestion> FinalExamQuestions => Set<FinalExamQuestion>();
+    public DbSet<FinalExamAttempt> FinalExamAttempts => Set<FinalExamAttempt>();
+    public DbSet<Certificate> Certificates => Set<Certificate>();
+    public DbSet<CareerQuizQuestion> CareerQuizQuestions => Set<CareerQuizQuestion>();
+    public DbSet<CareerQuizSubmission> CareerQuizSubmissions => Set<CareerQuizSubmission>();
 
     public ItCareersDbContext(DbContextOptions<ItCareersDbContext> options)
         : base(options)

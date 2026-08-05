@@ -1,3 +1,4 @@
+using ItCareers.Application.Quizzes;
 using ItCareers.Domain.Common;
 using ItCareers.Domain.Enums;
 
@@ -11,4 +12,5 @@ public record AdminRoadmapDetailDto(
     decimal Price,
     RoadmapStatus Status,
     string? PaddlePriceId,
-    IReadOnlyList<AdminPhaseSummaryDto> Phases);
+    IReadOnlyList<AdminPhaseSummaryDto> Phases,
+    IReadOnlyList<AdminFinalExamQuestionDto> FinalExamQuestions);

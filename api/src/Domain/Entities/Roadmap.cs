@@ -16,6 +16,9 @@ public class Roadmap : Entity
     private readonly List<Phase> _phases = [];
     public IReadOnlyCollection<Phase> Phases => _phases;
 
+    private readonly List<FinalExamQuestion> _finalExamQuestions = [];
+    public IReadOnlyCollection<FinalExamQuestion> FinalExamQuestions => _finalExamQuestions;
+
     private Roadmap()
     {
     }
@@ -45,6 +48,11 @@ public class Roadmap : Entity
         foreach (var phase in _phases)
         {
             phase.Delete();
+        }
+
+        foreach (var question in _finalExamQuestions)
+        {
+            question.Delete();
         }
     }
 }

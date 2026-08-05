@@ -18,6 +18,12 @@ export function NavBar({ isAdmin }: NavBarProps) {
         <Link href="/" className="hover:text-[#0F6E56]">
           الرئيسية
         </Link>
+        <Link href="/tracks" className="hover:text-[#0F6E56]">
+          المسارات الرئيسية
+        </Link>
+        <Link href="/quiz" className="hover:text-[#0F6E56]">
+          بوصلة المهنة
+        </Link>
         <Show when="signed-in">
           <Link href="/dashboard" className="hover:text-[#0F6E56]">
             لوحتي

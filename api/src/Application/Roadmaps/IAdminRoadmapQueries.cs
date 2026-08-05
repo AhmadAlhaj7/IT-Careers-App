@@ -9,6 +9,4 @@ public interface IAdminRoadmapQueries
     Task<AdminRoadmapDetailDto?> GetRoadmapAsync(Guid id, CancellationToken cancellationToken = default);
 
     Task<AdminPhaseDetailDto?> GetPhaseAsync(Guid id, CancellationToken cancellationToken = default);
-
-    Task<IReadOnlyList<TrackSummaryDto>> ListTracksAsync(CancellationToken cancellationToken = default);
 }

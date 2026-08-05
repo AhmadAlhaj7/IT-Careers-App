@@ -71,6 +71,58 @@ export type QuizResult = {
   passed: boolean;
 };
 
+export type PublicFinalExamQuestion = {
+  id: string;
+  text: LocalizedText;
+  options: PublicQuizOption[];
+};
+
+export type FinalExamResult = {
+  correctCount: number;
+  totalCount: number;
+  passed: boolean;
+  certificateCode: string | null;
+};
+
+export type Certificate = {
+  learnerName: string;
+  roadmapTitle: LocalizedText;
+  issuedAt: string;
+};
+
+export type TrackListItem = {
+  slug: string;
+  name: LocalizedText;
+};
+
+export type TrackDetail = {
+  slug: string;
+  name: LocalizedText;
+  description: LocalizedText;
+  roadmaps: RoadmapSummary[];
+};
+
+export type PublicCareerQuizOption = {
+  index: number;
+  text: LocalizedText;
+};
+
+export type PublicCareerQuizQuestion = {
+  id: string;
+  text: LocalizedText;
+  options: PublicCareerQuizOption[];
+};
+
+export type TrackRecommendation = {
+  slug: string;
+  name: LocalizedText;
+  score: number;
+};
+
+export type CareerQuizResult = {
+  recommendations: TrackRecommendation[];
+};
+
 // Admin-side shapes mirror the public ones but include ids (needed to link between admin
 // pages) and unpublished content (the public API only ever returns Published roadmaps).
 
@@ -101,6 +153,7 @@ export type AdminRoadmapDetail = {
   status: RoadmapStatus;
   paddlePriceId: string | null;
   phases: AdminPhaseSummary[];
+  finalExamQuestions: AdminFinalExamQuestion[];
 };
 
 export type AdminResource = {
@@ -130,6 +183,38 @@ export type AdminQuizQuestion = {
   options: AdminQuizOption[];
 };
 
+export type AdminFinalExamQuestion = {
+  id: string;
+  text: LocalizedText;
+  orderIndex: number;
+  options: AdminQuizOption[];
+};
+
+export type AdminTrack = {
+  id: string;
+  slug: string;
+  name: LocalizedText;
+  description: LocalizedText;
+  published: boolean;
+};
+
+export type AdminCareerQuizTrackWeight = {
+  trackId: string;
+  weight: number;
+};
+
+export type AdminCareerQuizOption = {
+  text: LocalizedText;
+  trackWeights: AdminCareerQuizTrackWeight[];
+};
+
+export type AdminCareerQuizQuestion = {
+  id: string;
+  text: LocalizedText;
+  orderIndex: number;
+  options: AdminCareerQuizOption[];
+};
+
 export type AdminPhaseDetail = {
   id: string;
   roadmapId: string;
@@ -141,4 +226,35 @@ export type AdminPhaseDetail = {
   resources: AdminResource[];
   projects: AdminProject[];
   quizQuestions: AdminQuizQuestion[];
+};
+
+export type RoadmapSales = {
+  roadmapTitle: LocalizedText;
+  enrollmentCount: number;
+  estimatedRevenue: number;
+};
+
+export type PhaseCompletionRate = {
+  roadmapTitle: LocalizedText;
+  phaseOrderIndex: number;
+  phaseTitle: LocalizedText;
+  enrolledCount: number;
+  completedCount: number;
+  completionRate: number;
+};
+
+export type TrackConversion = {
+  trackName: LocalizedText;
+  recommendationCount: number;
+  convertedCount: number;
+  conversionRate: number;
+};
+
+export type AdminAnalytics = {
+  totalLearners: number;
+  totalEnrollments: number;
+  estimatedRevenue: number;
+  roadmapSales: RoadmapSales[];
+  phaseCompletionRates: PhaseCompletionRate[];
+  trackConversions: TrackConversion[];
 };

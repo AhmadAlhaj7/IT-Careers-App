@@ -15,6 +15,17 @@ export default async function Home() {
         </p>
       </section>
 
+      <section className="mt-10 rounded-lg border border-neutral-200 p-6 text-center">
+        <p className="text-sm font-medium text-neutral-900">لا تعرف من أين تبدأ؟</p>
+        <p className="mt-1 text-sm text-neutral-600">اختبار قصير ومجاني يوصيك بالمسار الرئيسي الأنسب لك.</p>
+        <Link
+          href="/quiz"
+          className="mt-4 inline-block rounded-md bg-[#0F6E56] px-5 py-2.5 text-sm font-medium text-white"
+        >
+          ابدأ بوصلة المهنة
+        </Link>
+      </section>
+
       <section className="mt-12">
         <h2 className="text-sm font-medium text-neutral-500">المسارات المتاحة</h2>
         <div className="mt-3 flex flex-col gap-3">

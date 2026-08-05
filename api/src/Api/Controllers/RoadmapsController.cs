@@ -11,11 +11,16 @@ public class RoadmapsController : ControllerBase
 {
     private readonly IRoadmapQueries _roadmapQueries;
     private readonly IQuizSubmissionService _quizSubmissionService;
+    private readonly IFinalExamSubmissionService _finalExamSubmissionService;
 
-    public RoadmapsController(IRoadmapQueries roadmapQueries, IQuizSubmissionService quizSubmissionService)
+    public RoadmapsController(
+        IRoadmapQueries roadmapQueries,
+        IQuizSubmissionService quizSubmissionService,
+        IFinalExamSubmissionService finalExamSubmissionService)
     {
         _roadmapQueries = roadmapQueries;
         _quizSubmissionService = quizSubmissionService;
+        _finalExamSubmissionService = finalExamSubmissionService;
     }
 
     [HttpGet]
@@ -48,6 +53,22 @@ public class RoadmapsController : ControllerBase
         };
     }
 
+    // Deliberately no [Authorize], same reasoning as GetPhase — an anonymous or non-enrolled
+    // caller just resolves to Locked instead of a hard 401.
+    [HttpGet("{slug}/final-exam")]
+    public async Task<IActionResult> GetFinalExam(string slug, CancellationToken cancellationToken)
+    {
+        var userId = User.FindFirst("sub")?.Value;
+        var result = await _roadmapQueries.GetFinalExamAsync(slug, userId, cancellationToken);
+
+        return result.Status switch
+        {
+            FinalExamAccessStatus.NotFound => NotFound(),
+            FinalExamAccessStatus.Locked => StatusCode(StatusCodes.Status402PaymentRequired),
+            _ => Ok(result.Questions),
+        };
+    }
+
     // Requires sign-in (unlike GetPhase above) — a quiz result has to be tied to a real user
     // to ever mean anything, and completion is only ever recorded server-side from here.
     [Authorize]
@@ -70,6 +91,36 @@ public class RoadmapsController : ControllerBase
         {
             QuizSubmissionStatus.NotFound => NotFound(),
             QuizSubmissionStatus.Locked => StatusCode(StatusCodes.Status402PaymentRequired),
+            _ => Ok(outcome.Result),
+        };
+    }
+
+    // Requires actual enrollment (checked inside the service) — there's no free-preview
+    // equivalent for the final exam the way there is for Phase 1.
+    [Authorize]
+    [HttpPost("{slug}/final-exam/submit")]
+    public async Task<IActionResult> SubmitFinalExam(string slug, QuizSubmissionRequest request, CancellationToken cancellationToken)
+    {
+        var userId = User.FindFirst("sub")?.Value;
+        if (string.IsNullOrEmpty(userId))
+        {
+            return Unauthorized();
+        }
+
+        // "name" is a custom Clerk session-token claim (same mechanism as "role") — falls
+        // back to a generic label until that claim is configured in Clerk's dashboard.
+        var learnerName = User.FindFirst("name")?.Value;
+        if (string.IsNullOrWhiteSpace(learnerName))
+        {
+            learnerName = "Student";
+        }
+
+        var outcome = await _finalExamSubmissionService.SubmitAsync(userId, learnerName, slug, request, cancellationToken);
+
+        return outcome.Status switch
+        {
+            FinalExamSubmissionStatus.NotFound => NotFound(),
+            FinalExamSubmissionStatus.NotEnrolled => StatusCode(StatusCodes.Status402PaymentRequired),
             _ => Ok(outcome.Result),
         };
     }

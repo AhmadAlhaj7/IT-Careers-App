@@ -13,4 +13,9 @@ public interface IRoadmapQueries
         int orderIndex,
         string? userId,
         CancellationToken cancellationToken = default);
+
+    Task<FinalExamAccessResult> GetFinalExamAsync(
+        string roadmapSlug,
+        string? userId,
+        CancellationToken cancellationToken = default);
 }
