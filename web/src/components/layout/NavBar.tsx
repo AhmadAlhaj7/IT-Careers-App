@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { Show, SignInButton, UserButton } from "@clerk/nextjs";
 import { Logo } from "./Logo";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useLocale } from "@/lib/i18n/LocaleContext";
 
 type NavBarProps = {
   isAdmin: boolean;
@@ -11,14 +13,15 @@ type NavBarProps = {
 
 // Brand name is a placeholder ("IT Careers", matching the repo name) — the real product
 // name/brand is still an open decision, this is just text and trivial to swap later.
-const NAV_LINKS = [
-  { href: "/", label: "الرئيسية" },
-  { href: "/tracks", label: "المسارات الرئيسية" },
-  { href: "/quiz", label: "بوصلة المهنة" },
-];
-
 export function NavBar({ isAdmin }: NavBarProps) {
+  const { dict } = useLocale();
   const [open, setOpen] = useState(false);
+
+  const navLinks = [
+    { href: "/", label: dict.nav.home },
+    { href: "/tracks", label: dict.nav.tracks },
+    { href: "/quiz", label: dict.nav.quiz },
+  ];
 
   return (
     <div className="sticky top-0 z-40 px-3 pt-3 sm:px-6 sm:pt-6">
@@ -29,24 +32,28 @@ export function NavBar({ isAdmin }: NavBarProps) {
         </Link>
 
         <nav className="hidden items-center gap-6 text-sm text-neutral-600 md:flex">
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             <Link key={link.href} href={link.href} className="hover:text-[#0F6E56]">
               {link.label}
             </Link>
           ))}
           <Show when="signed-in">
             <Link href="/dashboard" className="hover:text-[#0F6E56]">
-              لوحتي
+              {dict.nav.dashboard}
             </Link>
           </Show>
           {isAdmin && (
             <Link href="/admin" className="hover:text-[#0F6E56]">
-              الإدارة
+              {dict.nav.admin}
             </Link>
           )}
         </nav>
 
         <div className="flex items-center gap-2">
+          <div className="hidden sm:block">
+            <LanguageSwitcher />
+          </div>
+
           <div className="hidden sm:block">
             <Show when="signed-in">
               <UserButton />
@@ -54,7 +61,7 @@ export function NavBar({ isAdmin }: NavBarProps) {
             <Show when="signed-out">
               <SignInButton>
                 <button className="rounded-full bg-[#E8764A] px-4 py-1.5 text-sm font-medium text-white transition hover:bg-[#d35f35]">
-                  تسجيل الدخول
+                  {dict.nav.signIn}
                 </button>
               </SignInButton>
             </Show>
@@ -63,7 +70,7 @@ export function NavBar({ isAdmin }: NavBarProps) {
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}
-            aria-label="القائمة"
+            aria-label={dict.nav.menu}
             aria-expanded={open}
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-neutral-700 hover:bg-neutral-50 md:hidden"
           >
@@ -82,7 +89,7 @@ export function NavBar({ isAdmin }: NavBarProps) {
 
       {open && (
         <nav className="mx-auto mt-2 flex max-w-5xl flex-col gap-1 rounded-2xl border border-neutral-100 bg-white p-3 text-sm text-neutral-700 shadow-lg md:hidden">
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -94,26 +101,29 @@ export function NavBar({ isAdmin }: NavBarProps) {
           ))}
           <Show when="signed-in">
             <Link href="/dashboard" onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-neutral-50">
-              لوحتي
+              {dict.nav.dashboard}
             </Link>
           </Show>
           {isAdmin && (
             <Link href="/admin" onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 hover:bg-neutral-50">
-              الإدارة
+              {dict.nav.admin}
             </Link>
           )}
           <div className="mt-1 flex items-center justify-between border-t border-neutral-100 pt-2">
-            <Show when="signed-in">
-              <UserButton />
-            </Show>
-            <Show when="signed-out">
-              <SignInButton>
-                <button className="w-full rounded-full bg-[#E8764A] px-4 py-2 text-sm font-medium text-white">
-                  تسجيل الدخول
-                </button>
-              </SignInButton>
-            </Show>
+            <LanguageSwitcher />
           </div>
+          <Show when="signed-in">
+            <div className="px-3 py-1">
+              <UserButton />
+            </div>
+          </Show>
+          <Show when="signed-out">
+            <SignInButton>
+              <button className="w-full rounded-full bg-[#E8764A] px-4 py-2 text-sm font-medium text-white">
+                {dict.nav.signIn}
+              </button>
+            </SignInButton>
+          </Show>
         </nav>
       )}
     </div>
