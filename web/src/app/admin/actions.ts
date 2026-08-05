@@ -6,6 +6,25 @@ import { adminDelete, adminPost, adminPut, getRoadmap } from "@/lib/admin-api";
 
 export type ActionState = { message?: string };
 
+// The quiz question form always renders 4 option slots (only the first 2 required) rather
+// than a dynamic add/remove list — covers every real multiple-choice question without needing
+// client-side array state for what's still a "minimal" admin CMS.
+function parseQuizOptions(formData: FormData) {
+  const correctOptionIndex = Number(formData.get("correctOptionIndex"));
+  const options: { text: { ar: string; en: string }; isCorrect: boolean }[] = [];
+
+  for (let i = 0; i < 4; i++) {
+    const ar = String(formData.get(`option${i}Ar`) ?? "").trim();
+    const en = String(formData.get(`option${i}En`) ?? "").trim();
+    if (ar.length === 0 && en.length === 0) {
+      continue;
+    }
+    options.push({ text: { ar, en }, isCorrect: i === correctOptionIndex });
+  }
+
+  return options;
+}
+
 export async function createRoadmapAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
   const trackId = String(formData.get("trackId") ?? "");
   const titleAr = String(formData.get("titleAr") ?? "");
@@ -261,6 +280,62 @@ export async function deleteProjectAction(_prevState: ActionState, formData: For
   const phaseId = String(formData.get("phaseId") ?? "");
 
   const result = await adminDelete(`/api/admin/projects/${id}`);
+
+  if (!result.ok) {
+    return { message: result.message };
+  }
+
+  redirect(`/admin/roadmaps/${roadmapId}/phases/${phaseId}`);
+}
+
+export async function createQuizQuestionAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const roadmapId = String(formData.get("roadmapId") ?? "");
+  const phaseId = String(formData.get("phaseId") ?? "");
+  const textAr = String(formData.get("textAr") ?? "");
+  const textEn = String(formData.get("textEn") ?? "");
+  const orderIndex = Number(formData.get("orderIndex"));
+
+  const result = await adminPost("/api/admin/quiz-questions", {
+    phaseId,
+    text: { ar: textAr, en: textEn },
+    orderIndex,
+    options: parseQuizOptions(formData),
+  });
+
+  if (!result.ok) {
+    return { message: result.message };
+  }
+
+  redirect(`/admin/roadmaps/${roadmapId}/phases/${phaseId}`);
+}
+
+export async function updateQuizQuestionAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const id = String(formData.get("id") ?? "");
+  const roadmapId = String(formData.get("roadmapId") ?? "");
+  const phaseId = String(formData.get("phaseId") ?? "");
+  const textAr = String(formData.get("textAr") ?? "");
+  const textEn = String(formData.get("textEn") ?? "");
+  const orderIndex = Number(formData.get("orderIndex"));
+
+  const result = await adminPut(`/api/admin/quiz-questions/${id}`, {
+    text: { ar: textAr, en: textEn },
+    orderIndex,
+    options: parseQuizOptions(formData),
+  });
+
+  if (!result.ok) {
+    return { message: result.message };
+  }
+
+  redirect(`/admin/roadmaps/${roadmapId}/phases/${phaseId}`);
+}
+
+export async function deleteQuizQuestionAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const id = String(formData.get("id") ?? "");
+  const roadmapId = String(formData.get("roadmapId") ?? "");
+  const phaseId = String(formData.get("phaseId") ?? "");
+
+  const result = await adminDelete(`/api/admin/quiz-questions/${id}`);
 
   if (!result.ok) {
     return { message: result.message };

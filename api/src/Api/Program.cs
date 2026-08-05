@@ -1,11 +1,13 @@
 using System.Security.Claims;
 using System.Text.Json.Serialization;
 using ItCareers.Application.Enrollments;
+using ItCareers.Application.Quizzes;
 using ItCareers.Application.Roadmaps;
 using ItCareers.Infrastructure.Data;
 using ItCareers.Infrastructure.Data.Commands;
 using ItCareers.Infrastructure.Data.Queries;
 using ItCareers.Infrastructure.Data.Seeding;
+using ItCareers.Infrastructure.Data.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +34,8 @@ builder.Services.AddScoped<IPhaseCommands, PhaseCommands>();
 builder.Services.AddScoped<IResourceCommands, ResourceCommands>();
 builder.Services.AddScoped<IProjectCommands, ProjectCommands>();
 builder.Services.AddScoped<IEnrollmentCommands, EnrollmentCommands>();
+builder.Services.AddScoped<IQuizQuestionCommands, QuizQuestionCommands>();
+builder.Services.AddScoped<IQuizSubmissionService, QuizSubmissionService>();
 
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<ItCareersDbContext>();

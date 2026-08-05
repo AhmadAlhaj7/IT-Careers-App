@@ -1,3 +1,4 @@
+using ItCareers.Application.Quizzes;
 using ItCareers.Application.Roadmaps;
 using Microsoft.EntityFrameworkCore;
 
@@ -61,6 +62,7 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
             .AsNoTracking()
             .Include(p => p.Resources)
             .Include(p => p.Projects)
+            .Include(p => p.QuizQuestions)
             .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted, cancellationToken);
 
         if (phase is null)
@@ -78,6 +80,16 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
             .Select(p => new AdminProjectDto(p.Id, p.Title, p.Description, p.IsCapstone))
             .ToList();
 
+        var quizQuestions = phase.QuizQuestions
+            .Where(q => !q.IsDeleted)
+            .OrderBy(q => q.OrderIndex)
+            .Select(q => new AdminQuizQuestionDto(
+                q.Id,
+                q.Text,
+                q.OrderIndex,
+                q.Options.Select(o => new AdminQuizOptionDto(o.Text, o.IsCorrect)).ToList()))
+            .ToList();
+
         return new AdminPhaseDetailDto(
             phase.Id,
             phase.RoadmapId,
@@ -87,7 +99,8 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
             phase.PdfUrl,
             phase.PhaseType,
             resources,
-            projects);
+            projects,
+            quizQuestions);
     }
 
     public async Task<IReadOnlyList<TrackSummaryDto>> ListTracksAsync(CancellationToken cancellationToken = default)

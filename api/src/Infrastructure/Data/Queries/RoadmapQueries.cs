@@ -1,3 +1,4 @@
+using ItCareers.Application.Quizzes;
 using ItCareers.Application.Roadmaps;
 using ItCareers.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -53,6 +54,7 @@ public class RoadmapQueries : IRoadmapQueries
         var phase = await _context.Phases
             .Include(p => p.Resources)
             .Include(p => p.Projects)
+            .Include(p => p.QuizQuestions)
             .Where(p => p.Roadmap!.Slug == roadmapSlug
                 && p.Roadmap.Status == RoadmapStatus.Published
                 && !p.Roadmap.IsDeleted
@@ -89,7 +91,18 @@ public class RoadmapQueries : IRoadmapQueries
             .Select(p => new ProjectDto(p.Title, p.Description, p.IsCapstone))
             .ToList();
 
-        var dto = new PhaseDetailDto(phase.OrderIndex, phase.Title, phase.Explanation, phase.PdfUrl, resources, projects);
+        // IsCorrect is deliberately never selected here — this is what a learner taking the
+        // quiz receives, and the option's own array position doubles as its answer index.
+        var quizQuestions = phase.QuizQuestions
+            .Where(q => !q.IsDeleted)
+            .OrderBy(q => q.OrderIndex)
+            .Select(q => new PublicQuizQuestionDto(
+                q.Id,
+                q.Text,
+                q.Options.Select((o, index) => new PublicQuizOptionDto(index, o.Text)).ToList()))
+            .ToList();
+
+        var dto = new PhaseDetailDto(phase.OrderIndex, phase.Title, phase.Explanation, phase.PdfUrl, resources, projects, quizQuestions);
         return new PhaseAccessResult(PhaseAccessStatus.Granted, null, dto);
     }
 }

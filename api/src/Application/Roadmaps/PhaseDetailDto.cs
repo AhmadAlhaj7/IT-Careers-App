@@ -1,3 +1,4 @@
+using ItCareers.Application.Quizzes;
 using ItCareers.Domain.Common;
 
 namespace ItCareers.Application.Roadmaps;
@@ -8,4 +9,5 @@ public record PhaseDetailDto(
     LocalizedText Explanation,
     string? PdfUrl,
     IReadOnlyList<ResourceDto> Resources,
-    IReadOnlyList<ProjectDto> Projects);
+    IReadOnlyList<ProjectDto> Projects,
+    IReadOnlyList<PublicQuizQuestionDto> QuizQuestions);

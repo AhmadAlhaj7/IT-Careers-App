@@ -1,3 +1,4 @@
+using ItCareers.Application.Quizzes;
 using ItCareers.Domain.Common;
 using ItCareers.Domain.Enums;
 
@@ -12,4 +13,5 @@ public record AdminPhaseDetailDto(
     string? PdfUrl,
     PhaseType PhaseType,
     IReadOnlyList<AdminResourceDto> Resources,
-    IReadOnlyList<AdminProjectDto> Projects);
+    IReadOnlyList<AdminProjectDto> Projects,
+    IReadOnlyList<AdminQuizQuestionDto> QuizQuestions);

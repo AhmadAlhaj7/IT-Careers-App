@@ -19,6 +19,9 @@ public class Phase : Entity
     private readonly List<Project> _projects = [];
     public IReadOnlyCollection<Project> Projects => _projects;
 
+    private readonly List<QuizQuestion> _quizQuestions = [];
+    public IReadOnlyCollection<QuizQuestion> QuizQuestions => _quizQuestions;
+
     private Phase()
     {
     }
@@ -66,6 +69,11 @@ public class Phase : Entity
         foreach (var project in _projects)
         {
             project.Delete();
+        }
+
+        foreach (var quizQuestion in _quizQuestions)
+        {
+            quizQuestion.Delete();
         }
     }
 }

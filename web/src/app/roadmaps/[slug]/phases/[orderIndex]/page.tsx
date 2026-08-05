@@ -1,10 +1,12 @@
 import { notFound } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
+import { SignInButton } from "@clerk/nextjs";
 import { getPhase, getRoadmap } from "@/lib/api";
 import { ResourceListItem } from "@/components/roadmaps/ResourceListItem";
 import { ProjectCard } from "@/components/roadmaps/ProjectCard";
 import { PhaseSidebar } from "@/components/roadmaps/PhaseSidebar";
 import { LockedPhaseNotice } from "@/components/roadmaps/LockedPhaseNotice";
+import { QuizForm } from "@/components/roadmaps/QuizForm";
 import { BackLink } from "@/components/layout/BackLink";
 
 export default async function PhasePage({
@@ -57,6 +59,25 @@ export default async function PhasePage({
                   {result.phase.projects.map((project) => (
                     <ProjectCard key={project.title.ar} project={project} />
                   ))}
+                </div>
+              )}
+
+              {result.phase.quizQuestions.length > 0 && (
+                <div className="mt-6">
+                  {userId ? (
+                    <QuizForm slug={slug} orderIndex={orderIndexNum} questions={result.phase.quizQuestions} />
+                  ) : (
+                    <div className="rounded-lg border border-neutral-200 p-6 text-center">
+                      <p className="text-sm text-neutral-600">سجّل الدخول لتقديم اختبار هذه المرحلة.</p>
+                      <div className="mt-4 flex justify-center">
+                        <SignInButton mode="modal">
+                          <button className="rounded-md bg-[#0F6E56] px-5 py-2.5 text-sm font-medium text-white">
+                            تسجيل الدخول
+                          </button>
+                        </SignInButton>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </>

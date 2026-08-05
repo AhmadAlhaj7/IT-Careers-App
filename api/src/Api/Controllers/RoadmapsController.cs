@@ -1,4 +1,6 @@
+using ItCareers.Application.Quizzes;
 using ItCareers.Application.Roadmaps;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ItCareers.Api.Controllers;
@@ -8,10 +10,12 @@ namespace ItCareers.Api.Controllers;
 public class RoadmapsController : ControllerBase
 {
     private readonly IRoadmapQueries _roadmapQueries;
+    private readonly IQuizSubmissionService _quizSubmissionService;
 
-    public RoadmapsController(IRoadmapQueries roadmapQueries)
+    public RoadmapsController(IRoadmapQueries roadmapQueries, IQuizSubmissionService quizSubmissionService)
     {
         _roadmapQueries = roadmapQueries;
+        _quizSubmissionService = quizSubmissionService;
     }
 
     [HttpGet]
@@ -41,6 +45,32 @@ public class RoadmapsController : ControllerBase
             PhaseAccessStatus.NotFound => NotFound(),
             PhaseAccessStatus.Locked => StatusCode(StatusCodes.Status402PaymentRequired, new { title = result.Title }),
             _ => Ok(result.Phase),
+        };
+    }
+
+    // Requires sign-in (unlike GetPhase above) — a quiz result has to be tied to a real user
+    // to ever mean anything, and completion is only ever recorded server-side from here.
+    [Authorize]
+    [HttpPost("{slug}/phases/{orderIndex:int}/quiz/submit")]
+    public async Task<IActionResult> SubmitQuiz(
+        string slug,
+        int orderIndex,
+        QuizSubmissionRequest request,
+        CancellationToken cancellationToken)
+    {
+        var userId = User.FindFirst("sub")?.Value;
+        if (string.IsNullOrEmpty(userId))
+        {
+            return Unauthorized();
+        }
+
+        var outcome = await _quizSubmissionService.SubmitAsync(userId, slug, orderIndex, request, cancellationToken);
+
+        return outcome.Status switch
+        {
+            QuizSubmissionStatus.NotFound => NotFound(),
+            QuizSubmissionStatus.Locked => StatusCode(StatusCodes.Status402PaymentRequired),
+            _ => Ok(outcome.Result),
         };
     }
 }

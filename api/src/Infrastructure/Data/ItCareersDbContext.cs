@@ -11,6 +11,8 @@ public class ItCareersDbContext : DbContext
     public DbSet<Resource> Resources => Set<Resource>();
     public DbSet<Project> Projects => Set<Project>();
     public DbSet<Enrollment> Enrollments => Set<Enrollment>();
+    public DbSet<QuizQuestion> QuizQuestions => Set<QuizQuestion>();
+    public DbSet<PhaseCompletion> PhaseCompletions => Set<PhaseCompletion>();
 
     public ItCareersDbContext(DbContextOptions<ItCareersDbContext> options)
         : base(options)

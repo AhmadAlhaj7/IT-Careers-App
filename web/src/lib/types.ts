@@ -44,6 +44,17 @@ export type Project = {
   isCapstone: boolean;
 };
 
+export type PublicQuizOption = {
+  index: number;
+  text: LocalizedText;
+};
+
+export type PublicQuizQuestion = {
+  id: string;
+  text: LocalizedText;
+  options: PublicQuizOption[];
+};
+
 export type PhaseDetail = {
   orderIndex: number;
   title: LocalizedText;
@@ -51,6 +62,13 @@ export type PhaseDetail = {
   pdfUrl: string | null;
   resources: Resource[];
   projects: Project[];
+  quizQuestions: PublicQuizQuestion[];
+};
+
+export type QuizResult = {
+  correctCount: number;
+  totalCount: number;
+  passed: boolean;
 };
 
 // Admin-side shapes mirror the public ones but include ids (needed to link between admin
@@ -100,6 +118,18 @@ export type AdminProject = {
   isCapstone: boolean;
 };
 
+export type AdminQuizOption = {
+  text: LocalizedText;
+  isCorrect: boolean;
+};
+
+export type AdminQuizQuestion = {
+  id: string;
+  text: LocalizedText;
+  orderIndex: number;
+  options: AdminQuizOption[];
+};
+
 export type AdminPhaseDetail = {
   id: string;
   roadmapId: string;
@@ -110,4 +140,5 @@ export type AdminPhaseDetail = {
   phaseType: PhaseType;
   resources: AdminResource[];
   projects: AdminProject[];
+  quizQuestions: AdminQuizQuestion[];
 };
