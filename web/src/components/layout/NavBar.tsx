@@ -25,7 +25,7 @@ export function NavBar({ isAdmin }: NavBarProps) {
 
   return (
     <div className="sticky top-0 z-40 px-3 pt-3 sm:px-6 sm:pt-6">
-      <header className="mx-auto flex max-w-5xl items-center justify-between gap-3 rounded-full border border-neutral-100 bg-white/90 px-4 py-2.5 shadow-lg shadow-neutral-900/5 backdrop-blur sm:px-6">
+      <header className="mx-auto flex max-w-5xl items-center justify-between gap-3 rounded-2xl border border-neutral-100 bg-white/90 px-4 py-2.5 shadow-lg shadow-neutral-900/5 backdrop-blur sm:px-6">
         <Link href="/" className="flex items-center gap-2 font-semibold text-neutral-900">
           <Logo size={28} />
           <span className="hidden sm:inline">IT Careers</span>
@@ -60,7 +60,7 @@ export function NavBar({ isAdmin }: NavBarProps) {
             </Show>
             <Show when="signed-out">
               <SignInButton>
-                <button className="rounded-full bg-[#E8764A] px-4 py-1.5 text-sm font-medium text-white transition hover:bg-[#d35f35]">
+                <button className="rounded-xl bg-[#E8764A] px-4 py-1.5 text-sm font-medium text-white transition hover:bg-[#d35f35]">
                   {dict.nav.signIn}
                 </button>
               </SignInButton>
@@ -119,7 +119,7 @@ export function NavBar({ isAdmin }: NavBarProps) {
           </Show>
           <Show when="signed-out">
             <SignInButton>
-              <button className="w-full rounded-full bg-[#E8764A] px-4 py-2 text-sm font-medium text-white">
+              <button className="w-full rounded-xl bg-[#E8764A] px-4 py-2 text-sm font-medium text-white">
                 {dict.nav.signIn}
               </button>
             </SignInButton>

@@ -11,7 +11,7 @@ export default async function Home() {
   return (
     <div className="mx-auto max-w-5xl px-3 py-10 sm:px-6 sm:py-16">
       <section className="text-center">
-        <span className="inline-block rounded-full border border-neutral-200 bg-white/70 px-4 py-1.5 text-xs text-neutral-600 shadow-sm backdrop-blur">
+        <span className="inline-block rounded-xl border border-neutral-200 bg-white/70 px-4 py-1.5 text-xs text-neutral-600 shadow-sm backdrop-blur">
           {dict.home.badge}
         </span>
         <h1 className="mt-6 text-3xl leading-tight font-bold text-neutral-900 sm:text-5xl">
@@ -22,13 +22,13 @@ export default async function Home() {
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
             href="#roadmaps"
-            className="w-full rounded-full bg-[#E8764A] px-6 py-3 text-sm font-medium text-white shadow-lg shadow-[#E8764A]/30 transition hover:bg-[#d35f35] sm:w-auto"
+            className="w-full rounded-xl bg-[#E8764A] px-6 py-3 text-sm font-medium text-white shadow-lg shadow-[#E8764A]/30 transition hover:bg-[#d35f35] sm:w-auto"
           >
             {dict.home.browseCta}
           </Link>
           <Link
             href="/quiz"
-            className="w-full rounded-full border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition hover:border-[#0F6E56] hover:text-[#0F6E56] sm:w-auto"
+            className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition hover:border-[#0F6E56] hover:text-[#0F6E56] sm:w-auto"
           >
             {dict.home.quizCta}
           </Link>
@@ -49,7 +49,7 @@ export default async function Home() {
               className="group flex items-center justify-between rounded-2xl border border-neutral-100 bg-neutral-50/60 px-5 py-4 transition hover:border-[#0F6E56] hover:bg-white hover:shadow-md"
             >
               <span className="font-medium text-neutral-900">{roadmap.title[locale]}</span>
-              <span className="rounded-full bg-white px-3 py-1 text-sm font-medium text-[#0F6E56] shadow-sm ring-1 ring-neutral-100 group-hover:ring-[#0F6E56]/30">
+              <span className="rounded-lg bg-white px-3 py-1 text-sm font-medium text-[#0F6E56] shadow-sm ring-1 ring-neutral-100 group-hover:ring-[#0F6E56]/30">
                 ${roadmap.price.toFixed(2)}
               </span>
             </Link>

@@ -38,7 +38,7 @@ export function LanguageSwitcher() {
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
-        className="flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50"
+        className="flex items-center gap-1.5 rounded-xl px-2.5 py-1.5 text-sm text-neutral-700 hover:bg-neutral-50"
       >
         <GlobeIcon />
         {dict.languageSwitcher.trigger}
