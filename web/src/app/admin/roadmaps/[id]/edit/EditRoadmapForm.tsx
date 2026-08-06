@@ -67,18 +67,35 @@ export function EditRoadmapForm({ roadmap }: { roadmap: AdminRoadmapDetail }) {
         </span>
       </label>
 
-      <label className="flex flex-col gap-1">
-        <span className="text-sm font-medium text-neutral-700">رابط صورة الغلاف (اختياري)</span>
+      <div className="flex flex-col gap-2">
+        <span className="text-sm font-medium text-neutral-700">صورة الغلاف (اختياري)</span>
+        <input type="hidden" name="currentImageUrl" value={roadmap.imageUrl ?? ""} />
+
+        {roadmap.imageUrl && (
+          <div className="flex items-center gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element -- admin-supplied external URL, not a fixed set of domains next/image can allowlist */}
+            <img
+              src={roadmap.imageUrl}
+              alt=""
+              className="h-20 w-28 rounded-lg border border-neutral-200 bg-white object-contain p-1"
+            />
+            <label className="flex items-center gap-2 text-xs text-neutral-600">
+              <input name="removeImage" type="checkbox" className="h-4 w-4" />
+              إزالة الصورة الحالية
+            </label>
+          </div>
+        )}
+
         <input
-          name="imageUrl"
-          type="url"
-          dir="ltr"
-          defaultValue={roadmap.imageUrl ?? ""}
-          placeholder="https://example.com/image.jpg"
-          className="rounded-md border border-neutral-300 px-3 py-2 text-sm"
+          name="imageFile"
+          type="file"
+          accept="image/*"
+          className="rounded-md border border-neutral-300 px-3 py-2 text-sm file:me-3 file:rounded-md file:border-0 file:bg-neutral-100 file:px-3 file:py-1.5 file:text-sm file:font-medium"
         />
-        <span className="text-xs text-neutral-400">تظهر في بطاقة المسار. بدون صورة، تُعرض خلفية بيضاء بدلًا منها.</span>
-      </label>
+        <span className="text-xs text-neutral-400">
+          تظهر على خلفية بيضاء في بطاقة المسار — الصور بدون خلفية (PNG شفاف) تناسبها أكثر. بدون صورة، تبقى الخلفية بيضاء فقط.
+        </span>
+      </div>
 
       {state.message && <p className="text-sm text-red-600">{state.message}</p>}
 

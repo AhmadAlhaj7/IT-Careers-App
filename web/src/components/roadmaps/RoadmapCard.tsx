@@ -26,14 +26,14 @@ export function RoadmapCard({ id, slug, title, locale, price, paddlePriceId, ima
       href={`/roadmaps/${slug}`}
       className="group flex flex-col overflow-hidden rounded-3xl bg-white p-3 shadow-lg shadow-neutral-900/5 transition hover:shadow-xl"
     >
-      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-white">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-white p-4">
         {imageUrl && (
           // eslint-disable-next-line @next/next/no-img-element -- admin-supplied external URLs, not a fixed set of domains next/image can allowlist
           <img
             src={imageUrl}
             alt=""
             loading="lazy"
-            className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+            className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
           />
         )}
       </div>

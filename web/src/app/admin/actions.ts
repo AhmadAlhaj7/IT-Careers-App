@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { put } from "@vercel/blob";
 import { adminDelete, adminPost, adminPut, getRoadmap } from "@/lib/admin-api";
 
 export type ActionState = { message?: string };
@@ -135,7 +136,25 @@ export async function updateRoadmapAction(_prevState: ActionState, formData: For
   const price = Number(formData.get("price"));
   const status = String(formData.get("status") ?? "Draft");
   const paddlePriceIdRaw = String(formData.get("paddlePriceId") ?? "").trim();
-  const imageUrlRaw = String(formData.get("imageUrl") ?? "").trim();
+  const currentImageUrl = String(formData.get("currentImageUrl") ?? "").trim();
+  const removeImage = formData.get("removeImage") === "on";
+  const imageFile = formData.get("imageFile");
+
+  let imageUrl: string | null = currentImageUrl.length > 0 ? currentImageUrl : null;
+
+  if (removeImage) {
+    imageUrl = null;
+  } else if (imageFile instanceof File && imageFile.size > 0) {
+    try {
+      const blob = await put(`roadmaps/${id}-${imageFile.name}`, imageFile, {
+        access: "public",
+        addRandomSuffix: true,
+      });
+      imageUrl = blob.url;
+    } catch {
+      return { message: "تعذّر رفع الصورة. تأكد من إعداد التخزين (Vercel Blob) على المشروع." };
+    }
+  }
 
   const result = await adminPut(`/api/admin/roadmaps/${id}`, {
     title: { ar: titleAr, en: titleEn },
@@ -143,7 +162,7 @@ export async function updateRoadmapAction(_prevState: ActionState, formData: For
     price,
     status,
     paddlePriceId: paddlePriceIdRaw.length > 0 ? paddlePriceIdRaw : null,
-    imageUrl: imageUrlRaw.length > 0 ? imageUrlRaw : null,
+    imageUrl,
   });
 
   if (!result.ok) {
