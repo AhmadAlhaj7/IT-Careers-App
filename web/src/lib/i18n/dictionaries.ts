@@ -1,12 +1,12 @@
 import type { Locale } from "./locale";
 
 // Grows page-by-page as the rest of the site gets translated — for now it covers the
-// shared shell (nav, language switcher) and the home page.
+// shared shell (nav, language switcher) and the home/roadmaps pages.
 const dictionaries = {
   ar: {
     nav: {
       home: "الرئيسية",
-      tracks: "المسارات الرئيسية",
+      roadmaps: "المسارات",
       quiz: "بوصلة المهنة",
       dashboard: "لوحتي",
       admin: "الإدارة",
@@ -26,14 +26,16 @@ const dictionaries = {
       subtitle: "مسارات تعليمية منظمة، مرحلة بمرحلة، تأخذك من الأساسيات إلى الاحتراف.",
       browseCta: "استعرض المسارات",
       quizCta: "لا تعرف من أين تبدأ؟ جرّب بوصلة المهنة",
-      availableRoadmaps: "المسارات المتاحة",
-      noRoadmaps: "لا توجد مسارات متاحة حاليًا.",
+    },
+    roadmapsPage: {
+      title: "المسارات التعليمية",
+      empty: "لا توجد مسارات متاحة حاليًا.",
     },
   },
   en: {
     nav: {
       home: "Home",
-      tracks: "Tracks",
+      roadmaps: "Roadmaps",
       quiz: "Career Compass",
       dashboard: "Dashboard",
       admin: "Admin",
@@ -53,8 +55,10 @@ const dictionaries = {
       subtitle: "Structured, phase-by-phase learning paths that take you from the basics to mastery.",
       browseCta: "Browse roadmaps",
       quizCta: "Not sure where to start? Try the career compass",
-      availableRoadmaps: "Available roadmaps",
-      noRoadmaps: "No roadmaps available right now.",
+    },
+    roadmapsPage: {
+      title: "Learning Roadmaps",
+      empty: "No roadmaps available right now.",
     },
   },
 } as const satisfies Record<Locale, unknown>;

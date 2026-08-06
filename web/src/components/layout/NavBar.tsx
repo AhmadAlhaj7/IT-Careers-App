@@ -19,7 +19,7 @@ export function NavBar({ isAdmin }: NavBarProps) {
 
   const navLinks = [
     { href: "/", label: dict.nav.home },
-    { href: "/tracks", label: dict.nav.tracks },
+    { href: "/roadmaps", label: dict.nav.roadmaps },
     { href: "/quiz", label: dict.nav.quiz },
   ];
 
