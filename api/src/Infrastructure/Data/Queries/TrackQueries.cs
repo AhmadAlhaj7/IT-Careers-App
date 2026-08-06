@@ -39,7 +39,7 @@ public class TrackQueries : ITrackQueries
         var roadmaps = track.Roadmaps
             .Where(r => r.Status == RoadmapStatus.Published && !r.IsDeleted)
             .OrderBy(r => r.Slug)
-            .Select(r => new RoadmapSummaryDto(r.Slug, r.Title, r.Price))
+            .Select(r => new RoadmapSummaryDto(r.Id, r.Slug, r.Title, r.Price, r.PaddlePriceId, r.ImageUrl))
             .ToList();
 
         return new TrackDetailDto(track.Slug, track.Name, track.Description, roadmaps);

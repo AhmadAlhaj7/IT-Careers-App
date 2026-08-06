@@ -67,6 +67,19 @@ export function EditRoadmapForm({ roadmap }: { roadmap: AdminRoadmapDetail }) {
         </span>
       </label>
 
+      <label className="flex flex-col gap-1">
+        <span className="text-sm font-medium text-neutral-700">رابط صورة الغلاف (اختياري)</span>
+        <input
+          name="imageUrl"
+          type="url"
+          dir="ltr"
+          defaultValue={roadmap.imageUrl ?? ""}
+          placeholder="https://example.com/image.jpg"
+          className="rounded-md border border-neutral-300 px-3 py-2 text-sm"
+        />
+        <span className="text-xs text-neutral-400">تظهر في بطاقة المسار. بدون صورة، تُعرض خلفية بيضاء بدلًا منها.</span>
+      </label>
+
       {state.message && <p className="text-sm text-red-600">{state.message}</p>}
 
       <button

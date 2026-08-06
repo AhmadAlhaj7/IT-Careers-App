@@ -12,5 +12,6 @@ public record AdminRoadmapDetailDto(
     decimal Price,
     RoadmapStatus Status,
     string? PaddlePriceId,
+    string? ImageUrl,
     IReadOnlyList<AdminPhaseSummaryDto> Phases,
     IReadOnlyList<AdminFinalExamQuestionDto> FinalExamQuestions);

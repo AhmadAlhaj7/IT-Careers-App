@@ -30,6 +30,7 @@ const dictionaries = {
     roadmapsPage: {
       title: "المسارات التعليمية",
       empty: "لا توجد مسارات متاحة حاليًا.",
+      buyNow: "اشترِ الآن",
     },
   },
   en: {
@@ -59,6 +60,7 @@ const dictionaries = {
     roadmapsPage: {
       title: "Learning Roadmaps",
       empty: "No roadmaps available right now.",
+      buyNow: "Buy now",
     },
   },
 } as const satisfies Record<Locale, unknown>;

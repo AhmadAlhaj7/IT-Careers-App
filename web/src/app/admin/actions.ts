@@ -48,6 +48,7 @@ export async function createRoadmapAction(_prevState: ActionState, formData: For
   // The public home page and roadmap page cache their fetches for 60s (ISR) — without this,
   // a roadmap you just published wouldn't show up there until that window naturally expires.
   revalidatePath("/");
+  revalidatePath("/roadmaps");
   revalidatePath(`/roadmaps/${slug}`);
 
   redirect(`/admin/roadmaps/${result.id}`);
@@ -134,6 +135,7 @@ export async function updateRoadmapAction(_prevState: ActionState, formData: For
   const price = Number(formData.get("price"));
   const status = String(formData.get("status") ?? "Draft");
   const paddlePriceIdRaw = String(formData.get("paddlePriceId") ?? "").trim();
+  const imageUrlRaw = String(formData.get("imageUrl") ?? "").trim();
 
   const result = await adminPut(`/api/admin/roadmaps/${id}`, {
     title: { ar: titleAr, en: titleEn },
@@ -141,6 +143,7 @@ export async function updateRoadmapAction(_prevState: ActionState, formData: For
     price,
     status,
     paddlePriceId: paddlePriceIdRaw.length > 0 ? paddlePriceIdRaw : null,
+    imageUrl: imageUrlRaw.length > 0 ? imageUrlRaw : null,
   });
 
   if (!result.ok) {
@@ -148,6 +151,7 @@ export async function updateRoadmapAction(_prevState: ActionState, formData: For
   }
 
   revalidatePath("/");
+  revalidatePath("/roadmaps");
   revalidatePath(`/roadmaps/${slug}`);
 
   redirect(`/admin/roadmaps/${id}`);
@@ -167,6 +171,7 @@ export async function deleteRoadmapAction(_prevState: ActionState, formData: For
   }
 
   revalidatePath("/");
+  revalidatePath("/roadmaps");
   if (existing.status === "ok") {
     revalidatePath(`/roadmaps/${existing.data.slug}`);
   }

@@ -12,6 +12,7 @@ public class Roadmap : Entity
     public decimal Price { get; private set; }
     public RoadmapStatus Status { get; private set; }
     public string? PaddlePriceId { get; private set; }
+    public string? ImageUrl { get; private set; }
 
     private readonly List<Phase> _phases = [];
     public IReadOnlyCollection<Phase> Phases => _phases;
@@ -33,13 +34,14 @@ public class Roadmap : Entity
         Status = status;
     }
 
-    public void UpdateDetails(LocalizedText title, string slug, decimal price, RoadmapStatus status, string? paddlePriceId)
+    public void UpdateDetails(LocalizedText title, string slug, decimal price, RoadmapStatus status, string? paddlePriceId, string? imageUrl)
     {
         Title = title;
         Slug = slug;
         Price = price;
         Status = status;
         PaddlePriceId = paddlePriceId;
+        ImageUrl = imageUrl;
     }
 
     public override void Delete()

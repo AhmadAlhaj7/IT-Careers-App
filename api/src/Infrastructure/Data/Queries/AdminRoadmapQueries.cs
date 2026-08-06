@@ -64,6 +64,7 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
             roadmap.Price,
             roadmap.Status,
             roadmap.PaddlePriceId,
+            roadmap.ImageUrl,
             phases,
             finalExamQuestions);
     }

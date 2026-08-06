@@ -21,9 +21,12 @@ export type RoadmapDetail = {
 };
 
 export type RoadmapSummary = {
+  id: string;
   slug: string;
   title: LocalizedText;
   price: number;
+  paddlePriceId: string | null;
+  imageUrl: string | null;
 };
 
 export type ResourceType = "Video" | "Article" | "Documentation" | "Course";
@@ -152,6 +155,7 @@ export type AdminRoadmapDetail = {
   price: number;
   status: RoadmapStatus;
   paddlePriceId: string | null;
+  imageUrl: string | null;
   phases: AdminPhaseSummary[];
   finalExamQuestions: AdminFinalExamQuestion[];
 };
