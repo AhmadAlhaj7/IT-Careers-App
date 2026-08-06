@@ -26,36 +26,16 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Soft blurred gradient blobs behind every page, matching the reference's "floating card
-   over color" look. Fixed so it doesn't scroll or affect layout height; low-opacity enough
-   to sit quietly behind both the marketing pages' white cards and the plain admin screens. */
+/* Dotted-grid canvas behind every page (trying this in place of the earlier blurred-blob
+   version) — warm near-white base with a fine dot grid, matching the reference. Fixed so it
+   doesn't scroll or affect layout height; shows through wherever a page's white cards don't
+   cover it. */
 .app-background {
   position: fixed;
   inset: 0;
   z-index: -10;
-  overflow: hidden;
   pointer-events: none;
-}
-
-.app-background::before,
-.app-background::after {
-  content: "";
-  position: absolute;
-  width: 60vmax;
-  height: 60vmax;
-  border-radius: 9999px;
-  filter: blur(90px);
-  opacity: 0.35;
-}
-
-.app-background::before {
-  top: -20vmax;
-  inset-inline-end: -15vmax;
-  background: #e8764a;
-}
-
-.app-background::after {
-  bottom: -25vmax;
-  inset-inline-start: -15vmax;
-  background: #1d9e75;
+  background-color: #f8f7f3;
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.12) 1px, transparent 1px);
+  background-size: 22px 22px;
 }
