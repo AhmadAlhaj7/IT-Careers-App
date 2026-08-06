@@ -20,13 +20,13 @@ export default async function Home() {
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
             href="/roadmaps"
-            className="w-full rounded-xl bg-[#E8764A] px-6 py-3 text-sm font-medium text-white shadow-lg shadow-[#E8764A]/30 transition hover:bg-[#d35f35] sm:w-auto"
+            className="w-full rounded-xl bg-[#E8764A] px-6 py-3 text-sm font-medium text-white shadow-lg shadow-[#E8764A]/30 transition active:scale-95 hover:bg-[#d35f35] sm:w-auto"
           >
             {dict.home.browseCta}
           </Link>
           <Link
             href="/quiz"
-            className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition hover:border-[#0F6E56] hover:text-[#0F6E56] sm:w-auto"
+            className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition active:scale-95 hover:border-[#0F6E56] hover:text-[#0F6E56] sm:w-auto"
           >
             {dict.home.quizCta}
           </Link>

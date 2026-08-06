@@ -56,7 +56,7 @@ export function QuizForm({ slug, orderIndex, questions }: QuizFormProps) {
       <button
         type="submit"
         disabled={pending}
-        className="rounded-md bg-[#0F6E56] px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+        className="rounded-md bg-[#0F6E56] px-4 py-2 text-sm font-medium text-white transition active:scale-95 disabled:opacity-50 disabled:active:scale-100"
       >
         {pending ? "جارٍ الإرسال..." : "إرسال الإجابات"}
       </button>

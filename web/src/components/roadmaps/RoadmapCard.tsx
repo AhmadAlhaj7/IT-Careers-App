@@ -24,7 +24,7 @@ export function RoadmapCard({ id, slug, title, locale, price, paddlePriceId, ima
   return (
     <Link
       href={`/roadmaps/${slug}`}
-      className="group flex flex-col overflow-hidden rounded-3xl bg-white p-3 shadow-lg shadow-neutral-900/5 transition hover:shadow-xl"
+      className="group flex flex-col overflow-hidden rounded-3xl bg-white p-3 shadow-xl shadow-neutral-900/10 transition active:scale-[0.98] hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-neutral-900/15"
     >
       <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-white p-4">
         {imageUrl && (
@@ -50,7 +50,7 @@ export function RoadmapCard({ id, slug, title, locale, price, paddlePriceId, ima
             roadmapId={id}
             userId={userId}
             label={buyNowLabel}
-            className="block w-full rounded-xl bg-[#E8764A] px-4 py-2.5 text-center text-sm font-medium text-white transition hover:bg-[#d35f35] disabled:opacity-50"
+            className="block w-full rounded-xl bg-[#E8764A] px-4 py-2.5 text-center text-sm font-medium text-white transition active:scale-95 hover:bg-[#d35f35] disabled:opacity-50 disabled:active:scale-100"
           />
         </div>
       )}

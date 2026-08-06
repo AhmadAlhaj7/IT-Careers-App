@@ -60,7 +60,7 @@ export function NavBar({ isAdmin }: NavBarProps) {
             </Show>
             <Show when="signed-out">
               <SignInButton>
-                <button className="rounded-xl bg-[#E8764A] px-4 py-1.5 text-sm font-medium text-white transition hover:bg-[#d35f35]">
+                <button className="rounded-xl bg-[#E8764A] px-4 py-1.5 text-sm font-medium text-white transition active:scale-95 hover:bg-[#d35f35]">
                   {dict.nav.signIn}
                 </button>
               </SignInButton>
@@ -72,7 +72,7 @@ export function NavBar({ isAdmin }: NavBarProps) {
             onClick={() => setOpen((value) => !value)}
             aria-label={dict.nav.menu}
             aria-expanded={open}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-neutral-700 hover:bg-neutral-50 md:hidden"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-neutral-700 transition active:scale-90 hover:bg-neutral-50 md:hidden"
           >
             {open ? (
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -119,7 +119,7 @@ export function NavBar({ isAdmin }: NavBarProps) {
           </Show>
           <Show when="signed-out">
             <SignInButton>
-              <button className="w-full rounded-xl bg-[#E8764A] px-4 py-2 text-sm font-medium text-white">
+              <button className="w-full rounded-xl bg-[#E8764A] px-4 py-2 text-sm font-medium text-white transition active:scale-95">
                 {dict.nav.signIn}
               </button>
             </SignInButton>
