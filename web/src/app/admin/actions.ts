@@ -151,8 +151,13 @@ export async function updateRoadmapAction(_prevState: ActionState, formData: For
         addRandomSuffix: true,
       });
       imageUrl = blob.url;
-    } catch {
-      return { message: "تعذّر رفع الصورة. تأكد من إعداد التخزين (Vercel Blob) على المشروع." };
+    } catch (error) {
+      // Surfaced directly rather than a generic message — this is an internal admin tool,
+      // and the underlying @vercel/blob error (e.g. missing BLOB_READ_WRITE_TOKEN) is exactly
+      // what's needed to fix the setup without digging through server logs.
+      console.error("Roadmap image upload failed:", error);
+      const detail = error instanceof Error ? error.message : String(error);
+      return { message: `تعذّر رفع الصورة: ${detail}` };
     }
   }
 
