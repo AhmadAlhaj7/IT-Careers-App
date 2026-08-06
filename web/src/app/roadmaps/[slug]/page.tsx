@@ -22,7 +22,7 @@ export default async function RoadmapPage({
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
-      <BackLink href="/" label="الرئيسية" />
+      <BackLink href="/roadmaps" label="المسارات" />
       <h1 className="mt-2 text-2xl font-semibold text-neutral-900">{roadmap.title.ar}</h1>
       <p className="mt-2 text-lg text-[#0F6E56]">${roadmap.price.toFixed(2)}</p>
 
