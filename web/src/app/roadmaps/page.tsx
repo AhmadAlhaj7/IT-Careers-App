@@ -23,12 +23,14 @@ export default async function RoadmapsPage() {
             id={roadmap.id}
             slug={roadmap.slug}
             title={roadmap.title}
+            description={roadmap.description}
             locale={locale}
             price={roadmap.price}
             paddlePriceId={roadmap.paddlePriceId}
             imageUrl={roadmap.imageUrl}
             userId={userId}
             buyNowLabel={dict.roadmapsPage.buyNow}
+            discoverMoreLabel={dict.roadmapsPage.discoverMore}
           />
         ))}
       </div>

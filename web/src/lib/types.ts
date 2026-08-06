@@ -24,6 +24,7 @@ export type RoadmapSummary = {
   id: string;
   slug: string;
   title: LocalizedText;
+  description: LocalizedText | null;
   price: number;
   paddlePriceId: string | null;
   imageUrl: string | null;
@@ -151,6 +152,7 @@ export type AdminRoadmapDetail = {
   id: string;
   trackId: string;
   title: LocalizedText;
+  description: LocalizedText | null;
   slug: string;
   price: number;
   status: RoadmapStatus;

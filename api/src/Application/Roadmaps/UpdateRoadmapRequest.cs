@@ -3,4 +3,11 @@ using ItCareers.Domain.Enums;
 
 namespace ItCareers.Application.Roadmaps;
 
-public record UpdateRoadmapRequest(LocalizedText Title, string Slug, decimal Price, RoadmapStatus Status, string? PaddlePriceId, string? ImageUrl);
+public record UpdateRoadmapRequest(
+    LocalizedText Title,
+    LocalizedText? Description,
+    string Slug,
+    decimal Price,
+    RoadmapStatus Status,
+    string? PaddlePriceId,
+    string? ImageUrl);

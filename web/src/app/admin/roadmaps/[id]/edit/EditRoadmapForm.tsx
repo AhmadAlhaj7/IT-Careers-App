@@ -16,6 +16,11 @@ export function EditRoadmapForm({ roadmap }: { roadmap: AdminRoadmapDetail }) {
 
       <LocalizedTextInput label="العنوان" name="title" defaultValue={roadmap.title} required />
 
+      <div className="flex flex-col gap-1">
+        <LocalizedTextInput label="وصف قصير (اختياري)" name="description" defaultValue={roadmap.description ?? undefined} multiline />
+        <span className="text-xs text-neutral-400">يظهر تحت العنوان في بطاقة المسار — يُفضَّل ألا يتجاوز سطرين.</span>
+      </div>
+
       <label className="flex flex-col gap-1">
         <span className="text-sm font-medium text-neutral-700">الرابط المختصر (Slug)</span>
         <input

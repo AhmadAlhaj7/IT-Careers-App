@@ -132,6 +132,8 @@ export async function updateRoadmapAction(_prevState: ActionState, formData: For
   const id = String(formData.get("id") ?? "");
   const titleAr = String(formData.get("titleAr") ?? "");
   const titleEn = String(formData.get("titleEn") ?? "");
+  const descriptionAr = String(formData.get("descriptionAr") ?? "").trim();
+  const descriptionEn = String(formData.get("descriptionEn") ?? "").trim();
   const slug = String(formData.get("slug") ?? "");
   const price = Number(formData.get("price"));
   const status = String(formData.get("status") ?? "Draft");
@@ -161,8 +163,11 @@ export async function updateRoadmapAction(_prevState: ActionState, formData: For
     }
   }
 
+  const description = descriptionAr.length > 0 || descriptionEn.length > 0 ? { ar: descriptionAr, en: descriptionEn } : null;
+
   const result = await adminPut(`/api/admin/roadmaps/${id}`, {
     title: { ar: titleAr, en: titleEn },
+    description,
     slug,
     price,
     status,

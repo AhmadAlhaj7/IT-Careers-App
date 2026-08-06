@@ -8,6 +8,7 @@ public record AdminRoadmapDetailDto(
     Guid Id,
     Guid TrackId,
     LocalizedText Title,
+    LocalizedText? Description,
     string Slug,
     decimal Price,
     RoadmapStatus Status,

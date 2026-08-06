@@ -8,6 +8,7 @@ public class Roadmap : Entity
     public Guid TrackId { get; private set; }
     public Track? Track { get; private set; }
     public LocalizedText Title { get; private set; } = null!;
+    public LocalizedText? Description { get; private set; }
     public string Slug { get; private set; } = null!;
     public decimal Price { get; private set; }
     public RoadmapStatus Status { get; private set; }
@@ -34,9 +35,17 @@ public class Roadmap : Entity
         Status = status;
     }
 
-    public void UpdateDetails(LocalizedText title, string slug, decimal price, RoadmapStatus status, string? paddlePriceId, string? imageUrl)
+    public void UpdateDetails(
+        LocalizedText title,
+        LocalizedText? description,
+        string slug,
+        decimal price,
+        RoadmapStatus status,
+        string? paddlePriceId,
+        string? imageUrl)
     {
         Title = title;
+        Description = description;
         Slug = slug;
         Price = price;
         Status = status;

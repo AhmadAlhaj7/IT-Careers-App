@@ -20,7 +20,7 @@ public class RoadmapQueries : IRoadmapQueries
             .AsNoTracking()
             .Where(r => r.Status == RoadmapStatus.Published && !r.IsDeleted)
             .OrderBy(r => r.Slug)
-            .Select(r => new RoadmapSummaryDto(r.Id, r.Slug, r.Title, r.Price, r.PaddlePriceId, r.ImageUrl))
+            .Select(r => new RoadmapSummaryDto(r.Id, r.Slug, r.Title, r.Description, r.Price, r.PaddlePriceId, r.ImageUrl))
             .ToListAsync(cancellationToken);
     }
 

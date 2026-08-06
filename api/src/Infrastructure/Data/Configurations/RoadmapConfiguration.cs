@@ -22,6 +22,7 @@ public class RoadmapConfiguration : IEntityTypeConfiguration<Roadmap>
             .HasMaxLength(20);
 
         builder.OwnsOne(r => r.Title, title => title.ToJson());
+        builder.OwnsOne(r => r.Description, description => description.ToJson());
 
         builder.HasMany(r => r.Phases)
             .WithOne(p => p.Roadmap)

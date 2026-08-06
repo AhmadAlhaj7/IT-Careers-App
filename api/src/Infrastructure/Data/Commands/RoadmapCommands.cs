@@ -40,7 +40,14 @@ public class RoadmapCommands : IRoadmapCommands
 
         await EnsureSlugAvailableAsync(request.Slug, excludingId: id, cancellationToken);
 
-        roadmap.UpdateDetails(request.Title, request.Slug, request.Price, request.Status, request.PaddlePriceId, request.ImageUrl);
+        roadmap.UpdateDetails(
+            request.Title,
+            request.Description,
+            request.Slug,
+            request.Price,
+            request.Status,
+            request.PaddlePriceId,
+            request.ImageUrl);
         await _context.SaveChangesAsync(cancellationToken);
 
         return true;

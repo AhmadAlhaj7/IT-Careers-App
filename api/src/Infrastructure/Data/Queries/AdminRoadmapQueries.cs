@@ -60,6 +60,7 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
             roadmap.Id,
             roadmap.TrackId,
             roadmap.Title,
+            roadmap.Description,
             roadmap.Slug,
             roadmap.Price,
             roadmap.Status,
