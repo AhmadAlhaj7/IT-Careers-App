@@ -1,14 +1,39 @@
 import Link from "next/link";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getLocale } from "@/lib/i18n/locale";
+import { FloatingChip } from "@/components/home/FloatingChip";
 
 export default async function Home() {
   const locale = await getLocale();
   const dict = getDictionary(locale);
 
   return (
-    <div className="mx-auto max-w-5xl px-3 py-10 sm:px-6 sm:py-16">
-      <section className="text-center">
+    <div className="mx-auto w-full max-w-5xl px-3 py-10 sm:px-6 sm:py-16">
+      <section className="relative text-center">
+        <FloatingChip
+          label="Think"
+          wrapperClassName="top-0 start-6"
+          className="bg-[#E6DFF9] text-[#5B21B6]"
+          rotate={-4}
+          duration="6s"
+          delay="0s"
+        />
+        <FloatingChip
+          label="Act"
+          wrapperClassName="top-44 start-0"
+          className="bg-[#FDE68A] text-[#78350F]"
+          rotate={3}
+          duration="7s"
+          delay="1.1s"
+        />
+        <FloatingChip
+          label="Win"
+          wrapperClassName="top-20 end-4"
+          className="border border-[#E8764A] bg-white text-neutral-800"
+          rotate={-2}
+          duration="6.5s"
+          delay="2s"
+        />
         <span className="inline-block rounded-xl border border-neutral-200 bg-white/70 px-4 py-1.5 text-xs text-neutral-600 shadow-sm backdrop-blur">
           {dict.home.badge}
         </span>
