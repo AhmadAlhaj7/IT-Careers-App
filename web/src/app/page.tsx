@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getLocale } from "@/lib/i18n/locale";
 import { FloatingChip } from "@/components/home/FloatingChip";
+import { GuideArrow } from "@/components/home/GuideArrow";
 
 export default async function Home() {
   const locale = await getLocale();
@@ -43,26 +44,24 @@ export default async function Home() {
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base leading-[1.7] text-neutral-600 sm:text-lg">{dict.home.subtitle}</p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link
-            href="/roadmaps"
-            className="w-full rounded-xl bg-[#E8764A] px-6 py-3 text-sm font-medium text-white shadow-lg shadow-[#E8764A]/30 transition active:scale-95 hover:bg-[#d35f35] sm:w-auto"
-          >
-            {dict.home.browseCta}
-          </Link>
-          <Link
-            href="/quiz"
-            className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition active:scale-95 hover:border-[#0F6E56] hover:text-[#0F6E56] sm:w-auto"
-          >
-            {dict.home.quizCta}
-          </Link>
-        </div>
-        <div className="mt-3 flex justify-center">
-          <Link
-            href="/tech-majors"
-            className="w-full rounded-xl border border-[#0F6E56]/30 bg-white px-6 py-3 text-sm font-medium text-[#0F6E56] transition active:scale-95 hover:bg-[#0F6E56]/5 sm:w-auto"
-          >
-            {dict.home.techMajorsCta}
-          </Link>
+          <div className="relative w-full sm:w-auto">
+            <Link
+              href="/roadmaps"
+              className="w-full rounded-xl bg-[#E8764A] px-6 py-3 text-sm font-medium text-white shadow-lg shadow-[#E8764A]/30 transition active:scale-95 hover:bg-[#d35f35] sm:w-auto"
+            >
+              {dict.home.browseCta}
+            </Link>
+            <GuideArrow label="جاهز اتعلم" flip className="top-full right-2 mt-2" duration="6.5s" delay="0.6s" />
+          </div>
+          <div className="relative w-full sm:w-auto">
+            <Link
+              href="/tech-majors"
+              className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition active:scale-95 hover:border-[#0F6E56] hover:text-[#0F6E56] sm:w-auto"
+            >
+              {dict.home.techMajorsCta}
+            </Link>
+            <GuideArrow label="لسا محتار" className="top-full left-2 mt-2" duration="7s" delay="1.5s" />
+          </div>
         </div>
       </section>
     </div>
