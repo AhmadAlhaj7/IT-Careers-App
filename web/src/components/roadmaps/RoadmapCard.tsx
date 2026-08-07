@@ -20,10 +20,13 @@ type RoadmapCardProps = {
 };
 
 // Whole card navigates to the roadmap page; the Buy now button is a nested interactive
-// element that stops the click from bubbling to the wrapping Link, so it can trigger
-// checkout directly from the catalog without a full navigation first. "Discover more" is
-// deliberately NOT a separate link/handler — it's styled like a button but just lets its
-// click bubble up to the same card Link, since it goes to the exact same place.
+// element, so its wrapper needs BOTH preventDefault (cancels the anchor's native
+// navigate-on-click default action) and stopPropagation (stops Link's own click handler from
+// still running client-side routing) — stopPropagation alone doesn't stop the anchor's
+// default action, so checkout/sign-in used to open for an instant and then get navigated away
+// from anyway. "Discover more" is deliberately NOT a separate link/handler — it's styled like
+// a button but just lets its click bubble up to the same card Link, since it goes to the
+// exact same place.
 export function RoadmapCard({
   id,
   slug,
@@ -67,7 +70,13 @@ export function RoadmapCard({
         </span>
 
         {paddlePriceId && (
-          <div className="flex-1" onClick={(event) => event.stopPropagation()}>
+          <div
+            className="flex-1"
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+          >
             <BuyButton
               paddlePriceId={paddlePriceId}
               roadmapId={id}
