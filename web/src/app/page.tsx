@@ -56,6 +56,14 @@ export default async function Home() {
             {dict.home.quizCta}
           </Link>
         </div>
+        <div className="mt-3 flex justify-center">
+          <Link
+            href="/tech-majors"
+            className="w-full rounded-xl border border-[#0F6E56]/30 bg-white px-6 py-3 text-sm font-medium text-[#0F6E56] transition active:scale-95 hover:bg-[#0F6E56]/5 sm:w-auto"
+          >
+            {dict.home.techMajorsCta}
+          </Link>
+        </div>
       </section>
     </div>
   );

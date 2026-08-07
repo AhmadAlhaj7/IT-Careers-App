@@ -26,12 +26,18 @@ const dictionaries = {
       subtitle: "مسارات تعليمية منظمة، مرحلة بمرحلة، تأخذك من الأساسيات إلى الاحتراف.",
       browseCta: "استعرض المسارات",
       quizCta: "لا تعرف من أين تبدأ؟ جرّب بوصلة المهنة",
+        techMajorsCta: "استكشف افضل التخصصات التقنية ",
     },
     roadmapsPage: {
       title: "المسارات التعليمية",
       empty: "لا توجد مسارات متاحة حاليًا.",
       buyNow: "اشترِ الآن",
       discoverMore: "اكتشف المزيد",
+    },
+    techMajorsPage: {
+      title: "استكشف التخصصات التقنية",
+      intro:
+        "ننصح دائمًا من هم جدد على عالم التقنية بالتعرّف على المجال الذي يهمّهم قبل البدء فيه: ما هو هذا التخصص؟ وما هي الوظائف التي قد يعمل بها بعد إتقانه؟ وهل يناسبك فعلًا؟ هذه الصفحة ستساعدك على ذلك، فقط اضغط على التخصص الذي يثير اهتمامك لتتعرف عليه أكثر.",
     },
   },
   en: {
@@ -57,12 +63,18 @@ const dictionaries = {
       subtitle: "Structured, phase-by-phase learning paths that take you from the basics to mastery.",
       browseCta: "Browse roadmaps",
       quizCta: "Not sure where to start? Try the career compass",
+      techMajorsCta: "What Tech Programs are there?",
     },
     roadmapsPage: {
       title: "Learning Roadmaps",
       empty: "No roadmaps available right now.",
       buyNow: "Buy now",
       discoverMore: "Discover more",
+    },
+    techMajorsPage: {
+      title: "Explore Tech Majors",
+      intro:
+        "We always recommend that people new to tech read about what interests them before diving in — what is it, what will you actually work on afterward, is it the right fit for you? This page is here to help: just click on whatever catches your interest and see if it might be a fit.",
     },
   },
 } as const satisfies Record<Locale, unknown>;
