@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
 import { listRoadmaps } from "@/lib/api";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -14,6 +15,13 @@ export default async function RoadmapsPage() {
     <div className="mx-auto max-w-5xl px-3 py-10 sm:px-6 sm:py-16">
       <BackLink href="/" label={dict.nav.home} />
       <h1 className="mt-4 text-2xl font-bold text-neutral-900 sm:text-3xl">{dict.roadmapsPage.title}</h1>
+      <p className="mt-3 max-w-3xl text-sm leading-[1.8] text-neutral-600 sm:text-base">
+        {dict.roadmapsPage.intro}{" "}
+        <Link href="/tech-majors" className="font-semibold text-[#0F6E56] underline underline-offset-2 hover:text-[#0c5945]">
+          {dict.home.techMajorsCta}
+        </Link>
+        {dict.roadmapsPage.introLinkSuffix}
+      </p>
 
       <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {roadmaps.length === 0 && <p className="text-sm text-neutral-500">{dict.roadmapsPage.empty}</p>}

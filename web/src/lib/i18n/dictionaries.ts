@@ -30,6 +30,9 @@ const dictionaries = {
     },
     roadmapsPage: {
       title: "المسارات التعليمية",
+      intro:
+        'يواجه الكثير من الطلاب صعوبة عند البدء بتعلّم موضوع جديد: من أين يبدأون؟ وما هي المصادر التي يجب استخدامها؟ وغالبًا ما نسمع أسئلة مثل "هل يمكنك أن تنصحني بكورس لهذا الموضوع؟" أو "هل أتعلّم هذا الموضوع بالطريقة الصحيحة؟". المسارات التالية ستساعدك بناءً على ما تريد تعلّمه، وستوفّر لك كل ما تحتاجه للتعلّم ومتابعة تقدّمك خطوة بخطوة. أمّا إن كنت لا تعرف ما تريد، فانتقل إلى زر',
+      introLinkSuffix: ".",
       empty: "لا توجد مسارات متاحة حاليًا.",
       buyNow: "اشترِ الآن",
       discoverMore: "اكتشف المزيد",
@@ -67,6 +70,9 @@ const dictionaries = {
     },
     roadmapsPage: {
       title: "Learning Roadmaps",
+      intro:
+        "Many students run into the same problem when starting a new topic: where do I even begin, what resources should I use? We constantly hear questions like \"can you recommend a course for this?\" or \"am I learning this the right way?\" The roadmaps below are built to help based on what you want to learn — giving you everything you need and letting you track your progress step by step. If you're not sure what you want yet, head over to the",
+      introLinkSuffix: ".",
       empty: "No roadmaps available right now.",
       buyNow: "Buy now",
       discoverMore: "Discover more",
