@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Show, SignInButton, UserButton } from "@clerk/nextjs";
-import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useLocale } from "@/lib/i18n/LocaleContext";
 
@@ -24,11 +23,10 @@ export function NavBar({ isAdmin }: NavBarProps) {
   ];
 
   return (
-    <div className="sticky top-0 z-40 px-3 pt-3 sm:px-6 sm:pt-6">
+    <div className="sticky top-0 z-40 pt-3 pr-3 pl-20 sm:pt-6 sm:pr-6 sm:pl-28">
       <header className="mx-auto flex max-w-5xl items-center justify-between gap-3 rounded-2xl border border-neutral-100 bg-white/90 px-4 py-2.5 shadow-lg shadow-neutral-900/5 backdrop-blur sm:px-6">
         <Link href="/" className="flex items-center gap-2 font-semibold text-neutral-900">
-          <Logo size={28} />
-          <span className="hidden sm:inline">IT Careers</span>
+          <span>IT Careers</span>
         </Link>
 
         <nav className="hidden items-center gap-6 text-sm text-neutral-600 md:flex">

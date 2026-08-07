@@ -68,3 +68,52 @@ body {
     animation: none;
   }
 }
+
+/* Brand-mark rotation loop: inner ring spins clockwise into place, holds 2s, then the outer
+   ring spins counter-clockwise into place and holds 2s — alternating forever. Each spin is a
+   full 360deg lap, so it always lands back on the exact original artwork angle and the loop
+   restarts with no visible jump. */
+.logo-inner,
+.logo-outer {
+  transform-origin: 0 0;
+}
+
+@keyframes logo-inner-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  21.43% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes logo-outer-spin {
+  0%,
+  50% {
+    transform: rotate(0deg);
+  }
+  71.43% {
+    transform: rotate(-360deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+.logo-inner {
+  animation: logo-inner-spin 7s ease-in-out infinite;
+}
+
+.logo-outer {
+  animation: logo-outer-spin 7s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-inner,
+  .logo-outer {
+    animation: none;
+  }
+}

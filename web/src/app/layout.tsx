@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Geist, Geist_Mono, Reem_Kufi } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { arSA, enUS } from "@clerk/localizations";
 import { NavBar } from "@/components/layout/NavBar";
+import { Logo } from "@/components/layout/Logo";
 import { LocaleProvider } from "@/lib/i18n/LocaleContext";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getLocale } from "@/lib/i18n/locale";
@@ -54,6 +56,13 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <div className="app-background" />
+        <Link
+          href="/"
+          aria-label="IT Careers"
+          className="fixed top-3 left-3 z-50 sm:top-6 sm:left-6"
+        >
+          <Logo size={44} />
+        </Link>
         <ClerkProvider localization={locale === "ar" ? arSA : enUS}>
           <LocaleProvider locale={locale} dict={dict}>
             <NavBar isAdmin={isAdmin} />
