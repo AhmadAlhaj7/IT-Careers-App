@@ -2,6 +2,8 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { deleteRoadmapAction, toggleRoadmapStatusAction } from "@/app/admin/actions";
+import { DeleteButton } from "./DeleteButton";
 import { paletteFor } from "@/lib/cardPalette";
 import { formatRelativeTimeAr } from "@/lib/relativeTime";
 import type { AdminRoadmapSummary } from "@/lib/types";
@@ -111,12 +113,31 @@ export function AdminRoadmapsTable({ roadmaps }: { roadmaps: AdminRoadmapSummary
 
             <span className="text-xs text-neutral-500">{formatRelativeTimeAr(roadmap.updatedAt)}</span>
 
-            <Link
-              href={`/admin/roadmaps/${roadmap.id}`}
-              className="w-fit rounded-lg border border-neutral-200 px-3 py-1.5 text-xs font-semibold text-neutral-700 transition hover:bg-neutral-50"
-            >
-              تعديل
-            </Link>
+            <div className="flex flex-wrap items-center gap-2">
+              <Link
+                href={`/admin/roadmaps/${roadmap.id}`}
+                className="w-fit rounded-lg border border-neutral-200 px-3 py-1.5 text-xs font-semibold text-neutral-700 transition hover:bg-neutral-50"
+              >
+                تعديل
+              </Link>
+
+              <form action={toggleRoadmapStatusAction}>
+                <input type="hidden" name="id" value={roadmap.id} />
+                <button
+                  type="submit"
+                  title={roadmap.status === "Published" ? "تعطيل — يختفي من الموقع فورًا، ويبقى في لوحة الإدارة" : "تفعيل — ينشر المسار من جديد"}
+                  className="w-fit rounded-lg border border-neutral-200 px-3 py-1.5 text-xs font-semibold text-neutral-700 transition hover:bg-neutral-50"
+                >
+                  {roadmap.status === "Published" ? "تعطيل" : "تفعيل"}
+                </button>
+              </form>
+
+              <DeleteButton
+                action={deleteRoadmapAction}
+                hiddenFields={{ id: roadmap.id }}
+                confirmMessage={`سيتم حذف "${roadmap.title.ar}" و${roadmap.phaseCount} مرحلة تابعة له. هل أنت متأكد؟`}
+              />
+            </div>
           </div>
         );
       })}

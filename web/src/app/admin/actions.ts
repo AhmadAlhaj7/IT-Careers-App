@@ -219,6 +219,45 @@ export async function updateRoadmapAction(_prevState: ActionState, formData: For
   redirect(`/admin/roadmaps/${id}`);
 }
 
+// A quick "disable/enable" toggle for the list page — reuses the exact same Published/Draft
+// status the editor's header buttons already set (a Draft roadmap already disappears from
+// the public catalog/detail pages while staying fully visible and editable in admin, with no
+// cascading changes — no new status was needed for this). Since UpdateRoadmapRequest is a
+// full replace, this re-submits every existing field with only Status flipped, same pattern
+// as reorderPhaseAction below.
+export async function toggleRoadmapStatusAction(formData: FormData): Promise<void> {
+  const id = String(formData.get("id") ?? "");
+
+  const result = await getRoadmap(id);
+  if (result.status !== "ok") {
+    redirect("/admin");
+  }
+
+  const roadmap = result.data;
+  const nextStatus = roadmap.status === "Published" ? "Draft" : "Published";
+
+  await adminPut(`/api/admin/roadmaps/${id}`, {
+    title: roadmap.title,
+    description: roadmap.description,
+    slug: roadmap.slug,
+    price: roadmap.price,
+    originalPrice: roadmap.originalPrice,
+    status: nextStatus,
+    paddlePriceId: roadmap.paddlePriceId,
+    imageUrl: roadmap.imageUrl,
+    level: roadmap.level,
+    outcomes: roadmap.outcomes,
+    passThresholdPercent: roadmap.passThresholdPercent,
+    sequentialUnlockEnabled: roadmap.sequentialUnlockEnabled,
+  });
+
+  revalidatePath("/");
+  revalidatePath("/roadmaps");
+  revalidatePath(`/roadmaps/${roadmap.slug}`);
+  revalidatePath("/admin");
+  redirect("/admin");
+}
+
 export async function deleteRoadmapAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
   const id = String(formData.get("id") ?? "");
 
