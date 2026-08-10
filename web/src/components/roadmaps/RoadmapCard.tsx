@@ -20,12 +20,14 @@ type RoadmapCardProps = {
   phaseCount: number;
   isEnrolled: boolean;
   completedPhaseCount: number;
+  isMostPopular?: boolean;
   userId: string | null;
   buyNowLabel: string;
   discoverMoreLabel: string;
   continueLabel: string;
   ownedLabel: string;
   phasesLabel: string;
+  popularLabel?: string;
 };
 
 // Whole card navigates to the roadmap page; the Buy now button is a nested interactive
@@ -49,12 +51,14 @@ export function RoadmapCard({
   phaseCount,
   isEnrolled,
   completedPhaseCount,
+  isMostPopular = false,
   userId,
   buyNowLabel,
   discoverMoreLabel,
   continueLabel,
   ownedLabel,
   phasesLabel,
+  popularLabel,
 }: RoadmapCardProps) {
   const { tint, accent } = paletteFor(slug);
   const progressPercent = phaseCount > 0 ? Math.round((completedPhaseCount / phaseCount) * 100) : 0;
@@ -94,6 +98,11 @@ export function RoadmapCard({
             style={{ color: accent }}
           >
             {ownedLabel}
+          </span>
+        )}
+        {isMostPopular && popularLabel && (
+          <span className="absolute top-3 start-3 rounded-full bg-neutral-900 px-2.5 py-1 text-[11px] font-semibold text-white">
+            {popularLabel}
           </span>
         )}
         <span className="absolute bottom-3 start-3 rounded-full border border-neutral-900/5 bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-neutral-600">

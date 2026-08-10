@@ -40,12 +40,14 @@ export default async function RoadmapsPage() {
             phaseCount={roadmap.phaseCount}
             isEnrolled={roadmap.isEnrolled}
             completedPhaseCount={roadmap.completedPhaseCount}
+            isMostPopular={roadmap.isMostPopular}
             userId={userId}
             buyNowLabel={dict.roadmapsPage.buyNow}
             discoverMoreLabel={dict.roadmapsPage.discoverMore}
             continueLabel={dict.roadmapsPage.continue}
             ownedLabel={dict.roadmapsPage.owned}
             phasesLabel={dict.roadmapsPage.phases}
+            popularLabel={dict.roadmapsPage.popularBadge}
           />
         ))}
       </div>

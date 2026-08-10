@@ -5,6 +5,7 @@ import {
   PhaseDetail,
   PublicCareerQuizQuestion,
   PublicFinalExamQuestion,
+  PublicStats,
   RoadmapDetail,
   RoadmapSummary,
   TrackDetail,
@@ -12,6 +13,20 @@ import {
 } from "./types";
 
 const API_URL = process.env.API_URL ?? "http://localhost:5212";
+
+// Aggregate, non-per-user counts — safe to ISR-cache like the rest of the public catalog data
+// (unlike listRoadmaps/getRoadmap below, which carry per-visitor enrollment state).
+export async function getPublicStats(): Promise<PublicStats> {
+  const response = await fetch(`${API_URL}/api/stats`, {
+    next: { revalidate: 60 },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to load stats: ${response.status}`);
+  }
+
+  return response.json();
+}
 
 // Both of these now carry per-visitor enrollment/progress (IsEnrolled, CompletedPhaseCount,
 // per-phase Status), so — same cross-user cache-leak reasoning as getPhase/getFinalExam below

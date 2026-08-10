@@ -1,12 +1,23 @@
 import Link from "next/link";
+import { auth } from "@clerk/nextjs/server";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getLocale } from "@/lib/i18n/locale";
+import { getPublicStats, listRoadmaps } from "@/lib/api";
 import { FloatingChip } from "@/components/home/FloatingChip";
 import { GuideArrow } from "@/components/home/GuideArrow";
+import { TrustBar } from "@/components/home/TrustBar";
+import { HowItWorks } from "@/components/home/HowItWorks";
+import { FeaturedRoadmaps } from "@/components/home/FeaturedRoadmaps";
+import { FeatureGrid } from "@/components/home/FeatureGrid";
+import { CertificateShowcase } from "@/components/home/CertificateShowcase";
+import { Faq } from "@/components/home/Faq";
+import { ClosingCta } from "@/components/home/ClosingCta";
+import { SiteFooter } from "@/components/home/SiteFooter";
 
 export default async function Home() {
-  const locale = await getLocale();
+  const [locale, { userId }] = await Promise.all([getLocale(), auth()]);
   const dict = getDictionary(locale);
+  const [roadmaps, stats] = await Promise.all([listRoadmaps(), getPublicStats()]);
 
   return (
     <div className="mx-auto w-full max-w-5xl px-3 py-10 sm:px-6 sm:py-16">
@@ -64,6 +75,24 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      <div className="mt-20">
+        <TrustBar stats={stats} dict={dict.homePage} />
+      </div>
+
+      <HowItWorks dict={dict.homePage} />
+
+      <FeaturedRoadmaps roadmaps={roadmaps} locale={locale} userId={userId} dict={dict} />
+
+      <FeatureGrid dict={dict.homePage} />
+
+      <CertificateShowcase dict={dict.homePage} />
+
+      <Faq dict={dict.homePage} />
+
+      <ClosingCta dict={dict.homePage} />
+
+      <SiteFooter dict={dict} />
     </div>
   );
 }

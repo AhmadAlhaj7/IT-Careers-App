@@ -14,4 +14,5 @@ public record RoadmapSummaryDto(
     LocalizedText? Level,
     int PhaseCount,
     bool IsEnrolled,
-    int CompletedPhaseCount);
+    int CompletedPhaseCount,
+    bool IsMostPopular);

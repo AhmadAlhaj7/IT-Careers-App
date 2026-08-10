@@ -52,6 +52,14 @@ export type RoadmapSummary = {
   phaseCount: number;
   isEnrolled: boolean;
   completedPhaseCount: number;
+  isMostPopular: boolean;
+};
+
+export type PublicStats = {
+  roadmapCount: number;
+  learnerCount: number;
+  certificatesIssuedCount: number;
+  phase1CompletionRate: number;
 };
 
 export type ResourceType = "Video" | "Article" | "Documentation" | "Course";

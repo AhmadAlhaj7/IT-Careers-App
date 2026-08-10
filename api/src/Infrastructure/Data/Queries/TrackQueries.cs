@@ -53,7 +53,8 @@ public class TrackQueries : ITrackQueries
                 r.Level,
                 r.Phases.Count(p => !p.IsDeleted),
                 IsEnrolled: false,
-                CompletedPhaseCount: 0))
+                CompletedPhaseCount: 0,
+                IsMostPopular: false))
             .ToList();
 
         return new TrackDetailDto(track.Slug, track.Name, track.Description, roadmaps);

@@ -26,6 +26,19 @@ public class RoadmapQueries : IRoadmapQueries
         var enrolledRoadmapIds = await GetEnrolledRoadmapIdsAsync(userId, cancellationToken);
         var completedCountsByRoadmap = await GetCompletedPhaseCountsByRoadmapAsync(userId, cancellationToken);
 
+        // "Most popular" is a real, computed signal (highest total enrollment count across
+        // everyone, not just this visitor) — but only the resulting boolean is ever exposed
+        // publicly, never the raw count, since enrollment numbers are business data.
+        var enrollmentCountsByRoadmap = await _context.Enrollments
+            .GroupBy(e => e.RoadmapId)
+            .Select(g => new { RoadmapId = g.Key, Count = g.Count() })
+            .ToDictionaryAsync(x => x.RoadmapId, x => x.Count, cancellationToken);
+
+        var mostPopularRoadmapId = enrollmentCountsByRoadmap.Count == 0
+            ? (Guid?)null
+            : enrollmentCountsByRoadmap.OrderByDescending(kv => kv.Value).First().Key;
+        var mostPopularCount = mostPopularRoadmapId is null ? 0 : enrollmentCountsByRoadmap[mostPopularRoadmapId.Value];
+
         return roadmaps
             .Select(r => new RoadmapSummaryDto(
                 r.Id,
@@ -39,7 +52,8 @@ public class RoadmapQueries : IRoadmapQueries
                 r.Level,
                 r.Phases.Count(p => !p.IsDeleted),
                 enrolledRoadmapIds.Contains(r.Id),
-                completedCountsByRoadmap.GetValueOrDefault(r.Id)))
+                completedCountsByRoadmap.GetValueOrDefault(r.Id),
+                mostPopularCount > 0 && r.Id == mostPopularRoadmapId))
             .ToList();
     }
 

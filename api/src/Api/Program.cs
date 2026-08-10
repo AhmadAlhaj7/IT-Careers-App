@@ -51,6 +51,7 @@ builder.Services.AddScoped<ICareerQuizSubmissionService, CareerQuizSubmissionSer
 builder.Services.AddScoped<IAdminCareerQuizQueries, AdminCareerQuizQueries>();
 builder.Services.AddScoped<ICareerQuizQuestionCommands, CareerQuizQuestionCommands>();
 builder.Services.AddScoped<IAdminAnalyticsQueries, AdminAnalyticsQueries>();
+builder.Services.AddScoped<IPublicStatsQueries, PublicStatsQueries>();
 
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<ItCareersDbContext>();
