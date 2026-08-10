@@ -28,6 +28,10 @@ public class AdminAnalyticsQueries : IAdminAnalyticsQueries
         var completions = await _context.PhaseCompletions.ToListAsync(cancellationToken);
         var submissions = await _context.CareerQuizSubmissions.Where(s => s.UserId != null).ToListAsync(cancellationToken);
 
+        var weekAgo = DateTimeOffset.UtcNow.AddDays(-7);
+        var newEnrollmentsThisWeek = enrollments.Count(e => e.PurchasedAt >= weekAgo);
+        var certificatesIssuedThisWeek = await _context.Certificates.CountAsync(c => c.IssuedAt >= weekAgo, cancellationToken);
+
         var enrollmentCountByRoadmap = enrollments.GroupBy(e => e.RoadmapId).ToDictionary(g => g.Key, g => g.Count());
         var enrolledUsersByRoadmap = enrollments
             .GroupBy(e => e.RoadmapId)
@@ -79,6 +83,8 @@ public class AdminAnalyticsQueries : IAdminAnalyticsQueries
             enrollments.Select(e => e.UserId).Distinct().Count(),
             enrollments.Count,
             roadmapSales.Sum(r => r.EstimatedRevenue),
+            newEnrollmentsThisWeek,
+            certificatesIssuedThisWeek,
             roadmapSales,
             phaseCompletionRates,
             trackConversions);

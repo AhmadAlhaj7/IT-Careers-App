@@ -164,12 +164,18 @@ export type AdminRoadmapSummary = {
   slug: string;
   title: LocalizedText;
   status: RoadmapStatus;
+  price: number;
+  phaseCount: number;
+  updatedAt: string;
 };
 
 export type AdminPhaseSummary = {
   id: string;
   orderIndex: number;
   title: LocalizedText;
+  resourceCount: number;
+  projectCount: number;
+  quizQuestionCount: number;
 };
 
 export type AdminRoadmapDetail = {
@@ -185,6 +191,9 @@ export type AdminRoadmapDetail = {
   imageUrl: string | null;
   level: LocalizedText | null;
   outcomes: LocalizedText[];
+  passThresholdPercent: number;
+  sequentialUnlockEnabled: boolean;
+  updatedAt: string;
   phases: AdminPhaseSummary[];
   finalExamQuestions: AdminFinalExamQuestion[];
 };
@@ -289,6 +298,8 @@ export type AdminAnalytics = {
   totalLearners: number;
   totalEnrollments: number;
   estimatedRevenue: number;
+  newEnrollmentsThisWeek: number;
+  certificatesIssuedThisWeek: number;
   roadmapSales: RoadmapSales[];
   phaseCompletionRates: PhaseCompletionRate[];
   trackConversions: TrackConversion[];

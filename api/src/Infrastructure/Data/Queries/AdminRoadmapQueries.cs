@@ -23,7 +23,14 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
             .AsNoTracking()
             .Where(r => !r.IsDeleted)
             .OrderBy(r => r.Slug)
-            .Select(r => new AdminRoadmapSummaryDto(r.Id, r.Slug, r.Title, r.Status))
+            .Select(r => new AdminRoadmapSummaryDto(
+                r.Id,
+                r.Slug,
+                r.Title,
+                r.Status,
+                r.Price,
+                r.Phases.Count(p => !p.IsDeleted),
+                r.UpdatedAt))
             .ToListAsync(cancellationToken);
     }
 
@@ -31,7 +38,9 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
     {
         var roadmap = await _context.Roadmaps
             .AsNoTracking()
-            .Include(r => r.Phases)
+            .Include(r => r.Phases).ThenInclude(p => p.Resources)
+            .Include(r => r.Phases).ThenInclude(p => p.Projects)
+            .Include(r => r.Phases).ThenInclude(p => p.QuizQuestions)
             .Include(r => r.FinalExamQuestions)
             .FirstOrDefaultAsync(r => r.Id == id && !r.IsDeleted, cancellationToken);
 
@@ -43,7 +52,13 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
         var phases = roadmap.Phases
             .Where(p => !p.IsDeleted)
             .OrderBy(p => p.OrderIndex)
-            .Select(p => new AdminPhaseSummaryDto(p.Id, p.OrderIndex, p.Title))
+            .Select(p => new AdminPhaseSummaryDto(
+                p.Id,
+                p.OrderIndex,
+                p.Title,
+                p.Resources.Count(r => !r.IsDeleted),
+                p.Projects.Count(pr => !pr.IsDeleted),
+                p.QuizQuestions.Count(q => !q.IsDeleted)))
             .ToList();
 
         var finalExamQuestions = roadmap.FinalExamQuestions
@@ -69,6 +84,9 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
             roadmap.ImageUrl,
             roadmap.Level,
             roadmap.Outcomes,
+            roadmap.PassThresholdPercent,
+            roadmap.SequentialUnlockEnabled,
+            roadmap.UpdatedAt,
             phases,
             finalExamQuestions);
     }

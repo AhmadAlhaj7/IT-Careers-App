@@ -6,8 +6,6 @@ namespace ItCareers.Infrastructure.Data.Services;
 
 public class FinalExamSubmissionService : IFinalExamSubmissionService
 {
-    private const double PassThreshold = 0.7;
-
     private readonly ItCareersDbContext _context;
 
     public FinalExamSubmissionService(ItCareersDbContext context)
@@ -57,7 +55,8 @@ public class FinalExamSubmissionService : IFinalExamSubmissionService
         }
 
         var totalCount = questions.Count;
-        var passed = totalCount > 0 && (double)correctCount / totalCount >= PassThreshold;
+        var passThreshold = roadmap.PassThresholdPercent / 100.0;
+        var passed = totalCount > 0 && (double)correctCount / totalCount >= passThreshold;
 
         // Every attempt is kept, not just the passing one — a deliberate difference from
         // PhaseCompletion, matching the spec's FINAL_EXAM_ATTEMPT history.

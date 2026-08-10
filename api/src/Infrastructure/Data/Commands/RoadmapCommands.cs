@@ -50,7 +50,9 @@ public class RoadmapCommands : IRoadmapCommands
             request.PaddlePriceId,
             request.ImageUrl,
             request.Level,
-            request.Outcomes);
+            request.Outcomes,
+            request.PassThresholdPercent,
+            request.SequentialUnlockEnabled);
         await _context.SaveChangesAsync(cancellationToken);
 
         return true;

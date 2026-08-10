@@ -179,6 +179,7 @@ public class RoadmapQueries : IRoadmapQueries
         CancellationToken cancellationToken = default)
     {
         var phase = await _context.Phases
+            .Include(p => p.Roadmap)
             .Include(p => p.Resources)
             .Include(p => p.Projects)
             .Include(p => p.QuizQuestions)
@@ -201,6 +202,21 @@ public class RoadmapQueries : IRoadmapQueries
         {
             hasAccess = await _context.Enrollments
                 .AnyAsync(e => e.UserId == userId && e.RoadmapId == phase.RoadmapId, cancellationToken);
+        }
+
+        // Enrollment alone isn't enough when the roadmap requires phases in order — every
+        // earlier phase needs its own PhaseCompletion for this user, not just a purchase.
+        if (hasAccess && phase.OrderIndex > 1 && phase.Roadmap!.SequentialUnlockEnabled)
+        {
+            var earlierPhaseIds = await _context.Phases
+                .Where(p => p.RoadmapId == phase.RoadmapId && !p.IsDeleted && p.OrderIndex < phase.OrderIndex)
+                .Select(p => p.Id)
+                .ToListAsync(cancellationToken);
+
+            var completedEarlierCount = await _context.PhaseCompletions
+                .CountAsync(pc => pc.UserId == userId && earlierPhaseIds.Contains(pc.PhaseId), cancellationToken);
+
+            hasAccess = completedEarlierCount >= earlierPhaseIds.Count;
         }
 
         if (!hasAccess)

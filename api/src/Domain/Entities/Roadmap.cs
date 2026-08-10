@@ -16,6 +16,9 @@ public class Roadmap : Entity
     public string? PaddlePriceId { get; private set; }
     public string? ImageUrl { get; private set; }
     public LocalizedText? Level { get; private set; }
+    public DateTimeOffset UpdatedAt { get; private set; }
+    public int PassThresholdPercent { get; private set; } = 70;
+    public bool SequentialUnlockEnabled { get; private set; } = true;
 
     private readonly List<LocalizedText> _outcomes = [];
     public IReadOnlyList<LocalizedText> Outcomes => _outcomes;
@@ -38,6 +41,7 @@ public class Roadmap : Entity
         Slug = slug;
         Price = price;
         Status = status;
+        UpdatedAt = DateTimeOffset.UtcNow;
     }
 
     public void UpdateDetails(
@@ -50,7 +54,9 @@ public class Roadmap : Entity
         string? paddlePriceId,
         string? imageUrl,
         LocalizedText? level,
-        IEnumerable<LocalizedText> outcomes)
+        IEnumerable<LocalizedText> outcomes,
+        int passThresholdPercent,
+        bool sequentialUnlockEnabled)
     {
         Title = title;
         Description = description;
@@ -63,6 +69,9 @@ public class Roadmap : Entity
         Level = level;
         _outcomes.Clear();
         _outcomes.AddRange(outcomes);
+        PassThresholdPercent = passThresholdPercent;
+        SequentialUnlockEnabled = sequentialUnlockEnabled;
+        UpdatedAt = DateTimeOffset.UtcNow;
     }
 
     public override void Delete()

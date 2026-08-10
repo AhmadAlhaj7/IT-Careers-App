@@ -3,4 +3,11 @@ using ItCareers.Domain.Enums;
 
 namespace ItCareers.Application.Roadmaps;
 
-public record AdminRoadmapSummaryDto(Guid Id, string Slug, LocalizedText Title, RoadmapStatus Status);
+public record AdminRoadmapSummaryDto(
+    Guid Id,
+    string Slug,
+    LocalizedText Title,
+    RoadmapStatus Status,
+    decimal Price,
+    int PhaseCount,
+    DateTimeOffset UpdatedAt);

@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { put } from "@vercel/blob";
-import { adminDelete, adminPost, adminPut, getRoadmap } from "@/lib/admin-api";
+import { adminDelete, adminPost, adminPut, getPhase, getRoadmap } from "@/lib/admin-api";
 
 export type ActionState = { message?: string };
 
@@ -162,6 +162,8 @@ export async function updateRoadmapAction(_prevState: ActionState, formData: For
   const paddlePriceIdRaw = String(formData.get("paddlePriceId") ?? "").trim();
   const levelAr = String(formData.get("levelAr") ?? "").trim();
   const levelEn = String(formData.get("levelEn") ?? "").trim();
+  const passThresholdPercent = Number(formData.get("passThresholdPercent") ?? 70);
+  const sequentialUnlockEnabled = formData.get("sequentialUnlockEnabled") === "on";
   const currentImageUrl = String(formData.get("currentImageUrl") ?? "").trim();
   const removeImage = formData.get("removeImage") === "on";
   const imageFile = formData.get("imageFile");
@@ -202,6 +204,8 @@ export async function updateRoadmapAction(_prevState: ActionState, formData: For
     imageUrl,
     level,
     outcomes: parseOutcomes(formData),
+    passThresholdPercent,
+    sequentialUnlockEnabled,
   });
 
   if (!result.ok) {
@@ -266,6 +270,61 @@ export async function updatePhaseAction(_prevState: ActionState, formData: FormD
   }
 
   redirect(`/admin/roadmaps/${roadmapId}/phases/${id}`);
+}
+
+// Not wired through useActionState (each phase row's up/down button is a plain <form
+// action={...}>) — there's no per-field validation to surface, just a redirect back to the
+// same editor once the swap lands. Swaps OrderIndex between the phase and its neighbor via
+// two ordinary UpdatePhaseRequest calls — no bulk-reorder endpoint exists (or is needed) for
+// a swap this small.
+export async function reorderPhaseAction(formData: FormData): Promise<void> {
+  const roadmapId = String(formData.get("roadmapId") ?? "");
+  const phaseId = String(formData.get("phaseId") ?? "");
+  const direction = String(formData.get("direction") ?? "");
+
+  const roadmapResult = await getRoadmap(roadmapId);
+  if (roadmapResult.status !== "ok") {
+    redirect(`/admin/roadmaps/${roadmapId}`);
+  }
+
+  const orderedPhases = [...roadmapResult.data.phases].sort((a, b) => a.orderIndex - b.orderIndex);
+  const currentIndex = orderedPhases.findIndex((p) => p.id === phaseId);
+  const neighborIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+
+  if (currentIndex === -1 || neighborIndex < 0 || neighborIndex >= orderedPhases.length) {
+    redirect(`/admin/roadmaps/${roadmapId}`);
+  }
+
+  const current = orderedPhases[currentIndex];
+  const neighbor = orderedPhases[neighborIndex];
+
+  const [currentDetail, neighborDetail] = await Promise.all([getPhase(current.id), getPhase(neighbor.id)]);
+
+  if (currentDetail.status === "ok" && neighborDetail.status === "ok") {
+    await Promise.all([
+      adminPut(`/api/admin/phases/${current.id}`, {
+        title: currentDetail.data.title,
+        orderIndex: neighborDetail.data.orderIndex,
+        explanation: currentDetail.data.explanation,
+        pdfUrl: currentDetail.data.pdfUrl,
+        phaseType: currentDetail.data.phaseType,
+        tag: currentDetail.data.tag,
+        skills: currentDetail.data.skills,
+      }),
+      adminPut(`/api/admin/phases/${neighbor.id}`, {
+        title: neighborDetail.data.title,
+        orderIndex: currentDetail.data.orderIndex,
+        explanation: neighborDetail.data.explanation,
+        pdfUrl: neighborDetail.data.pdfUrl,
+        phaseType: neighborDetail.data.phaseType,
+        tag: neighborDetail.data.tag,
+        skills: neighborDetail.data.skills,
+      }),
+    ]);
+  }
+
+  revalidatePath(`/admin/roadmaps/${roadmapId}`);
+  redirect(`/admin/roadmaps/${roadmapId}`);
 }
 
 export async function deletePhaseAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {

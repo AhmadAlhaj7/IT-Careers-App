@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { BuyButton } from "./BuyButton";
 import { Logo } from "@/components/layout/Logo";
+import { paletteFor } from "@/lib/cardPalette";
 import type { Locale } from "@/lib/i18n/locale";
 import type { LocalizedText } from "@/lib/types";
 
@@ -26,23 +27,6 @@ type RoadmapCardProps = {
   ownedLabel: string;
   phasesLabel: string;
 };
-
-// A small fixed palette, picked deterministically from the slug so a given roadmap always
-// gets the same tint/accent regardless of list order — purely cosmetic variety between cards,
-// not stored data (see the redesign plan's "explicit scope trims").
-const CARD_PALETTE = [
-  { tint: "#EEF3F1", accent: "#0F6E56" },
-  { tint: "#F1EEF8", accent: "#5B3FC4" },
-  { tint: "#F7EFE9", accent: "#E8764A" },
-] as const;
-
-function paletteFor(slug: string) {
-  let hash = 0;
-  for (let i = 0; i < slug.length; i++) {
-    hash = (hash * 31 + slug.charCodeAt(i)) >>> 0;
-  }
-  return CARD_PALETTE[hash % CARD_PALETTE.length];
-}
 
 // Whole card navigates to the roadmap page; the Buy now button is a nested interactive
 // element, so its wrapper needs BOTH preventDefault (cancels the anchor's native

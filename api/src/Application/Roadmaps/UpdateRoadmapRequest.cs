@@ -13,4 +13,6 @@ public record UpdateRoadmapRequest(
     string? PaddlePriceId,
     string? ImageUrl,
     LocalizedText? Level,
-    IReadOnlyList<LocalizedText> Outcomes);
+    IReadOnlyList<LocalizedText> Outcomes,
+    int PassThresholdPercent,
+    bool SequentialUnlockEnabled);

@@ -17,5 +17,8 @@ public record AdminRoadmapDetailDto(
     string? ImageUrl,
     LocalizedText? Level,
     IReadOnlyList<LocalizedText> Outcomes,
+    int PassThresholdPercent,
+    bool SequentialUnlockEnabled,
+    DateTimeOffset UpdatedAt,
     IReadOnlyList<AdminPhaseSummaryDto> Phases,
     IReadOnlyList<AdminFinalExamQuestionDto> FinalExamQuestions);
