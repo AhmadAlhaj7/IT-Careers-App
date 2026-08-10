@@ -13,9 +13,17 @@ import {
 
 const API_URL = process.env.API_URL ?? "http://localhost:5212";
 
+// Both of these now carry per-visitor enrollment/progress (IsEnrolled, CompletedPhaseCount,
+// per-phase Status), so — same cross-user cache-leak reasoning as getPhase/getFinalExam below
+// — they can no longer use the shared time-based ISR cache.
+
 export async function listRoadmaps(): Promise<RoadmapSummary[]> {
+  const { getToken } = await auth();
+  const token = await getToken();
+
   const response = await fetch(`${API_URL}/api/roadmaps`, {
-    next: { revalidate: 60 },
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+    cache: "no-store",
   });
 
   if (!response.ok) {
@@ -26,8 +34,12 @@ export async function listRoadmaps(): Promise<RoadmapSummary[]> {
 }
 
 export async function getRoadmap(slug: string): Promise<RoadmapDetail | null> {
+  const { getToken } = await auth();
+  const token = await getToken();
+
   const response = await fetch(`${API_URL}/api/roadmaps/${slug}`, {
-    next: { revalidate: 60 },
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+    cache: "no-store",
   });
 
   if (response.status === 404) {

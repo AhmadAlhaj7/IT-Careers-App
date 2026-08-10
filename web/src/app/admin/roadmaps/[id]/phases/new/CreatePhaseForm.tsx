@@ -47,6 +47,17 @@ export function CreatePhaseForm({ roadmapId, nextOrderIndex }: { roadmapId: stri
         </select>
       </label>
 
+      <div className="flex flex-col gap-1">
+        <LocalizedTextInput label="وسم المرحلة (اختياري)" name="tag" />
+        <span className="text-xs text-neutral-400">مثال: نقطة البداية، الخطوة الأخيرة</span>
+      </div>
+
+      <label className="flex flex-col gap-1">
+        <span className="text-sm font-medium text-neutral-700">المهارات (اختياري)</span>
+        <input name="skills" dir="ltr" placeholder="Git, Terminal, Pseudocode" className="rounded-md border border-neutral-300 px-3 py-2 text-sm" />
+        <span className="text-xs text-neutral-400">افصل بين المهارات بفاصلة.</span>
+      </label>
+
       {state.message && <p className="text-sm text-red-600">{state.message}</p>}
 
       <button

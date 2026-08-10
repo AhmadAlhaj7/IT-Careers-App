@@ -23,16 +23,21 @@ public class RoadmapsController : ControllerBase
         _finalExamSubmissionService = finalExamSubmissionService;
     }
 
+    // Deliberately no [Authorize] — an anonymous visitor still needs the catalog, they just
+    // get IsEnrolled: false / CompletedPhaseCount: 0 on every card, same optional-auth pattern
+    // as GetPhase/GetFinalExam below.
     [HttpGet]
     public async Task<ActionResult<IReadOnlyList<RoadmapSummaryDto>>> List(CancellationToken cancellationToken)
     {
-        return Ok(await _roadmapQueries.ListPublishedAsync(cancellationToken));
+        var userId = User.FindFirst("sub")?.Value;
+        return Ok(await _roadmapQueries.ListPublishedAsync(userId, cancellationToken));
     }
 
     [HttpGet("{slug}")]
     public async Task<ActionResult<RoadmapDetailDto>> GetBySlug(string slug, CancellationToken cancellationToken)
     {
-        var roadmap = await _roadmapQueries.GetBySlugAsync(slug, cancellationToken);
+        var userId = User.FindFirst("sub")?.Value;
+        var roadmap = await _roadmapQueries.GetBySlugAsync(slug, userId, cancellationToken);
         return roadmap is null ? NotFound() : Ok(roadmap);
     }
 

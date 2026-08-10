@@ -8,5 +8,10 @@ public record RoadmapSummaryDto(
     LocalizedText Title,
     LocalizedText? Description,
     decimal Price,
+    decimal? OriginalPrice,
     string? PaddlePriceId,
-    string? ImageUrl);
+    string? ImageUrl,
+    LocalizedText? Level,
+    int PhaseCount,
+    bool IsEnrolled,
+    int CompletedPhaseCount);

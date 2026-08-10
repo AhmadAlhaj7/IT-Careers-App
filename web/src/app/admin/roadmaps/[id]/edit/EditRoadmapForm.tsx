@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { updateRoadmapAction, type ActionState } from "@/app/admin/actions";
 import { LocalizedTextInput } from "@/components/admin/LocalizedTextInput";
+import { OutcomesFieldset } from "@/components/admin/OutcomesFieldset";
 import type { AdminRoadmapDetail } from "@/lib/types";
 
 const initialState: ActionState = {};
@@ -45,6 +46,27 @@ export function EditRoadmapForm({ roadmap }: { roadmap: AdminRoadmapDetail }) {
           className="rounded-md border border-neutral-300 px-3 py-2 text-sm"
         />
       </label>
+
+      <label className="flex flex-col gap-1">
+        <span className="text-sm font-medium text-neutral-700">السعر قبل الخصم (اختياري)</span>
+        <input
+          name="originalPrice"
+          type="number"
+          step="0.01"
+          min="0"
+          dir="ltr"
+          defaultValue={roadmap.originalPrice ?? ""}
+          className="rounded-md border border-neutral-300 px-3 py-2 text-sm"
+        />
+        <span className="text-xs text-neutral-400">إن أدخلته، يظهر مشطوبًا بجانب السعر الحالي لإظهار الخصم.</span>
+      </label>
+
+      <div className="flex flex-col gap-1">
+        <LocalizedTextInput label="المستوى (اختياري)" name="level" defaultValue={roadmap.level ?? undefined} />
+        <span className="text-xs text-neutral-400">مثال: مبتدئ ← متقدّم</span>
+      </div>
+
+      <OutcomesFieldset existingOutcomes={roadmap.outcomes} />
 
       <label className="flex flex-col gap-1">
         <span className="text-sm font-medium text-neutral-700">الحالة</span>

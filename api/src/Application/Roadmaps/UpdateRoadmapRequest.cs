@@ -8,6 +8,9 @@ public record UpdateRoadmapRequest(
     LocalizedText? Description,
     string Slug,
     decimal Price,
+    decimal? OriginalPrice,
     RoadmapStatus Status,
     string? PaddlePriceId,
-    string? ImageUrl);
+    string? ImageUrl,
+    LocalizedText? Level,
+    IReadOnlyList<LocalizedText> Outcomes);

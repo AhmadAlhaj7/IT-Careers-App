@@ -45,9 +45,12 @@ public class RoadmapCommands : IRoadmapCommands
             request.Description,
             request.Slug,
             request.Price,
+            request.OriginalPrice,
             request.Status,
             request.PaddlePriceId,
-            request.ImageUrl);
+            request.ImageUrl,
+            request.Level,
+            request.Outcomes);
         await _context.SaveChangesAsync(cancellationToken);
 
         return true;

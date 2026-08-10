@@ -6,18 +6,37 @@ export type LocalizedText = {
   en: string;
 };
 
+export type PhaseProgressStatus = "Locked" | "Current" | "Completed";
+
 export type PhaseSummary = {
   orderIndex: number;
   title: LocalizedText;
+  tag: LocalizedText | null;
+  summary: LocalizedText;
+  skills: string[];
+  resourceCount: number;
+  projectCount: number;
+  hasQuiz: boolean;
+  status: PhaseProgressStatus;
 };
 
 export type RoadmapDetail = {
   id: string;
   slug: string;
   title: LocalizedText;
+  description: LocalizedText | null;
   price: number;
+  originalPrice: number | null;
   paddlePriceId: string | null;
+  imageUrl: string | null;
+  level: LocalizedText | null;
+  outcomes: LocalizedText[];
   phases: PhaseSummary[];
+  totalResourceCount: number;
+  totalProjectCount: number;
+  finalExamQuestionCount: number;
+  isEnrolled: boolean;
+  completedPhaseCount: number;
 };
 
 export type RoadmapSummary = {
@@ -26,8 +45,13 @@ export type RoadmapSummary = {
   title: LocalizedText;
   description: LocalizedText | null;
   price: number;
+  originalPrice: number | null;
   paddlePriceId: string | null;
   imageUrl: string | null;
+  level: LocalizedText | null;
+  phaseCount: number;
+  isEnrolled: boolean;
+  completedPhaseCount: number;
 };
 
 export type ResourceType = "Video" | "Article" | "Documentation" | "Course";
@@ -155,9 +179,12 @@ export type AdminRoadmapDetail = {
   description: LocalizedText | null;
   slug: string;
   price: number;
+  originalPrice: number | null;
   status: RoadmapStatus;
   paddlePriceId: string | null;
   imageUrl: string | null;
+  level: LocalizedText | null;
+  outcomes: LocalizedText[];
   phases: AdminPhaseSummary[];
   finalExamQuestions: AdminFinalExamQuestion[];
 };
@@ -229,6 +256,8 @@ export type AdminPhaseDetail = {
   explanation: LocalizedText;
   pdfUrl: string | null;
   phaseType: PhaseType;
+  tag: LocalizedText | null;
+  skills: string | null;
   resources: AdminResource[];
   projects: AdminProject[];
   quizQuestions: AdminQuizQuestion[];

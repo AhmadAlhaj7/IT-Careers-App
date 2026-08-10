@@ -8,4 +8,6 @@ public record UpdatePhaseRequest(
     int OrderIndex,
     LocalizedText Explanation,
     string? PdfUrl,
-    PhaseType PhaseType);
+    PhaseType PhaseType,
+    LocalizedText? Tag,
+    string? Skills);

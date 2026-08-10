@@ -16,6 +16,9 @@ public class PhaseConfiguration : IEntityTypeConfiguration<Phase>
 
         builder.OwnsOne(p => p.Title, title => title.ToJson());
         builder.OwnsOne(p => p.Explanation, explanation => explanation.ToJson());
+        builder.OwnsOne(p => p.Tag, tag => tag.ToJson());
+
+        builder.Property(p => p.Skills).HasMaxLength(500);
 
         builder.HasMany(p => p.Resources)
             .WithOne(r => r.Phase)

@@ -26,6 +26,22 @@ function parseQuizOptions(formData: FormData) {
   return options;
 }
 
+// Same "fixed slots" shape as parseQuizOptions — matches OutcomesFieldset's MAX_OUTCOMES.
+function parseOutcomes(formData: FormData) {
+  const outcomes: { ar: string; en: string }[] = [];
+
+  for (let i = 0; i < 6; i++) {
+    const ar = String(formData.get(`outcome${i}Ar`) ?? "").trim();
+    const en = String(formData.get(`outcome${i}En`) ?? "").trim();
+    if (ar.length === 0 && en.length === 0) {
+      continue;
+    }
+    outcomes.push({ ar, en });
+  }
+
+  return outcomes;
+}
+
 export async function createRoadmapAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
   const trackId = String(formData.get("trackId") ?? "");
   const titleAr = String(formData.get("titleAr") ?? "");
@@ -64,6 +80,9 @@ export async function createPhaseAction(_prevState: ActionState, formData: FormD
   const explanationEn = String(formData.get("explanationEn") ?? "");
   const pdfUrl = String(formData.get("pdfUrl") ?? "").trim();
   const phaseType = String(formData.get("phaseType") ?? "Standard");
+  const tagAr = String(formData.get("tagAr") ?? "").trim();
+  const tagEn = String(formData.get("tagEn") ?? "").trim();
+  const skillsRaw = String(formData.get("skills") ?? "").trim();
 
   const result = await adminPost("/api/admin/phases", {
     roadmapId,
@@ -72,6 +91,8 @@ export async function createPhaseAction(_prevState: ActionState, formData: FormD
     explanation: { ar: explanationAr, en: explanationEn },
     pdfUrl: pdfUrl.length > 0 ? pdfUrl : null,
     phaseType,
+    tag: tagAr.length > 0 || tagEn.length > 0 ? { ar: tagAr, en: tagEn } : null,
+    skills: skillsRaw.length > 0 ? skillsRaw : null,
   });
 
   if (!result.ok) {
@@ -136,8 +157,11 @@ export async function updateRoadmapAction(_prevState: ActionState, formData: For
   const descriptionEn = String(formData.get("descriptionEn") ?? "").trim();
   const slug = String(formData.get("slug") ?? "");
   const price = Number(formData.get("price"));
+  const originalPriceRaw = String(formData.get("originalPrice") ?? "").trim();
   const status = String(formData.get("status") ?? "Draft");
   const paddlePriceIdRaw = String(formData.get("paddlePriceId") ?? "").trim();
+  const levelAr = String(formData.get("levelAr") ?? "").trim();
+  const levelEn = String(formData.get("levelEn") ?? "").trim();
   const currentImageUrl = String(formData.get("currentImageUrl") ?? "").trim();
   const removeImage = formData.get("removeImage") === "on";
   const imageFile = formData.get("imageFile");
@@ -164,15 +188,20 @@ export async function updateRoadmapAction(_prevState: ActionState, formData: For
   }
 
   const description = descriptionAr.length > 0 || descriptionEn.length > 0 ? { ar: descriptionAr, en: descriptionEn } : null;
+  const level = levelAr.length > 0 || levelEn.length > 0 ? { ar: levelAr, en: levelEn } : null;
+  const originalPrice = originalPriceRaw.length > 0 ? Number(originalPriceRaw) : null;
 
   const result = await adminPut(`/api/admin/roadmaps/${id}`, {
     title: { ar: titleAr, en: titleEn },
     description,
     slug,
     price,
+    originalPrice,
     status,
     paddlePriceId: paddlePriceIdRaw.length > 0 ? paddlePriceIdRaw : null,
     imageUrl,
+    level,
+    outcomes: parseOutcomes(formData),
   });
 
   if (!result.ok) {
@@ -218,6 +247,9 @@ export async function updatePhaseAction(_prevState: ActionState, formData: FormD
   const explanationEn = String(formData.get("explanationEn") ?? "");
   const pdfUrl = String(formData.get("pdfUrl") ?? "").trim();
   const phaseType = String(formData.get("phaseType") ?? "Standard");
+  const tagAr = String(formData.get("tagAr") ?? "").trim();
+  const tagEn = String(formData.get("tagEn") ?? "").trim();
+  const skillsRaw = String(formData.get("skills") ?? "").trim();
 
   const result = await adminPut(`/api/admin/phases/${id}`, {
     title: { ar: titleAr, en: titleEn },
@@ -225,6 +257,8 @@ export async function updatePhaseAction(_prevState: ActionState, formData: FormD
     explanation: { ar: explanationAr, en: explanationEn },
     pdfUrl: pdfUrl.length > 0 ? pdfUrl : null,
     phaseType,
+    tag: tagAr.length > 0 || tagEn.length > 0 ? { ar: tagAr, en: tagEn } : null,
+    skills: skillsRaw.length > 0 ? skillsRaw : null,
   });
 
   if (!result.ok) {

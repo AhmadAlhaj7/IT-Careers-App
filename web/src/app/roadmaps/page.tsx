@@ -36,9 +36,16 @@ export default async function RoadmapsPage() {
             price={roadmap.price}
             paddlePriceId={roadmap.paddlePriceId}
             imageUrl={roadmap.imageUrl}
+            level={roadmap.level}
+            phaseCount={roadmap.phaseCount}
+            isEnrolled={roadmap.isEnrolled}
+            completedPhaseCount={roadmap.completedPhaseCount}
             userId={userId}
             buyNowLabel={dict.roadmapsPage.buyNow}
             discoverMoreLabel={dict.roadmapsPage.discoverMore}
+            continueLabel={dict.roadmapsPage.continue}
+            ownedLabel={dict.roadmapsPage.owned}
+            phasesLabel={dict.roadmapsPage.phases}
           />
         ))}
       </div>

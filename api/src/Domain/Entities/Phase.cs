@@ -12,6 +12,8 @@ public class Phase : Entity
     public LocalizedText Explanation { get; private set; } = null!;
     public string? PdfUrl { get; private set; }
     public PhaseType PhaseType { get; private set; }
+    public LocalizedText? Tag { get; private set; }
+    public string? Skills { get; private set; }
 
     private readonly List<Resource> _resources = [];
     public IReadOnlyCollection<Resource> Resources => _resources;
@@ -49,13 +51,17 @@ public class Phase : Entity
         int orderIndex,
         LocalizedText explanation,
         string? pdfUrl,
-        PhaseType phaseType)
+        PhaseType phaseType,
+        LocalizedText? tag,
+        string? skills)
     {
         Title = title;
         OrderIndex = orderIndex;
         Explanation = explanation;
         PdfUrl = pdfUrl;
         PhaseType = phaseType;
+        Tag = tag;
+        Skills = skills;
     }
 
     public override void Delete()

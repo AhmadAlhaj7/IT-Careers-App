@@ -44,7 +44,7 @@ public class PhaseCommands : IPhaseCommands
             return false;
         }
 
-        phase.UpdateDetails(request.Title, request.OrderIndex, request.Explanation, request.PdfUrl, request.PhaseType);
+        phase.UpdateDetails(request.Title, request.OrderIndex, request.Explanation, request.PdfUrl, request.PhaseType, request.Tag, request.Skills);
         await _context.SaveChangesAsync(cancellationToken);
 
         return true;

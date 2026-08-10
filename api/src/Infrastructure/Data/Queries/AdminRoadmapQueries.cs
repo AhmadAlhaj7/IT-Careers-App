@@ -63,9 +63,12 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
             roadmap.Description,
             roadmap.Slug,
             roadmap.Price,
+            roadmap.OriginalPrice,
             roadmap.Status,
             roadmap.PaddlePriceId,
             roadmap.ImageUrl,
+            roadmap.Level,
+            roadmap.Outcomes,
             phases,
             finalExamQuestions);
     }
@@ -112,6 +115,8 @@ public class AdminRoadmapQueries : IAdminRoadmapQueries
             phase.Explanation,
             phase.PdfUrl,
             phase.PhaseType,
+            phase.Tag,
+            phase.Skills,
             resources,
             projects,
             quizQuestions);

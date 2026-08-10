@@ -4,9 +4,9 @@ namespace ItCareers.Application.Roadmaps;
 // whatever) — the controller only ever depends on this interface, never on EF Core directly.
 public interface IRoadmapQueries
 {
-    Task<IReadOnlyList<RoadmapSummaryDto>> ListPublishedAsync(CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<RoadmapSummaryDto>> ListPublishedAsync(string? userId, CancellationToken cancellationToken = default);
 
-    Task<RoadmapDetailDto?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
+    Task<RoadmapDetailDto?> GetBySlugAsync(string slug, string? userId, CancellationToken cancellationToken = default);
 
     Task<PhaseAccessResult> GetPhaseAsync(
         string roadmapSlug,

@@ -12,6 +12,8 @@ public record AdminPhaseDetailDto(
     LocalizedText Explanation,
     string? PdfUrl,
     PhaseType PhaseType,
+    LocalizedText? Tag,
+    string? Skills,
     IReadOnlyList<AdminResourceDto> Resources,
     IReadOnlyList<AdminProjectDto> Projects,
     IReadOnlyList<AdminQuizQuestionDto> QuizQuestions);
