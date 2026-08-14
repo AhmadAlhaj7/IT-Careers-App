@@ -5,6 +5,8 @@ import type {
   AdminPhaseDetail,
   AdminRoadmapDetail,
   AdminRoadmapSummary,
+  AdminSpecializationDetail,
+  AdminSpecializationSummary,
   AdminTrack,
   TrackSummary,
 } from "./types";
@@ -73,6 +75,14 @@ export function listAdminCareerQuizQuestions() {
 
 export function getAdminAnalytics() {
   return adminGet<AdminAnalytics>("/api/admin/analytics");
+}
+
+export function listSpecializations() {
+  return adminGet<AdminSpecializationSummary[]>("/api/admin/specializations");
+}
+
+export function getSpecialization(id: string) {
+  return adminGet<AdminSpecializationDetail>(`/api/admin/specializations/${id}`);
 }
 
 type AdminMutateResult = { ok: true; id?: string } | { ok: false; message: string };

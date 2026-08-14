@@ -18,6 +18,7 @@ public class ItCareersDbContext : DbContext
     public DbSet<Certificate> Certificates => Set<Certificate>();
     public DbSet<CareerQuizQuestion> CareerQuizQuestions => Set<CareerQuizQuestion>();
     public DbSet<CareerQuizSubmission> CareerQuizSubmissions => Set<CareerQuizSubmission>();
+    public DbSet<Specialization> Specializations => Set<Specialization>();
 
     public ItCareersDbContext(DbContextOptions<ItCareersDbContext> options)
         : base(options)

@@ -3,7 +3,8 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { put } from "@vercel/blob";
-import { adminDelete, adminPost, adminPut, getPhase, getRoadmap } from "@/lib/admin-api";
+import { adminDelete, adminPost, adminPut, getPhase, getRoadmap, getSpecialization } from "@/lib/admin-api";
+import { MAX_FAQS, MAX_SECTION_ITEMS, SPECIALIZATION_SECTION_DEFS } from "@/lib/specializationSections";
 
 export type ActionState = { message?: string };
 
@@ -698,4 +699,282 @@ export async function deleteCareerQuizQuestionAction(_prevState: ActionState, fo
   }
 
   redirect("/admin/career-quiz-questions");
+}
+
+export async function createSpecializationAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const nameAr = String(formData.get("nameAr") ?? "");
+  const nameEn = String(formData.get("nameEn") ?? "");
+  const slug = String(formData.get("slug") ?? "");
+  const category = String(formData.get("category") ?? "Development");
+  const demandLevel = String(formData.get("demandLevel") ?? "Good");
+  const status = String(formData.get("status") ?? "Draft");
+
+  const result = await adminPost("/api/admin/specializations", {
+    name: { ar: nameAr, en: nameEn },
+    slug,
+    category,
+    demandLevel,
+    status,
+  });
+
+  if (!result.ok) {
+    return { message: result.message };
+  }
+
+  redirect(`/admin/specializations/${result.id}`);
+}
+
+// Loops SPECIALIZATION_SECTION_DEFS (the same fixed metadata the editor UI renders from) to
+// pull each of the 9 sections' fixed-name fields out of the form, uploading a per-section
+// image for the 2 sections that support one — same shape as parseOutcomes, just async
+// because of the uploads.
+async function parseSpecializationSections(id: string, formData: FormData) {
+  const sections: {
+    key: string;
+    enabled: boolean;
+    title: { ar: string; en: string };
+    body: { ar: string; en: string };
+    imageUrl: string | null;
+    imageCaption: { ar: string; en: string } | null;
+    items: { title: { ar: string; en: string }; body: { ar: string; en: string } }[];
+  }[] = [];
+
+  for (const def of SPECIALIZATION_SECTION_DEFS) {
+    const prefix = `section_${def.key}_`;
+    const enabled = formData.get(`${prefix}enabled`) === "on";
+    const titleAr = String(formData.get(`${prefix}titleAr`) ?? "").trim();
+    const titleEn = String(formData.get(`${prefix}titleEn`) ?? "").trim();
+    const bodyAr = String(formData.get(`${prefix}bodyAr`) ?? "").trim();
+    const bodyEn = String(formData.get(`${prefix}bodyEn`) ?? "").trim();
+
+    let imageUrl: string | null = null;
+    let imageCaption: { ar: string; en: string } | null = null;
+
+    if (def.hasImage) {
+      const currentImageUrl = String(formData.get(`${prefix}currentImageUrl`) ?? "").trim();
+      const removeImage = formData.get(`${prefix}removeImage`) === "on";
+      const imageFile = formData.get(`${prefix}imageFile`);
+      imageUrl = currentImageUrl.length > 0 ? currentImageUrl : null;
+
+      if (removeImage) {
+        imageUrl = null;
+      } else if (imageFile instanceof File && imageFile.size > 0) {
+        const blob = await put(`specializations/${id}-${def.key}-${imageFile.name}`, imageFile, {
+          access: "public",
+          addRandomSuffix: true,
+        });
+        imageUrl = blob.url;
+      }
+
+      const captionAr = String(formData.get(`${prefix}imageCaptionAr`) ?? "").trim();
+      const captionEn = String(formData.get(`${prefix}imageCaptionEn`) ?? "").trim();
+      imageCaption = captionAr.length > 0 || captionEn.length > 0 ? { ar: captionAr, en: captionEn } : null;
+    }
+
+    const items: { title: { ar: string; en: string }; body: { ar: string; en: string } }[] = [];
+    if (def.hasList) {
+      for (let i = 0; i < MAX_SECTION_ITEMS; i++) {
+        const itemTitleAr = String(formData.get(`${prefix}item${i}TitleAr`) ?? "").trim();
+        const itemTitleEn = String(formData.get(`${prefix}item${i}TitleEn`) ?? "").trim();
+        const itemBodyAr = String(formData.get(`${prefix}item${i}BodyAr`) ?? "").trim();
+        const itemBodyEn = String(formData.get(`${prefix}item${i}BodyEn`) ?? "").trim();
+        if (itemTitleAr.length === 0 && itemTitleEn.length === 0 && itemBodyAr.length === 0 && itemBodyEn.length === 0) {
+          continue;
+        }
+        items.push({ title: { ar: itemTitleAr, en: itemTitleEn }, body: { ar: itemBodyAr, en: itemBodyEn } });
+      }
+    }
+
+    sections.push({ key: def.key, enabled, title: { ar: titleAr, en: titleEn }, body: { ar: bodyAr, en: bodyEn }, imageUrl, imageCaption, items });
+  }
+
+  return sections;
+}
+
+// Same fixed-slot idiom as parseQuizOptions — up to MAX_FAQS rows, empty ones skipped.
+function parseSpecializationFaqs(formData: FormData) {
+  const faqs: { question: { ar: string; en: string }; answer: { ar: string; en: string } }[] = [];
+
+  for (let i = 0; i < MAX_FAQS; i++) {
+    const qAr = String(formData.get(`faq${i}QAr`) ?? "").trim();
+    const qEn = String(formData.get(`faq${i}QEn`) ?? "").trim();
+    const aAr = String(formData.get(`faq${i}AAr`) ?? "").trim();
+    const aEn = String(formData.get(`faq${i}AEn`) ?? "").trim();
+    if (qAr.length === 0 && qEn.length === 0 && aAr.length === 0 && aEn.length === 0) {
+      continue;
+    }
+    faqs.push({ question: { ar: qAr, en: qEn }, answer: { ar: aAr, en: aEn } });
+  }
+
+  return faqs;
+}
+
+export async function updateSpecializationAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const id = String(formData.get("id") ?? "");
+  const nameAr = String(formData.get("nameAr") ?? "");
+  const nameEn = String(formData.get("nameEn") ?? "");
+  const cardSentenceAr = String(formData.get("cardSentenceAr") ?? "");
+  const cardSentenceEn = String(formData.get("cardSentenceEn") ?? "");
+  const summaryAr = String(formData.get("summaryAr") ?? "");
+  const summaryEn = String(formData.get("summaryEn") ?? "");
+  const slug = String(formData.get("slug") ?? "");
+  const category = String(formData.get("category") ?? "Development");
+  const demandLevel = String(formData.get("demandLevel") ?? "Good");
+  const status = String(formData.get("status") ?? "Draft");
+
+  const demandFactAr = String(formData.get("demandFactAr") ?? "").trim();
+  const demandFactEn = String(formData.get("demandFactEn") ?? "").trim();
+  const salaryFactAr = String(formData.get("salaryFactAr") ?? "").trim();
+  const salaryFactEn = String(formData.get("salaryFactEn") ?? "").trim();
+  const timeToJobFactAr = String(formData.get("timeToJobFactAr") ?? "").trim();
+  const timeToJobFactEn = String(formData.get("timeToJobFactEn") ?? "").trim();
+  const difficultyFactAr = String(formData.get("difficultyFactAr") ?? "").trim();
+  const difficultyFactEn = String(formData.get("difficultyFactEn") ?? "").trim();
+
+  const introVideoUrl = String(formData.get("introVideoUrl") ?? "").trim();
+  const introVideoCaptionAr = String(formData.get("introVideoCaptionAr") ?? "").trim();
+  const introVideoCaptionEn = String(formData.get("introVideoCaptionEn") ?? "").trim();
+  const introVideoDurationLabel = String(formData.get("introVideoDurationLabel") ?? "").trim();
+
+  const linkedRoadmapIdRaw = String(formData.get("linkedRoadmapId") ?? "").trim();
+  const roadmapButtonTextAr = String(formData.get("roadmapButtonTextAr") ?? "").trim();
+  const roadmapButtonTextEn = String(formData.get("roadmapButtonTextEn") ?? "").trim();
+
+  const currentImageUrl = String(formData.get("currentImageUrl") ?? "").trim();
+  const removeImage = formData.get("removeImage") === "on";
+  const imageFile = formData.get("imageFile");
+
+  const currentPdfUrl = String(formData.get("currentPdfUrl") ?? "").trim();
+  const currentPdfFileName = String(formData.get("currentPdfFileName") ?? "").trim();
+  const removePdf = formData.get("removePdf") === "on";
+  const pdfFile = formData.get("pdfFile");
+
+  let coverImageUrl: string | null = currentImageUrl.length > 0 ? currentImageUrl : null;
+  let pdfUrl: string | null = currentPdfUrl.length > 0 ? currentPdfUrl : null;
+  let pdfFileName: string | null = currentPdfFileName.length > 0 ? currentPdfFileName : null;
+  let sections: Awaited<ReturnType<typeof parseSpecializationSections>>;
+
+  try {
+    if (removeImage) {
+      coverImageUrl = null;
+    } else if (imageFile instanceof File && imageFile.size > 0) {
+      const blob = await put(`specializations/${id}-cover-${imageFile.name}`, imageFile, { access: "public", addRandomSuffix: true });
+      coverImageUrl = blob.url;
+    }
+
+    if (removePdf) {
+      pdfUrl = null;
+      pdfFileName = null;
+    } else if (pdfFile instanceof File && pdfFile.size > 0) {
+      const blob = await put(`specializations/${id}-pdf-${pdfFile.name}`, pdfFile, { access: "public", addRandomSuffix: true });
+      pdfUrl = blob.url;
+      pdfFileName = pdfFile.name;
+    }
+
+    sections = await parseSpecializationSections(id, formData);
+  } catch (error) {
+    // Same rationale as updateRoadmapAction: an internal admin tool, so the raw
+    // @vercel/blob error is more useful here than a generic message.
+    console.error("Specialization file upload failed:", error);
+    const detail = error instanceof Error ? error.message : String(error);
+    return { message: `تعذّر رفع الملف: ${detail}` };
+  }
+
+  const demandQuickFact = demandFactAr.length > 0 || demandFactEn.length > 0 ? { ar: demandFactAr, en: demandFactEn } : null;
+  const salaryQuickFact = salaryFactAr.length > 0 || salaryFactEn.length > 0 ? { ar: salaryFactAr, en: salaryFactEn } : null;
+  const timeToJobQuickFact =
+    timeToJobFactAr.length > 0 || timeToJobFactEn.length > 0 ? { ar: timeToJobFactAr, en: timeToJobFactEn } : null;
+  const difficultyQuickFact =
+    difficultyFactAr.length > 0 || difficultyFactEn.length > 0 ? { ar: difficultyFactAr, en: difficultyFactEn } : null;
+  const introVideoCaption =
+    introVideoCaptionAr.length > 0 || introVideoCaptionEn.length > 0 ? { ar: introVideoCaptionAr, en: introVideoCaptionEn } : null;
+  const roadmapButtonText =
+    roadmapButtonTextAr.length > 0 || roadmapButtonTextEn.length > 0 ? { ar: roadmapButtonTextAr, en: roadmapButtonTextEn } : null;
+
+  const result = await adminPut(`/api/admin/specializations/${id}`, {
+    name: { ar: nameAr, en: nameEn },
+    cardSentence: { ar: cardSentenceAr, en: cardSentenceEn },
+    summary: { ar: summaryAr, en: summaryEn },
+    slug,
+    category,
+    demandLevel,
+    coverImageUrl,
+    status,
+    demandQuickFact,
+    salaryQuickFact,
+    timeToJobQuickFact,
+    difficultyQuickFact,
+    sections,
+    introVideoUrl: introVideoUrl.length > 0 ? introVideoUrl : null,
+    introVideoCaption,
+    introVideoDurationLabel: introVideoDurationLabel.length > 0 ? introVideoDurationLabel : null,
+    pdfUrl,
+    pdfFileName,
+    faqs: parseSpecializationFaqs(formData),
+    linkedRoadmapId: linkedRoadmapIdRaw.length > 0 ? linkedRoadmapIdRaw : null,
+    roadmapButtonText,
+  });
+
+  if (!result.ok) {
+    return { message: result.message };
+  }
+
+  revalidatePath("/admin/specializations");
+  redirect(`/admin/specializations/${id}`);
+}
+
+// Same "disable/enable" idea as toggleRoadmapStatusAction — Draft already hides a
+// specialization from anywhere it'll eventually be read publicly while keeping it fully
+// editable in admin, so no separate status was needed. UpdateSpecializationRequest is a full
+// replace, so this re-submits every existing field with only Status flipped.
+export async function toggleSpecializationStatusAction(formData: FormData): Promise<void> {
+  const id = String(formData.get("id") ?? "");
+
+  const result = await getSpecialization(id);
+  if (result.status !== "ok") {
+    redirect("/admin/specializations");
+  }
+
+  const specialization = result.data;
+  const nextStatus = specialization.status === "Published" ? "Draft" : "Published";
+
+  await adminPut(`/api/admin/specializations/${id}`, {
+    name: specialization.name,
+    cardSentence: specialization.cardSentence,
+    summary: specialization.summary,
+    slug: specialization.slug,
+    category: specialization.category,
+    demandLevel: specialization.demandLevel,
+    coverImageUrl: specialization.coverImageUrl,
+    status: nextStatus,
+    demandQuickFact: specialization.demandQuickFact,
+    salaryQuickFact: specialization.salaryQuickFact,
+    timeToJobQuickFact: specialization.timeToJobQuickFact,
+    difficultyQuickFact: specialization.difficultyQuickFact,
+    sections: specialization.sections,
+    introVideoUrl: specialization.introVideoUrl,
+    introVideoCaption: specialization.introVideoCaption,
+    introVideoDurationLabel: specialization.introVideoDurationLabel,
+    pdfUrl: specialization.pdfUrl,
+    pdfFileName: specialization.pdfFileName,
+    faqs: specialization.faqs,
+    linkedRoadmapId: specialization.linkedRoadmapId,
+    roadmapButtonText: specialization.roadmapButtonText,
+  });
+
+  revalidatePath("/admin/specializations");
+  redirect("/admin/specializations");
+}
+
+export async function deleteSpecializationAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const id = String(formData.get("id") ?? "");
+
+  const result = await adminDelete(`/api/admin/specializations/${id}`);
+
+  if (!result.ok) {
+    return { message: result.message };
+  }
+
+  revalidatePath("/admin/specializations");
+  redirect("/admin/specializations");
 }

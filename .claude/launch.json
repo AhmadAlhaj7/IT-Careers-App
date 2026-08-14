@@ -12,6 +12,12 @@
       "runtimeExecutable": "dotnet",
       "runtimeArgs": ["run", "--project", "api/src/Api", "--launch-profile", "http"],
       "port": 5212
+    },
+    {
+      "name": "create-video",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "C:\\Users\\User\\source\\repos\\create-video"],
+      "port": 3000
     }
   ]
 }

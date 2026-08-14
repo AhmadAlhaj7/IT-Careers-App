@@ -312,3 +312,75 @@ export type AdminAnalytics = {
   phaseCompletionRates: PhaseCompletionRate[];
   trackConversions: TrackConversion[];
 };
+
+export type SpecializationCategory = "Development" | "Data" | "Security" | "Infrastructure";
+export type SpecializationDemandLevel = "High" | "Good" | "Stable";
+export type SpecializationStatus = "Draft" | "Published";
+
+export type SpecializationSectionKey =
+  | "WhatTheyDo"
+  | "TypicalDay"
+  | "MarketDemand"
+  | "SalaryAndCareer"
+  | "ProsAndCons"
+  | "FitCheck"
+  | "SkillsAndTools"
+  | "CommonMyths"
+  | "Conclusion";
+
+export type SpecializationSectionItem = {
+  title: LocalizedText;
+  body: LocalizedText;
+};
+
+export type SpecializationSection = {
+  key: SpecializationSectionKey;
+  enabled: boolean;
+  title: LocalizedText;
+  body: LocalizedText;
+  imageUrl: string | null;
+  imageCaption: LocalizedText | null;
+  items: SpecializationSectionItem[];
+};
+
+export type SpecializationFaq = {
+  question: LocalizedText;
+  answer: LocalizedText;
+};
+
+export type AdminSpecializationSummary = {
+  id: string;
+  slug: string;
+  name: LocalizedText;
+  status: SpecializationStatus;
+  category: SpecializationCategory;
+  enabledSectionCount: number;
+  linkedRoadmapTitleAr: string | null;
+  updatedAt: string;
+};
+
+export type AdminSpecializationDetail = {
+  id: string;
+  name: LocalizedText;
+  cardSentence: LocalizedText;
+  summary: LocalizedText;
+  slug: string;
+  category: SpecializationCategory;
+  demandLevel: SpecializationDemandLevel;
+  coverImageUrl: string | null;
+  status: SpecializationStatus;
+  demandQuickFact: LocalizedText | null;
+  salaryQuickFact: LocalizedText | null;
+  timeToJobQuickFact: LocalizedText | null;
+  difficultyQuickFact: LocalizedText | null;
+  sections: SpecializationSection[];
+  introVideoUrl: string | null;
+  introVideoCaption: LocalizedText | null;
+  introVideoDurationLabel: string | null;
+  pdfUrl: string | null;
+  pdfFileName: string | null;
+  faqs: SpecializationFaq[];
+  linkedRoadmapId: string | null;
+  roadmapButtonText: LocalizedText | null;
+  updatedAt: string;
+};

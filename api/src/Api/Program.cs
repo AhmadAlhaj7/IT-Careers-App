@@ -6,6 +6,7 @@ using ItCareers.Application.Certificates;
 using ItCareers.Application.Enrollments;
 using ItCareers.Application.Quizzes;
 using ItCareers.Application.Roadmaps;
+using ItCareers.Application.Specializations;
 using ItCareers.Application.Tracks;
 using ItCareers.Infrastructure.Data;
 using ItCareers.Infrastructure.Data.Commands;
@@ -52,6 +53,8 @@ builder.Services.AddScoped<IAdminCareerQuizQueries, AdminCareerQuizQueries>();
 builder.Services.AddScoped<ICareerQuizQuestionCommands, CareerQuizQuestionCommands>();
 builder.Services.AddScoped<IAdminAnalyticsQueries, AdminAnalyticsQueries>();
 builder.Services.AddScoped<IPublicStatsQueries, PublicStatsQueries>();
+builder.Services.AddScoped<IAdminSpecializationQueries, AdminSpecializationQueries>();
+builder.Services.AddScoped<ISpecializationCommands, SpecializationCommands>();
 
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<ItCareersDbContext>();
