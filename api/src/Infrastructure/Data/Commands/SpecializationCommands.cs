@@ -1,6 +1,7 @@
 using ItCareers.Application.Specializations;
 using ItCareers.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace ItCareers.Infrastructure.Data.Commands;
 
@@ -26,7 +27,7 @@ public class SpecializationCommands : ISpecializationCommands
             request.Status);
 
         _context.Specializations.Add(specialization);
-        await _context.SaveChangesAsync(cancellationToken);
+        await SaveChangesOrThrowConflictAsync(request.Slug, cancellationToken);
 
         return specialization.Id;
     }
@@ -63,7 +64,7 @@ public class SpecializationCommands : ISpecializationCommands
             request.Faqs,
             request.LinkedRoadmapId,
             request.RoadmapButtonText);
-        await _context.SaveChangesAsync(cancellationToken);
+        await SaveChangesOrThrowConflictAsync(request.Slug, cancellationToken);
 
         return true;
     }
@@ -88,6 +89,24 @@ public class SpecializationCommands : ISpecializationCommands
             .AnyAsync(s => s.Slug == slug && s.Id != excludingId && !s.IsDeleted, cancellationToken);
 
         if (slugTaken)
+        {
+            throw new SpecializationSlugConflictException(slug);
+        }
+    }
+
+    // EnsureSlugAvailableAsync's check-then-insert isn't atomic — two requests for the same
+    // slug (a double-click on save, or a retry after a slow/dropped response) can both pass
+    // the check before either has committed, and the second one's INSERT/UPDATE then hits the
+    // database's own unique index and throws a raw, unhandled Postgres exception instead of
+    // the friendly conflict message. The index is the real guarantee; this just makes sure
+    // violating it still surfaces as SpecializationSlugConflictException, not a 500.
+    private async Task SaveChangesOrThrowConflictAsync(string slug, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+        catch (DbUpdateException ex) when (ex.InnerException is PostgresException { SqlState: PostgresErrorCodes.UniqueViolation, ConstraintName: "IX_Specializations_Slug" })
         {
             throw new SpecializationSlugConflictException(slug);
         }
