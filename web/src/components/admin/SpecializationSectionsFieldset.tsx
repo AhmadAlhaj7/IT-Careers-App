@@ -91,9 +91,16 @@ export function SpecializationSectionsFieldset({ specialization, pending }: { sp
                 </button>
               </div>
 
-              {open && (
-                <div className="flex flex-col gap-4 border-t border-neutral-100 bg-neutral-50/40 p-4">
-                  <fieldset disabled={pending} className="flex flex-col gap-4">
+              {
+                // Always mounted, only visually hidden when collapsed — never conditionally
+                // unmounted. These are uncontrolled (defaultValue) inputs with no React state
+                // backing them, so unmounting a closed section (the earlier `{open && (...)}`
+                // version) silently discarded anything typed into it the moment a different
+                // section was opened. Same "keep every panel mounted" fix already used for
+                // RoadmapEditor's tabs.
+              }
+              <div className={`flex-col gap-4 border-t border-neutral-100 bg-neutral-50/40 p-4 ${open ? "flex" : "hidden"}`}>
+                <fieldset disabled={pending} className="flex flex-col gap-4">
                     <LocalizedTextInput
                       label="عنوان القسم كما يظهر للزائر"
                       name={`${prefix}title`}
@@ -155,9 +162,8 @@ export function SpecializationSectionsFieldset({ specialization, pending }: { sp
                         </div>
                       </div>
                     )}
-                  </fieldset>
-                </div>
-              )}
+                </fieldset>
+              </div>
             </div>
           );
         })}

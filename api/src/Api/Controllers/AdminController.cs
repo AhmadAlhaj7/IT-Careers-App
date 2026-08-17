@@ -10,9 +10,13 @@ namespace ItCareers.Api.Controllers;
 [Authorize(Roles = "admin")]
 public class AdminController : ControllerBase
 {
+
     [HttpGet("ping")]
     public IActionResult Ping()
     {
-        return Ok(new { message = "You are recognized as an admin." });
+        return Ok(new { message = "You are recognized as an admin, and then you can." });
     }
+
+
+
 }

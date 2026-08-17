@@ -8,6 +8,8 @@ import {
   PublicStats,
   RoadmapDetail,
   RoadmapSummary,
+  SpecializationDetail,
+  SpecializationSummary,
   TrackDetail,
   TrackListItem,
 } from "./types";
@@ -192,6 +194,37 @@ export async function listCareerQuizQuestions(): Promise<PublicCareerQuizQuestio
 
   if (!response.ok) {
     throw new Error(`Failed to load career quiz questions: ${response.status}`);
+  }
+
+  return response.json();
+}
+
+// Specializations aren't enrollment-gated — nothing here depends on who's asking, so (unlike
+// listRoadmaps/getRoadmap above) the ordinary time-based ISR cache is safe.
+
+export async function listSpecializations(): Promise<SpecializationSummary[]> {
+  const response = await fetch(`${API_URL}/api/specializations`, {
+    next: { revalidate: 60 },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to load specializations: ${response.status}`);
+  }
+
+  return response.json();
+}
+
+export async function getSpecialization(slug: string): Promise<SpecializationDetail | null> {
+  const response = await fetch(`${API_URL}/api/specializations/${slug}`, {
+    next: { revalidate: 60 },
+  });
+
+  if (response.status === 404) {
+    return null;
+  }
+
+  if (!response.ok) {
+    throw new Error(`Failed to load specialization "${slug}": ${response.status}`);
   }
 
   return response.json();

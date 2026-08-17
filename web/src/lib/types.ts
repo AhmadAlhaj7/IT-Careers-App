@@ -384,3 +384,53 @@ export type AdminSpecializationDetail = {
   roadmapButtonText: LocalizedText | null;
   updatedAt: string;
 };
+
+export type SpecializationSummary = {
+  slug: string;
+  name: LocalizedText;
+  cardSentence: LocalizedText;
+  category: SpecializationCategory;
+  demandLevel: SpecializationDemandLevel;
+  coverImageUrl: string | null;
+  estimatedReadMinutes: number;
+};
+
+export type LinkedRoadmapSummary = {
+  slug: string;
+  title: LocalizedText;
+  price: number;
+  originalPrice: number | null;
+  phaseCount: number;
+  paddlePriceId: string | null;
+};
+
+export type RelatedSpecialization = {
+  slug: string;
+  name: LocalizedText;
+  cardSentence: LocalizedText;
+};
+
+export type SpecializationDetail = {
+  name: LocalizedText;
+  cardSentence: LocalizedText;
+  summary: LocalizedText;
+  slug: string;
+  category: SpecializationCategory;
+  demandLevel: SpecializationDemandLevel;
+  coverImageUrl: string | null;
+  estimatedReadMinutes: number;
+  demandQuickFact: LocalizedText | null;
+  salaryQuickFact: LocalizedText | null;
+  timeToJobQuickFact: LocalizedText | null;
+  difficultyQuickFact: LocalizedText | null;
+  sections: SpecializationSection[];
+  introVideoUrl: string | null;
+  introVideoCaption: LocalizedText | null;
+  introVideoDurationLabel: string | null;
+  pdfUrl: string | null;
+  pdfFileName: string | null;
+  faqs: SpecializationFaq[];
+  linkedRoadmap: LinkedRoadmapSummary | null;
+  roadmapButtonText: LocalizedText | null;
+  related: RelatedSpecialization[];
+};

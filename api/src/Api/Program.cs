@@ -55,6 +55,7 @@ builder.Services.AddScoped<IAdminAnalyticsQueries, AdminAnalyticsQueries>();
 builder.Services.AddScoped<IPublicStatsQueries, PublicStatsQueries>();
 builder.Services.AddScoped<IAdminSpecializationQueries, AdminSpecializationQueries>();
 builder.Services.AddScoped<ISpecializationCommands, SpecializationCommands>();
+builder.Services.AddScoped<ISpecializationQueries, SpecializationQueries>();
 
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<ItCareersDbContext>();
