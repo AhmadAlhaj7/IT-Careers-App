@@ -20,7 +20,14 @@ public record SpecializationSection(
     LocalizedText Body,
     string? ImageUrl,
     LocalizedText? ImageCaption,
-    IReadOnlyList<SpecializationSectionItem> Items)
+    // List<T>, not IReadOnlyList<T>: EF Core's JSON materializer needs a concrete, genuinely
+    // add-able collection type for a *nested* owned collection (Items inside Sections inside
+    // the root JSON document). With an interface-typed property here it silently backs the
+    // navigation with a fixed-size array and then tries to .Add() into it while loading a
+    // tracked entity, throwing "Collection was of a fixed size." the moment Items is non-empty
+    // — this only ever showed up on a *second* tracked update of a specialization that already
+    // had section items saved, since the first update's read still saw an empty array.
+    List<SpecializationSectionItem> Items)
 {
     private SpecializationSection()
         : this(default, false, null!, null!, null, null, [])

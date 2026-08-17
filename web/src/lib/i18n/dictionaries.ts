@@ -94,6 +94,9 @@ const dictionaries = {
       goToRoadmapCta: "اذهب إلى المسار",
       onePaymentLabel: "دفعة واحدة",
       relatedTitle: "تخصصات قريبة قد تهمّك",
+      comingSoonTitle: "المسار العملي في الطريق",
+      comingSoonBody: "نجهّز حالياً مساراً تعليمياً كاملاً لهذا التخصص. تابع المسارات المتاحة الآن، وسنضيف مسار هذا التخصص فور جاهزيته.",
+      browseRoadmapsCta: "تصفّح المسارات المتاحة",
     },
     homePage: {
       trustRoadmaps: "مسارات تعليمية",
@@ -260,6 +263,10 @@ const dictionaries = {
       goToRoadmapCta: "Go to the roadmap",
       onePaymentLabel: "One-time payment",
       relatedTitle: "Related majors you might like",
+      comingSoonTitle: "A hands-on roadmap is on its way",
+      comingSoonBody:
+        "We're putting together a full learning roadmap for this major. Browse what's available now, and we'll add this one's roadmap as soon as it's ready.",
+      browseRoadmapsCta: "Browse available roadmaps",
     },
     homePage: {
       trustRoadmaps: "learning roadmaps",

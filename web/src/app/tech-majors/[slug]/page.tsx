@@ -156,8 +156,10 @@ export default async function SpecializationDetailPage({ params }: { params: Pro
         </div>
       )}
 
-      {/* Closing CTA */}
-      {specialization.linkedRoadmap && (
+      {/* Closing CTA — a linked, published roadmap gets the real enroll pitch; otherwise an
+          honest "not built yet" note with a real fallback (browse what does exist) instead of
+          just disappearing. */}
+      {specialization.linkedRoadmap ? (
         <div className="relative mt-14 overflow-hidden rounded-3xl bg-[#0F6E56] p-6 sm:p-10">
           <p className="text-xs font-semibold tracking-wide text-white/60">{t.closingEyebrow}</p>
           <h2 className="mt-2 text-xl font-bold text-white sm:text-2xl">{dict.roadmapDetailPage.closingTitle}</h2>
@@ -174,6 +176,19 @@ export default async function SpecializationDetailPage({ params }: { params: Pro
               {specialization.linkedRoadmap.phaseCount} {dict.roadmapsPage.phases} · {t.onePaymentLabel}
             </span>
           </div>
+        </div>
+      ) : (
+        <div className="relative mt-14 overflow-hidden rounded-3xl border border-dashed border-neutral-300 bg-neutral-50 p-6 sm:p-10">
+          <p className="text-xs font-semibold tracking-wide text-neutral-400">{t.closingEyebrow}</p>
+          <h2 className="mt-2 text-xl font-bold text-neutral-900 sm:text-2xl">{t.comingSoonTitle}</h2>
+          <p className="mt-3 max-w-xl text-sm leading-[1.8] text-neutral-600">{t.comingSoonBody}</p>
+
+          <Link
+            href="/roadmaps"
+            className="mt-6 inline-block rounded-xl bg-neutral-900 px-6 py-3 text-sm font-bold text-white transition active:scale-95 hover:bg-neutral-800"
+          >
+            {t.browseRoadmapsCta}
+          </Link>
         </div>
       )}
 
