@@ -39,10 +39,7 @@ export function TechMajorsGrid({
 
   return (
     <div>
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
-        <span className="text-sm text-neutral-500">
-          {specializations.length} {countSuffix}
-        </span>
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-b border-neutral-100 pb-5">
         <div className="flex flex-wrap gap-2">
           <button
             type="button"
@@ -66,12 +63,15 @@ export function TechMajorsGrid({
             </button>
           ))}
         </div>
+        <span className="shrink-0 text-sm text-neutral-500">
+          {specializations.length} {countSuffix}
+        </span>
       </div>
 
       {filtered.length === 0 ? (
         <p className="mt-10 text-center text-sm text-neutral-500">{filter === "All" ? emptyLabel : emptyFilteredLabel}</p>
       ) : (
-        <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filtered.map((specialization) => (
             <SpecializationCard
               key={specialization.slug}
