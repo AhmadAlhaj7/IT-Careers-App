@@ -26,7 +26,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   ];
 
   return (
-    <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-4 py-8 lg:grid-cols-[250px_1fr] lg:items-start">
+    <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-6 px-4 py-8 lg:grid-cols-[250px_1fr] lg:items-start">
       <aside className="rounded-2xl border border-neutral-100 bg-white p-4 shadow-lg shadow-neutral-900/5 lg:sticky lg:top-6">
         <Link
           href="/admin/roadmaps/new"

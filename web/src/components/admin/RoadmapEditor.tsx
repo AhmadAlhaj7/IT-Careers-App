@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { updateRoadmapAction, type ActionState } from "@/app/admin/actions";
+import { restoreFormValues } from "@/lib/restoreFormValues";
 import { RoadmapDetailsFields } from "./RoadmapDetailsFields";
 import { RoadmapReadinessSidebar } from "./RoadmapReadinessSidebar";
 import { RoadmapPhasesTab } from "./RoadmapPhasesTab";
@@ -18,6 +19,16 @@ const TABS = ["التفاصيل", "المراحل والمحتوى", "الاخت
 export function RoadmapEditor({ roadmap, phaseDetails }: { roadmap: AdminRoadmapDetail; phaseDetails: AdminPhaseDetail[] }) {
   const [state, formAction, pending] = useActionState(updateRoadmapAction, initialState);
   const [tab, setTab] = useState(0);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // React resets every uncontrolled field back to its original defaultValue once the action
+  // completes, even on failure — restore whatever was actually submitted so a save error (an
+  // image upload failure, a slug conflict) doesn't force re-filling this entire form.
+  useEffect(() => {
+    if (state.values) {
+      restoreFormValues(formRef.current, state.values);
+    }
+  }, [state]);
 
   return (
     <div>
@@ -106,7 +117,12 @@ export function RoadmapEditor({ roadmap, phaseDetails }: { roadmap: AdminRoadmap
       {state.message && <p className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">{state.message}</p>}
 
       <div className={tab === 0 ? "" : "hidden"}>
-        <form id="roadmap-details-form" action={formAction} className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <form
+          id="roadmap-details-form"
+          ref={formRef}
+          action={formAction}
+          className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px]"
+        >
           <div className="rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm shadow-neutral-900/5">
             <RoadmapDetailsFields roadmap={roadmap} pending={pending} />
           </div>

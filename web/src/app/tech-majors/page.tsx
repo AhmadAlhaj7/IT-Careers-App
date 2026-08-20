@@ -10,7 +10,7 @@ export default async function TechMajorsPage() {
   const t = dict.techMajorsPage;
 
   return (
-    <div className="mx-auto max-w-5xl px-3 py-10 sm:px-6 sm:py-16">
+    <div className="mx-auto w-full max-w-7xl px-3 py-10 sm:px-6 sm:py-16">
       <BackLink href="/" label={dict.nav.home} />
 
       <div className="mt-4 text-center">

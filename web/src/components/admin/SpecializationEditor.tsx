@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { updateSpecializationAction, type ActionState } from "@/app/admin/actions";
+import { restoreFormValues } from "@/lib/restoreFormValues";
 import { SpecializationBasicsFields } from "./SpecializationBasicsFields";
 import { SpecializationSectionsFieldset } from "./SpecializationSectionsFieldset";
 import { SpecializationMediaFields } from "./SpecializationMediaFields";
@@ -26,10 +27,20 @@ export function SpecializationEditor({
   roadmaps: AdminRoadmapSummary[];
 }) {
   const [state, formAction, pending] = useActionState(updateSpecializationAction, initialState);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // React resets every uncontrolled field back to its original defaultValue once the action
+  // completes, even on failure — restore whatever was actually submitted so a save error (a
+  // blob upload failure, a slug conflict) doesn't force re-filling this entire form.
+  useEffect(() => {
+    if (state.values) {
+      restoreFormValues(formRef.current, state.values);
+    }
+  }, [state]);
 
   return (
     <div>
-      <div className="mb-4 rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm shadow-neutral-900/5">
+      <div className="sticky top-[70px] z-30 mb-4 rounded-2xl border border-neutral-100 bg-white p-5 shadow-lg shadow-neutral-900/10 sm:top-20">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#EEF3F1]">
@@ -83,7 +94,12 @@ export function SpecializationEditor({
 
       {state.message && <p className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">{state.message}</p>}
 
-      <form id="specialization-details-form" action={formAction} className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <form
+        id="specialization-details-form"
+        ref={formRef}
+        action={formAction}
+        className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_320px]"
+      >
         <div className="flex flex-col gap-4">
           <div className="rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm shadow-neutral-900/5">
             <SpecializationBasicsFields specialization={specialization} pending={pending} />

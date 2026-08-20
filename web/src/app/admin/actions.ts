@@ -6,7 +6,20 @@ import { put } from "@vercel/blob";
 import { adminDelete, adminPost, adminPut, getPhase, getRoadmap, getSpecialization } from "@/lib/admin-api";
 import { MAX_FAQS, MAX_SECTION_ITEMS, SPECIALIZATION_SECTION_DEFS } from "@/lib/specializationSections";
 
-export type ActionState = { message?: string };
+export type ActionState = { message?: string; values?: Record<string, string> };
+
+// Snapshot every non-file field so a failed save can hand the submitted values back to the
+// client — see restoreFormValues for why this matters (React wipes uncontrolled fields back to
+// their original defaultValue after any action completes, success or not).
+function snapshotFormValues(formData: FormData): Record<string, string> {
+  const snapshot: Record<string, string> = {};
+  for (const [key, value] of formData.entries()) {
+    if (typeof value === "string") {
+      snapshot[key] = value;
+    }
+  }
+  return snapshot;
+}
 
 // The quiz question form always renders 4 option slots (only the first 2 required) rather
 // than a dynamic add/remove list — covers every real multiple-choice question without needing
@@ -186,7 +199,7 @@ export async function updateRoadmapAction(_prevState: ActionState, formData: For
       // what's needed to fix the setup without digging through server logs.
       console.error("Roadmap image upload failed:", error);
       const detail = error instanceof Error ? error.message : String(error);
-      return { message: `تعذّر رفع الصورة: ${detail}` };
+      return { message: `تعذّر رفع الصورة: ${detail}`, values: snapshotFormValues(formData) };
     }
   }
 
@@ -210,7 +223,7 @@ export async function updateRoadmapAction(_prevState: ActionState, formData: For
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   revalidatePath("/");
@@ -877,7 +890,7 @@ export async function updateSpecializationAction(_prevState: ActionState, formDa
     // @vercel/blob error is more useful here than a generic message.
     console.error("Specialization file upload failed:", error);
     const detail = error instanceof Error ? error.message : String(error);
-    return { message: `تعذّر رفع الملف: ${detail}` };
+    return { message: `تعذّر رفع الملف: ${detail}`, values: snapshotFormValues(formData) };
   }
 
   const demandQuickFact = demandFactAr.length > 0 || demandFactEn.length > 0 ? { ar: demandFactAr, en: demandFactEn } : null;
@@ -916,7 +929,7 @@ export async function updateSpecializationAction(_prevState: ActionState, formDa
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   revalidatePath("/admin/specializations");
