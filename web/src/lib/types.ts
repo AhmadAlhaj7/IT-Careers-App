@@ -326,7 +326,8 @@ export type SpecializationSectionKey =
   | "FitCheck"
   | "SkillsAndTools"
   | "CommonMyths"
-  | "Conclusion";
+  | "Conclusion"
+  | "SubSpecializations";
 
 export type SpecializationSectionItem = {
   title: LocalizedText;

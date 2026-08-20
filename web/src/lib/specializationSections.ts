@@ -2,7 +2,9 @@ import type { SpecializationSectionKey } from "./types";
 
 // Fixed narrative order for every specialization page — shared between the admin editor
 // (titles/hints/placeholders/badges) and admin/actions.ts's form-field parsing, so the
-// 9-section, up-to-6-items-each field set only has to be described once.
+// full, up-to-6-items-each field set only has to be described once. Display order here is
+// independent of the backend SpecializationSectionKey enum's numeric values (see that enum's
+// doc comment) — this array is the single source of truth for where a section appears.
 export type SpecializationSectionDef = {
   key: SpecializationSectionKey;
   defaultTitle: string;
@@ -84,6 +86,16 @@ export const SPECIALIZATION_SECTION_DEFS: SpecializationSectionDef[] = [
     hint: "ثلاث مجموعات من الوسوم",
     writeHint: "طمئنه أنه لا يحتاجها كلها الآن",
     placeholder: "لا تحتاجها كلها من اليوم الأول…",
+    hasList: true,
+    hasImage: false,
+    required: false,
+  },
+  {
+    key: "SubSpecializations",
+    defaultTitle: "تخصصات فرعية يمكن أن تتفرّع إليها",
+    hint: "مسارات لاحقة بعد إتقان الأساسيات",
+    writeHint: "سطر واحد يشرح كل تخصص فرعي",
+    placeholder: "بعد إتقان الأساسيات يمكنك التخصص أكثر في…",
     hasList: true,
     hasImage: false,
     required: false,

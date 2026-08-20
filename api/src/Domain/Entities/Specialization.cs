@@ -64,7 +64,7 @@ public class Specialization : Entity
         Summary = new LocalizedText(string.Empty, string.Empty);
         UpdatedAt = DateTimeOffset.UtcNow;
 
-        // Seed all 9 fixed sections, enabled by default with empty content — the admin
+        // Seed every fixed section, enabled by default with empty content — the admin
         // editor's static metadata (titles/hints/placeholders) supplies the guidance text,
         // this just gives every specialization a full, editable set from the start.
         foreach (SpecializationSectionKey key in Enum.GetValues<SpecializationSectionKey>())

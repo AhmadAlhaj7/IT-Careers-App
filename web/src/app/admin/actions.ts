@@ -734,6 +734,7 @@ export async function createSpecializationAction(_prevState: ActionState, formDa
     return { message: result.message };
   }
 
+  revalidatePath("/tech-majors");
   redirect(`/admin/specializations/${result.id}`);
 }
 
@@ -933,6 +934,8 @@ export async function updateSpecializationAction(_prevState: ActionState, formDa
   }
 
   revalidatePath("/admin/specializations");
+  revalidatePath("/tech-majors");
+  revalidatePath(`/tech-majors/${slug}`);
   redirect(`/admin/specializations/${id}`);
 }
 
@@ -976,11 +979,15 @@ export async function toggleSpecializationStatusAction(formData: FormData): Prom
   });
 
   revalidatePath("/admin/specializations");
+  revalidatePath("/tech-majors");
+  revalidatePath(`/tech-majors/${specialization.slug}`);
   redirect("/admin/specializations");
 }
 
 export async function deleteSpecializationAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
   const id = String(formData.get("id") ?? "");
+
+  const existing = await getSpecialization(id);
 
   const result = await adminDelete(`/api/admin/specializations/${id}`);
 
@@ -989,5 +996,9 @@ export async function deleteSpecializationAction(_prevState: ActionState, formDa
   }
 
   revalidatePath("/admin/specializations");
+  revalidatePath("/tech-majors");
+  if (existing.status === "ok") {
+    revalidatePath(`/tech-majors/${existing.data.slug}`);
+  }
   redirect("/admin/specializations");
 }
