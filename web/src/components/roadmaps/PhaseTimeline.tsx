@@ -12,8 +12,8 @@ type PhaseTimelineProps = {
 };
 
 const STATUS_STYLE = {
-  Completed: { dot: "bg-[#0F6E56] border-[#0F6E56] text-white", tag: "bg-[#0F6E56]/10 text-[#0F6E56]" },
-  Current: { dot: "bg-white border-[#E8764A] text-[#E8764A]", tag: "bg-[#E8764A]/10 text-[#E8764A]" },
+  Completed: { dot: "bg-primary border-primary text-white", tag: "bg-primary/10 text-primary" },
+  Current: { dot: "bg-white border-accent text-accent", tag: "bg-accent/10 text-accent" },
   Locked: { dot: "bg-white border-neutral-200 text-neutral-400", tag: "bg-neutral-100 text-neutral-500" },
 } as const;
 
@@ -42,7 +42,7 @@ export function PhaseTimeline({ roadmapSlug, phases, locale, completedLabel, cur
             <Link
               key={phase.orderIndex}
               href={`/roadmaps/${roadmapSlug}/phases/${phase.orderIndex}`}
-              className="relative flex items-start gap-4 rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm shadow-neutral-900/5 transition hover:border-[#0F6E56]/30 hover:shadow-md active:scale-[0.99]"
+              className="relative flex items-start gap-4 rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm shadow-neutral-900/5 transition hover:border-primary/30 hover:shadow-md active:scale-[0.99]"
             >
               <span
                 className={`z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 text-sm font-bold ${style.dot}`}

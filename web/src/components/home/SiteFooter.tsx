@@ -19,7 +19,7 @@ export function SiteFooter({ dict }: SiteFooterProps) {
         <div>
           <div className="mb-3.5 flex items-center gap-2.5">
             <Logo size={22} />
-            <span className="font-bold text-neutral-900">IT Careers</span>
+            <span className="font-bold text-neutral-900">{dict.brand}</span>
           </div>
           <p className="max-w-xs text-sm leading-[1.9] text-neutral-500">{dict.homePage.footerBlurb}</p>
         </div>
@@ -27,13 +27,13 @@ export function SiteFooter({ dict }: SiteFooterProps) {
         <div>
           <p className="mb-3.5 text-sm font-bold text-neutral-900">{dict.homePage.footerPlatformTitle}</p>
           <div className="flex flex-col gap-2.5 text-sm text-neutral-500">
-            <Link href="/roadmaps" className="w-fit hover:text-[#0F6E56]">
+            <Link href="/roadmaps" className="w-fit hover:text-primary">
               {dict.nav.roadmaps}
             </Link>
-            <Link href="/tech-majors" className="w-fit hover:text-[#0F6E56]">
+            <Link href="/tech-majors" className="w-fit hover:text-primary">
               {dict.home.techMajorsCta}
             </Link>
-            <Link href="/dashboard" className="w-fit hover:text-[#0F6E56]">
+            <Link href="/dashboard" className="w-fit hover:text-primary">
               {dict.nav.dashboard}
             </Link>
           </div>
@@ -42,7 +42,7 @@ export function SiteFooter({ dict }: SiteFooterProps) {
         <div>
           <p className="mb-3.5 text-sm font-bold text-neutral-900">{dict.homePage.footerSupportTitle}</p>
           <div className="flex flex-col gap-2.5 text-sm text-neutral-500">
-            <a href="#faq" className="w-fit hover:text-[#0F6E56]">
+            <a href="#faq" className="w-fit hover:text-primary">
               {dict.homePage.faqEyebrow}
             </a>
             <span>{dict.homePage.footerContactUs}</span>
@@ -54,10 +54,10 @@ export function SiteFooter({ dict }: SiteFooterProps) {
         <div>
           <p className="mb-3.5 text-sm font-bold text-neutral-900">{dict.homePage.footerCertificatesTitle}</p>
           <div className="flex flex-col gap-2.5 text-sm text-neutral-500">
-            <Link href="/certificates" className="w-fit hover:text-[#0F6E56]">
+            <Link href="/certificates" className="w-fit hover:text-primary">
               {dict.homePage.footerVerifyCertificate}
             </Link>
-            <a href="#certificate" className="w-fit hover:text-[#0F6E56]">
+            <a href="#certificate" className="w-fit hover:text-primary">
               {dict.homePage.footerHowCertificateWorks}
             </a>
             <span>{dict.homePage.footerForCompanies}</span>

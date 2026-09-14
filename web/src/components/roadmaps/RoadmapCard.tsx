@@ -23,6 +23,7 @@ type RoadmapCardProps = {
   isMostPopular?: boolean;
   userId: string | null;
   buyNowLabel: string;
+  signInLabel: string;
   discoverMoreLabel: string;
   continueLabel: string;
   ownedLabel: string;
@@ -54,6 +55,7 @@ export function RoadmapCard({
   isMostPopular = false,
   userId,
   buyNowLabel,
+  signInLabel,
   discoverMoreLabel,
   continueLabel,
   ownedLabel,
@@ -112,7 +114,7 @@ export function RoadmapCard({
 
       <div className="flex items-start justify-between gap-2 px-2 pt-4">
         <h3 className="font-semibold text-neutral-900">{title[locale]}</h3>
-        {!isEnrolled && <span className="shrink-0 text-base font-bold text-[#0F6E56]">${price.toFixed(2)}</span>}
+        {!isEnrolled && <span className="shrink-0 text-base font-bold text-primary">${price.toFixed(2)}</span>}
       </div>
 
       {description && <p className="line-clamp-2 px-2 pt-1 text-sm leading-[1.6] text-neutral-500">{description[locale]}</p>}
@@ -128,18 +130,18 @@ export function RoadmapCard({
       {isEnrolled && (
         <div className="px-2 pt-3">
           <div className="h-1.5 overflow-hidden rounded-full bg-neutral-100">
-            <div className="h-full rounded-full bg-[#0F6E56]" style={{ width: `${progressPercent}%` }} />
+            <div className="h-full rounded-full bg-primary" style={{ width: `${progressPercent}%` }} />
           </div>
         </div>
       )}
 
       <div className="flex gap-2 px-2 pt-4 pb-1">
-        <span className="flex-1 rounded-xl border border-neutral-200 px-4 py-2.5 text-center text-sm font-medium text-neutral-700 transition active:scale-95 group-hover:border-[#0F6E56] group-hover:text-[#0F6E56]">
+        <span className="flex-1 rounded-xl border border-neutral-200 px-4 py-2.5 text-center text-sm font-medium text-neutral-700 transition active:scale-95 group-hover:border-primary group-hover:text-primary">
           {discoverMoreLabel}
         </span>
 
         {isEnrolled ? (
-          <span className="flex-1 rounded-xl bg-[#0F6E56] px-4 py-2.5 text-center text-sm font-medium text-white transition active:scale-95">
+          <span className="flex-1 rounded-xl bg-primary px-4 py-2.5 text-center text-sm font-medium text-white transition active:scale-95">
             {continueLabel}
           </span>
         ) : (
@@ -156,7 +158,8 @@ export function RoadmapCard({
                 roadmapId={id}
                 userId={userId}
                 label={buyNowLabel}
-                className="block w-full rounded-xl bg-[#E8764A] px-4 py-2.5 text-center text-sm font-medium text-white transition active:scale-95 hover:bg-[#d35f35] disabled:opacity-50 disabled:active:scale-100"
+                signInLabel={signInLabel}
+                className="block w-full rounded-xl bg-accent px-4 py-2.5 text-center text-sm font-medium text-white transition active:scale-95 hover:bg-accent-hover disabled:opacity-50 disabled:active:scale-100"
               />
             </div>
           )

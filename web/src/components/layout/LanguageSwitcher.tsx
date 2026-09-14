@@ -72,7 +72,7 @@ export function LanguageSwitcher() {
             onClick={() => selectLocale("en")}
             className={
               locale === "en"
-                ? "block w-full px-4 py-2 text-start text-sm font-medium text-[#0F6E56] transition active:scale-[0.97] disabled:opacity-60 disabled:active:scale-100"
+                ? "block w-full px-4 py-2 text-start text-sm font-medium text-primary transition active:scale-[0.97] disabled:opacity-60 disabled:active:scale-100"
                 : "block w-full px-4 py-2 text-start text-sm text-neutral-700 transition hover:bg-neutral-50 active:scale-[0.97] disabled:opacity-60 disabled:active:scale-100"
             }
           >
@@ -84,7 +84,7 @@ export function LanguageSwitcher() {
             onClick={() => selectLocale("ar")}
             className={
               locale === "ar"
-                ? "block w-full px-4 py-2 text-start text-sm font-medium text-[#0F6E56] transition active:scale-[0.97] disabled:opacity-60 disabled:active:scale-100"
+                ? "block w-full px-4 py-2 text-start text-sm font-medium text-primary transition active:scale-[0.97] disabled:opacity-60 disabled:active:scale-100"
                 : "block w-full px-4 py-2 text-start text-sm text-neutral-700 transition hover:bg-neutral-50 active:scale-[0.97] disabled:opacity-60 disabled:active:scale-100"
             }
           >

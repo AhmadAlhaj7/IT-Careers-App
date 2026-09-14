@@ -28,7 +28,7 @@ export function SpecializationOutlinePanel({ specialization }: { specialization:
           <div key={index} className="flex items-center gap-2.5">
             <span
               className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md font-mono text-[10.5px] font-bold ${
-                item.on ? "bg-[#0F6E56]/10 text-[#0F6E56]" : "bg-neutral-100 text-neutral-300"
+                item.on ? "bg-primary/10 text-primary" : "bg-neutral-100 text-neutral-300"
               }`}
             >
               {index + 1}

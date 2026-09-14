@@ -12,8 +12,8 @@ export default async function NewRoadmapPage() {
   const tracks = result.status === "ok" ? result.data : [];
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12">
-      <h1 className="text-2xl font-semibold text-neutral-900">مسار جديد</h1>
+    <div className="mx-auto w-full max-w-2xl px-3 py-10 sm:px-6 sm:py-16">
+      <h1 className="text-2xl font-bold text-neutral-900 sm:text-3xl">مسار جديد</h1>
       <CreateRoadmapForm tracks={tracks} />
     </div>
   );

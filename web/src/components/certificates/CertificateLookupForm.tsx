@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
 
 type CertificateLookupFormProps = {
   placeholder: string;
@@ -23,21 +25,18 @@ export function CertificateLookupForm({ placeholder, submitLabel }: CertificateL
       }}
       className="flex flex-col gap-3 sm:flex-row"
     >
-      <input
+      <Input
         type="text"
         value={code}
         onChange={(event) => setCode(event.target.value)}
         placeholder={placeholder}
         dir="ltr"
         required
-        className="w-full rounded-xl border border-neutral-200 px-4 py-3 text-center text-sm sm:text-start"
+        className="text-center sm:text-start"
       />
-      <button
-        type="submit"
-        className="w-full shrink-0 rounded-xl bg-[#0F6E56] px-6 py-3 text-sm font-bold text-white transition active:scale-95 sm:w-auto"
-      >
+      <Button type="submit" size="lg" className="w-full shrink-0 sm:w-auto">
         {submitLabel}
-      </button>
+      </Button>
     </form>
   );
 }

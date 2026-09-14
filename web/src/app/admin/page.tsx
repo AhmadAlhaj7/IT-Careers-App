@@ -1,6 +1,7 @@
 import { getAdminAnalytics, listRoadmaps } from "@/lib/admin-api";
 import { AdminForbidden } from "@/components/admin/AdminForbidden";
 import { AdminRoadmapsTable } from "@/components/admin/AdminRoadmapsTable";
+import { ACCENT, PRIMARY } from "@/lib/theme";
 
 export default async function AdminPage() {
   const [roadmapsResult, analyticsResult] = await Promise.all([listRoadmaps(), getAdminAnalytics()]);
@@ -16,8 +17,8 @@ export default async function AdminPage() {
 
   const stats = [
     { label: "إجمالي المسارات", value: roadmaps.length, note: "", color: "#1c1b19" },
-    { label: "منشورة", value: publishedCount, note: "مرئية للطلاب", color: "#0F6E56" },
-    { label: "مسودات", value: draftCount, note: "بحاجة لإكمال", color: "#E8764A" },
+    { label: "منشورة", value: publishedCount, note: "مرئية للطلاب", color: PRIMARY },
+    { label: "مسودات", value: draftCount, note: "بحاجة لإكمال", color: ACCENT },
     { label: "مشتركون نشطون", value: activeSubscribers, note: "", color: "#1c1b19" },
   ];
 

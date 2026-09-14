@@ -55,7 +55,7 @@ export function AdminRoadmapsTable({ roadmaps }: { roadmaps: AdminRoadmapSummary
               type="button"
               onClick={() => setFilterIndex(index)}
               className={`rounded-lg px-3 py-2 text-xs font-semibold transition ${
-                filterIndex === index ? "bg-neutral-900 text-white" : "border border-neutral-200 text-neutral-600 hover:bg-neutral-50"
+                filterIndex === index ? "bg-primary text-white" : "border border-neutral-200 text-neutral-600 hover:bg-neutral-50"
               }`}
             >
               {f.label}
@@ -99,13 +99,13 @@ export function AdminRoadmapsTable({ roadmaps }: { roadmaps: AdminRoadmapSummary
 
             <span
               className={`w-fit rounded-full px-2.5 py-1 text-xs font-semibold ${
-                roadmap.status === "Published" ? "bg-[#0F6E56]/10 text-[#0F6E56]" : "bg-[#E8764A]/10 text-[#E8764A]"
+                roadmap.status === "Published" ? "bg-primary/10 text-primary" : "bg-accent/10 text-accent"
               }`}
             >
               {roadmap.status === "Published" ? "منشور" : "مسودة"}
             </span>
 
-            <span dir="ltr" className="font-mono text-sm font-bold text-[#0F6E56]">
+            <span dir="ltr" className="font-mono text-sm font-bold text-primary">
               ${roadmap.price.toFixed(2)}
             </span>
 
@@ -144,7 +144,7 @@ export function AdminRoadmapsTable({ roadmaps }: { roadmaps: AdminRoadmapSummary
 
       <Link
         href="/admin/roadmaps/new"
-        className="block border-t border-dashed border-neutral-200 p-4 text-center text-sm font-semibold text-[#0F6E56] transition hover:bg-neutral-50"
+        className="block border-t border-dashed border-neutral-200 p-4 text-center text-sm font-semibold text-primary transition hover:bg-neutral-50"
       >
         + أضف مساراً جديداً
       </Link>

@@ -35,7 +35,7 @@ export function RoadmapEditor({ roadmap, phaseDetails }: { roadmap: AdminRoadmap
       <div className="mb-4 rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm shadow-neutral-900/5">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#EEF3F1]">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary-subtle">
               <Logo size={26} />
             </div>
             <div>
@@ -43,7 +43,7 @@ export function RoadmapEditor({ roadmap, phaseDetails }: { roadmap: AdminRoadmap
                 <h1 className="text-xl font-bold text-neutral-900 sm:text-2xl">{roadmap.title.ar || "مسار جديد"}</h1>
                 <span
                   className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${
-                    roadmap.status === "Published" ? "bg-[#0F6E56]/10 text-[#0F6E56]" : "bg-[#E8764A]/10 text-[#E8764A]"
+                    roadmap.status === "Published" ? "bg-primary/10 text-primary" : "bg-accent/10 text-accent"
                   }`}
                 >
                   {roadmap.status === "Published" ? "منشور" : "مسودة"}
@@ -84,7 +84,7 @@ export function RoadmapEditor({ roadmap, phaseDetails }: { roadmap: AdminRoadmap
               name="status"
               value="Published"
               disabled={pending}
-              className="rounded-xl bg-[#0F6E56] px-5 py-2.5 text-sm font-bold text-white transition active:scale-95 disabled:opacity-50"
+              className="rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-white transition active:scale-95 disabled:opacity-50"
             >
               {pending ? "جارٍ الحفظ..." : roadmap.status === "Published" ? "تحديث المنشور" : "نشر المسار"}
             </button>
@@ -98,7 +98,7 @@ export function RoadmapEditor({ roadmap, phaseDetails }: { roadmap: AdminRoadmap
               type="button"
               onClick={() => setTab(index)}
               className={`flex shrink-0 items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition ${
-                tab === index ? "bg-neutral-900 text-white" : "bg-neutral-50 text-neutral-600 hover:bg-neutral-100"
+                tab === index ? "bg-primary text-white" : "bg-neutral-50 text-neutral-600 hover:bg-neutral-100"
               }`}
             >
               <span

@@ -21,7 +21,7 @@ export default async function AdminSpecializationsPage() {
         </div>
         <Link
           href="/admin/specializations/new"
-          className="rounded-xl bg-[#0F6E56] px-5 py-3 text-sm font-bold text-white transition active:scale-95"
+          className="rounded-xl bg-primary px-5 py-3 text-sm font-bold text-white transition active:scale-95"
         >
           + تخصص جديد
         </Link>

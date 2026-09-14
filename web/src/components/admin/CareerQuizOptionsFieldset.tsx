@@ -1,4 +1,5 @@
 import { LocalizedTextInput } from "./LocalizedTextInput";
+import { Input } from "@/components/ui/Input";
 import type { AdminCareerQuizOption, AdminTrack } from "@/lib/types";
 
 type CareerQuizOptionsFieldsetProps = {
@@ -11,7 +12,7 @@ type CareerQuizOptionsFieldsetProps = {
 // option nudges the learner's recommendation toward every track with a nonzero weight there.
 export function CareerQuizOptionsFieldset({ tracks, existingOptions }: CareerQuizOptionsFieldsetProps) {
   return (
-    <fieldset className="flex flex-col gap-4 rounded-md border border-neutral-200 p-4">
+    <fieldset className="flex flex-col gap-4 rounded-panel border border-neutral-200 p-4">
       <legend className="px-1 text-sm font-medium text-neutral-700">الخيارات (وزن كل خيار تجاه كل مسار رئيسي)</legend>
       {[0, 1, 2, 3].map((index) => {
         const existingOption = existingOptions?.[index];
@@ -28,16 +29,14 @@ export function CareerQuizOptionsFieldset({ tracks, existingOptions }: CareerQui
               {tracks.map((track) => {
                 const existingWeight = existingOption?.trackWeights.find((w) => w.trackId === track.id)?.weight ?? 0;
                 return (
-                  <label key={track.id} className="flex flex-col gap-1">
-                    <span className="text-xs text-neutral-500">{track.name.ar}</span>
-                    <input
-                      type="number"
-                      name={`option${index}Track_${track.id}`}
-                      defaultValue={existingWeight}
-                      dir="ltr"
-                      className="rounded-md border border-neutral-300 px-2 py-1 text-sm"
-                    />
-                  </label>
+                  <Input
+                    key={track.id}
+                    type="number"
+                    name={`option${index}Track_${track.id}`}
+                    defaultValue={existingWeight}
+                    dir="ltr"
+                    label={<span className="text-xs text-neutral-500">{track.name.ar}</span>}
+                  />
                 );
               })}
             </div>

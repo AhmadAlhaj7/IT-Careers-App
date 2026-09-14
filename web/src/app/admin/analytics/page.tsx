@@ -1,5 +1,29 @@
+import { Users, ShoppingCart, CircleDollarSign } from "lucide-react";
 import { getAdminAnalytics } from "@/lib/admin-api";
 import { AdminForbidden } from "@/components/admin/AdminForbidden";
+import { Card } from "@/components/ui/Card";
+
+function StatCard({ icon: Icon, value, label }: { icon: typeof Users; value: string; label: string }) {
+  return (
+    <Card padding="md" shadow="subtle" radius="panel" className="text-center">
+      <span className="mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-control bg-primary/10 text-primary">
+        <Icon size={18} />
+      </span>
+      <p dir="ltr" className="font-mono text-2xl font-bold text-neutral-900">
+        {value}
+      </p>
+      <p className="mt-1 text-xs text-neutral-500">{label}</p>
+    </Card>
+  );
+}
+
+function PercentBar({ percent }: { percent: number }) {
+  return (
+    <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-neutral-100">
+      <div className="h-full rounded-full bg-primary" style={{ width: `${Math.min(100, Math.max(0, percent))}%` }} />
+    </div>
+  );
+}
 
 export default async function AdminAnalyticsPage() {
   const result = await getAdminAnalytics();
@@ -15,76 +39,70 @@ export default async function AdminAnalyticsPage() {
   const { data } = result;
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12">
-      <h1 className="text-2xl font-semibold text-neutral-900">الإحصائيات</h1>
+    <div className="mx-auto w-full max-w-2xl px-3 py-10 sm:px-6 sm:py-16">
+      <h1 className="text-2xl font-bold text-neutral-900 sm:text-3xl">الإحصائيات</h1>
 
       <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
-        <div className="rounded-lg border border-neutral-200 p-4 text-center">
-          <p className="text-2xl font-semibold text-neutral-900">{data.totalLearners}</p>
-          <p className="mt-1 text-xs text-neutral-500">متعلمون</p>
-        </div>
-        <div className="rounded-lg border border-neutral-200 p-4 text-center">
-          <p className="text-2xl font-semibold text-neutral-900">{data.totalEnrollments}</p>
-          <p className="mt-1 text-xs text-neutral-500">عمليات شراء</p>
-        </div>
-        <div className="rounded-lg border border-neutral-200 p-4 text-center">
-          <p className="text-2xl font-semibold text-neutral-900">${data.estimatedRevenue.toFixed(2)}</p>
-          <p className="mt-1 text-xs text-neutral-500">إيراد تقديري</p>
-        </div>
+        <StatCard icon={Users} value={String(data.totalLearners)} label="متعلمون" />
+        <StatCard icon={ShoppingCart} value={String(data.totalEnrollments)} label="عمليات شراء" />
+        <StatCard icon={CircleDollarSign} value={`$${data.estimatedRevenue.toFixed(2)}`} label="إيراد تقديري" />
       </div>
-      <p className="mt-2 text-xs text-neutral-400">
+      <p className="mt-3 text-xs text-neutral-400">
         الإيراد تقديري: يُحسب من السعر الحالي لكل مسار × عدد المشتركين فيه، وليس السعر الفعلي وقت كل عملية شراء.
       </p>
 
-      <h2 className="mt-10 text-sm font-medium text-neutral-500">المبيعات حسب المسار</h2>
+      <h2 className="mt-10 text-sm font-semibold font-accent tracking-wide text-primary">المبيعات حسب المسار</h2>
       <div className="mt-3 flex flex-col gap-2">
         {data.roadmapSales.length === 0 && <p className="text-sm text-neutral-500">لا توجد بيانات بعد.</p>}
         {data.roadmapSales.map((sale) => (
-          <div
-            key={sale.roadmapTitle.ar}
-            className="flex items-center justify-between rounded-lg border border-neutral-200 px-4 py-3"
-          >
+          <Card key={sale.roadmapTitle.ar} padding="sm" shadow="subtle" radius="panel" className="flex items-center justify-between">
             <span className="font-medium text-neutral-900">{sale.roadmapTitle.ar}</span>
-            <span className="text-sm text-neutral-500">
+            <span dir="ltr" className="font-mono text-sm text-neutral-500">
               {sale.enrollmentCount} مشترك · ${sale.estimatedRevenue.toFixed(2)}
             </span>
-          </div>
+          </Card>
         ))}
       </div>
 
-      <h2 className="mt-10 text-sm font-medium text-neutral-500">معدلات إكمال المراحل</h2>
+      <h2 className="mt-10 text-sm font-semibold font-accent tracking-wide text-primary">معدلات إكمال المراحل</h2>
       <p className="mt-1 text-xs text-neutral-400">من بين المشتركين المدفوعين في كل مسار — لتحديد أين يتوقف المتعلمون.</p>
       <div className="mt-3 flex flex-col gap-2">
         {data.phaseCompletionRates.length === 0 && <p className="text-sm text-neutral-500">لا توجد بيانات بعد.</p>}
         {data.phaseCompletionRates.map((rate) => (
-          <div key={`${rate.roadmapTitle.ar}-${rate.phaseOrderIndex}`} className="rounded-lg border border-neutral-200 px-4 py-3">
-            <div className="flex items-center justify-between">
+          <Card key={`${rate.roadmapTitle.ar}-${rate.phaseOrderIndex}`} padding="sm" shadow="subtle" radius="panel">
+            <div className="flex items-center justify-between gap-3">
               <span className="font-medium text-neutral-900">
                 {rate.roadmapTitle.ar} · #{rate.phaseOrderIndex} {rate.phaseTitle.ar}
               </span>
-              <span className="text-sm text-[#0F6E56]">{Math.round(rate.completionRate * 100)}%</span>
+              <span dir="ltr" className="shrink-0 font-mono text-sm font-bold text-primary">
+                {Math.round(rate.completionRate * 100)}%
+              </span>
             </div>
-            <span className="text-xs text-neutral-400">
+            <PercentBar percent={rate.completionRate * 100} />
+            <span className="mt-1.5 block text-xs text-neutral-400">
               {rate.completedCount} من {rate.enrolledCount} أكملوا هذه المرحلة
             </span>
-          </div>
+          </Card>
         ))}
       </div>
 
-      <h2 className="mt-10 text-sm font-medium text-neutral-500">تحويل بوصلة المهنة إلى شراء</h2>
+      <h2 className="mt-10 text-sm font-semibold font-accent tracking-wide text-primary">تحويل بوصلة المهنة إلى شراء</h2>
       <p className="mt-1 text-xs text-neutral-400">فقط الإجابات المرتبطة بمستخدم مسجّل يمكن تتبعها حتى الشراء.</p>
       <div className="mt-3 flex flex-col gap-2">
         {data.trackConversions.length === 0 && <p className="text-sm text-neutral-500">لا توجد بيانات بعد.</p>}
         {data.trackConversions.map((conversion) => (
-          <div key={conversion.trackName.ar} className="rounded-lg border border-neutral-200 px-4 py-3">
-            <div className="flex items-center justify-between">
+          <Card key={conversion.trackName.ar} padding="sm" shadow="subtle" radius="panel">
+            <div className="flex items-center justify-between gap-3">
               <span className="font-medium text-neutral-900">{conversion.trackName.ar}</span>
-              <span className="text-sm text-[#0F6E56]">{Math.round(conversion.conversionRate * 100)}%</span>
+              <span dir="ltr" className="shrink-0 font-mono text-sm font-bold text-primary">
+                {Math.round(conversion.conversionRate * 100)}%
+              </span>
             </div>
-            <span className="text-xs text-neutral-400">
+            <PercentBar percent={conversion.conversionRate * 100} />
+            <span className="mt-1.5 block text-xs text-neutral-400">
               {conversion.convertedCount} من {conversion.recommendationCount} اشتروا بعد التوصية
             </span>
-          </div>
+          </Card>
         ))}
       </div>
     </div>

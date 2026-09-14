@@ -25,10 +25,10 @@ export function FeaturedRoadmaps({ roadmaps, locale, userId, dict }: FeaturedRoa
     <section className="mt-20">
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold tracking-wide text-[#0F6E56]">{dict.homePage.featuredEyebrow}</p>
-          <h2 className="mt-2 text-2xl font-bold text-neutral-900 sm:text-3xl">{dict.homePage.featuredTitle}</h2>
+          <p className="text-xs font-semibold font-accent tracking-wide text-primary">{dict.homePage.featuredEyebrow}</p>
+          <h2 className="mt-2 text-2xl font-bold font-accent text-neutral-900 sm:text-3xl">{dict.homePage.featuredTitle}</h2>
         </div>
-        <Link href="/roadmaps" className="text-sm font-semibold text-[#0F6E56] hover:text-[#0c5945]">
+        <Link href="/roadmaps" className="text-sm font-semibold text-primary hover:text-primary-hover">
           {dict.homePage.featuredViewAll}
         </Link>
       </div>
@@ -55,6 +55,7 @@ export function FeaturedRoadmaps({ roadmaps, locale, userId, dict }: FeaturedRoa
               isMostPopular={roadmap.isMostPopular}
               userId={userId}
               buyNowLabel={dict.roadmapsPage.buyNow}
+              signInLabel={dict.roadmapDetailPage.signInToBuy}
               discoverMoreLabel={dict.roadmapsPage.discoverMore}
               continueLabel={dict.roadmapsPage.continue}
               ownedLabel={dict.roadmapsPage.owned}

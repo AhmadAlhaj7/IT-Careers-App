@@ -3,24 +3,24 @@
 import { useEffect, useState } from "react";
 import { initializePaddle, type Paddle } from "@paddle/paddle-js";
 import { SignInButton } from "@clerk/nextjs";
+import { buttonVariants } from "@/components/ui/Button";
 
 type BuyButtonProps = {
   paddlePriceId: string;
   roadmapId: string;
   userId: string | null;
   label?: string;
+  signInLabel?: string;
   className?: string;
 };
 
-const DEFAULT_CLASS_NAME =
-  "rounded-md bg-[#0F6E56] px-5 py-2.5 text-sm font-medium text-white transition active:scale-95 disabled:opacity-50 disabled:active:scale-100";
-
 // Signed-out visitors get a sign-in prompt instead — a purchase has to be tied to a real
 // Clerk user id so the webhook (the only thing that ever actually grants access) knows who
-// to enroll.
-export function BuyButton({ paddlePriceId, roadmapId, userId, label = "اشترك الآن", className }: BuyButtonProps) {
+// to enroll. `label`/`signInLabel` default to Arabic as a last resort only — real call sites
+// should always pass locale-aware dictionary strings.
+export function BuyButton({ paddlePriceId, roadmapId, userId, label = "اشترك الآن", signInLabel = "سجّل الدخول للشراء", className }: BuyButtonProps) {
   const [paddle, setPaddle] = useState<Paddle>();
-  const buttonClassName = className ?? DEFAULT_CLASS_NAME;
+  const buttonClassName = className ?? buttonVariants({ variant: "accent" });
 
   useEffect(() => {
     if (!userId) {
@@ -40,7 +40,7 @@ export function BuyButton({ paddlePriceId, roadmapId, userId, label = "اشتر�
   if (!userId) {
     return (
       <SignInButton mode="modal">
-        <button className={buttonClassName}>سجّل الدخول للشراء</button>
+        <button className={buttonClassName}>{signInLabel}</button>
       </SignInButton>
     );
   }

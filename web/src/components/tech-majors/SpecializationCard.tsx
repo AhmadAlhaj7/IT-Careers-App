@@ -63,7 +63,7 @@ export function SpecializationCard({ specialization, locale, exploreMoreLabel, r
       <p className="line-clamp-2 px-2 pt-1 text-sm leading-[1.6] text-neutral-500">{localize(specialization.cardSentence, locale)}</p>
 
       <div className="mt-auto flex items-center justify-between gap-2 px-2 pt-4 pb-1">
-        <span className="text-sm font-medium text-neutral-700 transition group-hover:text-[#0F6E56]">{exploreMoreLabel}</span>
+        <span className="text-sm font-medium text-neutral-700 transition group-hover:text-primary">{exploreMoreLabel}</span>
         <span className="text-xs text-neutral-400">
           {specialization.estimatedReadMinutes} {readMinutesSuffix}
         </span>

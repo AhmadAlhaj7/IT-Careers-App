@@ -1,10 +1,13 @@
+import { ACCENT, ACCENT_SUBTLE, PRIMARY, PRIMARY_SUBTLE, SECONDARY, SECONDARY_SUBTLE } from "./theme";
+
 // A small fixed palette, picked deterministically from a roadmap's slug so a given roadmap
 // always gets the same tint/accent everywhere it's shown (public catalog, admin table)
-// regardless of list order — purely cosmetic variety, not stored data.
+// regardless of list order — purely cosmetic variety, not stored data. Values come from the
+// same brand tokens as the rest of the app (see theme.ts) instead of a separate hardcoded set.
 const CARD_PALETTE = [
-  { tint: "#EEF3F1", accent: "#0F6E56" },
-  { tint: "#F1EEF8", accent: "#5B3FC4" },
-  { tint: "#F7EFE9", accent: "#E8764A" },
+  { tint: PRIMARY_SUBTLE, accent: PRIMARY },
+  { tint: SECONDARY_SUBTLE, accent: SECONDARY },
+  { tint: ACCENT_SUBTLE, accent: ACCENT },
 ] as const;
 
 export function paletteFor(slug: string) {

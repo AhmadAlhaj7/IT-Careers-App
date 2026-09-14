@@ -11,6 +11,46 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-accent: var(--font-reem-kufi);
+
+  /* Brand palette — canonical hex values also mirrored in src/lib/theme.ts for the few
+     places (inline `style=`, cardPalette.ts) that need a raw string instead of a Tailwind
+     class. Keep the two in sync if either changes. */
+  --color-primary: #0f6e56;
+  --color-primary-hover: #0c5845;
+  --color-primary-active: #0a4637;
+  --color-primary-subtle: #eef3f1;
+
+  --color-accent: #e8764a;
+  --color-accent-hover: #d35f35;
+  --color-accent-active: #b3512d;
+  --color-accent-subtle: #f7efe9;
+
+  --color-secondary: #5b3fc4;
+  --color-secondary-hover: #4c33ae;
+  --color-secondary-subtle: #f1eef8;
+
+  /* Semantic aliases — deliberately reuse the brand hues above rather than introduce a 4th
+     or 5th color: teal already reads as "positive/published", orange as "attention/draft". */
+  --color-success: var(--color-primary);
+  --color-success-subtle: var(--color-primary-subtle);
+  --color-warning: var(--color-accent);
+  --color-warning-subtle: var(--color-accent-subtle);
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+  --color-danger-subtle: #fef2f2;
+
+  /* Named shadow/radius vocabulary — same pixel values the app already used ad hoc
+     (shadow-sm/lg/xl shadow-neutral-900/5-10, rounded-xl/2xl/3xl), just given one shared
+     name each so "which shadow for which component" stops being copy-pasted tribal
+     knowledge. */
+  --shadow-subtle: 0 1px 2px 0 rgba(23, 23, 23, 0.05);
+  --shadow-panel: 0 10px 15px -3px rgba(23, 23, 23, 0.05), 0 4px 6px -4px rgba(23, 23, 23, 0.05);
+  --shadow-card: 0 20px 25px -5px rgba(23, 23, 23, 0.1), 0 8px 10px -6px rgba(23, 23, 23, 0.1);
+
+  --radius-tag: 9999px;
+  --radius-control: 0.75rem;
+  --radius-panel: 1rem;
+  --radius-card: 1.5rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,7 +63,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
 }
 
 /* Dotted-grid canvas behind every page (trying this in place of the earlier blurred-blob
@@ -69,10 +109,11 @@ body {
   }
 }
 
-/* Brand-mark rotation loop: inner ring spins clockwise into place, holds 2s, then the outer
-   ring spins counter-clockwise into place and holds 2s — alternating forever. Each spin is a
-   full 360deg lap, so it always lands back on the exact original artwork angle and the loop
-   restarts with no visible jump. */
+/* Brand-mark entrance: inner ring spins clockwise into place, then the outer ring spins
+   counter-clockwise into place — plays ONCE on mount (not an infinite loop) and lands
+   exactly on the original artwork angle. A persistently-spinning logo in a fixed nav-corner
+   position on every page read as distracting rather than polished; a one-time entrance keeps
+   the brand moment without competing for attention during normal use. */
 .logo-inner,
 .logo-outer {
   transform-origin: 0 0;
@@ -82,9 +123,7 @@ body {
   0% {
     transform: rotate(0deg);
   }
-  21.43% {
-    transform: rotate(360deg);
-  }
+  50%,
   100% {
     transform: rotate(360deg);
   }
@@ -95,20 +134,17 @@ body {
   50% {
     transform: rotate(0deg);
   }
-  71.43% {
-    transform: rotate(-360deg);
-  }
   100% {
     transform: rotate(-360deg);
   }
 }
 
 .logo-inner {
-  animation: logo-inner-spin 7s ease-in-out infinite;
+  animation: logo-inner-spin 1.4s ease-in-out 1 both;
 }
 
 .logo-outer {
-  animation: logo-outer-spin 7s ease-in-out infinite;
+  animation: logo-outer-spin 1.4s ease-in-out 1 both;
 }
 
 @media (prefers-reduced-motion: reduce) {

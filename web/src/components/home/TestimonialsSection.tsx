@@ -28,8 +28,8 @@ export function TestimonialsSection({ eyebrow, title, testimonials, locale }: Te
   return (
     <section className="mt-20">
       <div className="mb-6">
-        <p className="text-xs font-semibold tracking-wide text-[#0F6E56]">{eyebrow}</p>
-        <h2 className="mt-2 text-2xl font-bold text-neutral-900 sm:text-3xl">{title}</h2>
+        <p className="text-xs font-semibold font-accent tracking-wide text-primary">{eyebrow}</p>
+        <h2 className="mt-2 text-2xl font-bold font-accent text-neutral-900 sm:text-3xl">{title}</h2>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {testimonials.map((story) => (

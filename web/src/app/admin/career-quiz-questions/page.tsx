@@ -3,6 +3,8 @@ import { listAdminCareerQuizQuestions, listAdminTracks } from "@/lib/admin-api";
 import { deleteCareerQuizQuestionAction } from "@/app/admin/actions";
 import { AdminForbidden } from "@/components/admin/AdminForbidden";
 import { DeleteButton } from "@/components/admin/DeleteButton";
+import { Card } from "@/components/ui/Card";
+import { buttonVariants } from "@/components/ui/Button";
 
 export default async function AdminCareerQuizQuestionsPage() {
   const [questionsResult, tracksResult] = await Promise.all([listAdminCareerQuizQuestions(), listAdminTracks()]);
@@ -16,21 +18,21 @@ export default async function AdminCareerQuizQuestionsPage() {
   const trackNameById = new Map(tracks.map((track) => [track.id, track.name.ar]));
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12">
+    <div className="mx-auto w-full max-w-2xl px-3 py-10 sm:px-6 sm:py-16">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-neutral-900">أسئلة بوصلة المهنة</h1>
-        <Link href="/admin/career-quiz-questions/new" className="text-sm text-[#0F6E56]">
+        <h1 className="text-2xl font-bold text-neutral-900 sm:text-3xl">أسئلة بوصلة المهنة</h1>
+        <Link href="/admin/career-quiz-questions/new" className={buttonVariants({ size: "sm" })}>
           + سؤال جديد
         </Link>
       </div>
-      <p className="mt-1 text-sm text-neutral-500">
+      <p className="mt-2 text-sm text-neutral-500">
         هذا اختبار قصير مجاني يوصي الزائر بمسار رئيسي مناسب — لا علاقة له بأسئلة اختبارات المراحل.
       </p>
 
-      <div className="mt-6 flex flex-col gap-2">
+      <div className="mt-6 flex flex-col gap-3">
         {questions.length === 0 && <p className="text-sm text-neutral-500">لا توجد أسئلة بعد.</p>}
         {questions.map((question) => (
-          <div key={question.id} className="rounded-lg border border-neutral-200 px-4 py-3">
+          <Card key={question.id} padding="md" shadow="subtle" radius="panel">
             <span className="font-medium text-neutral-900">{question.text.ar}</span>
             <ul className="mt-2 flex flex-col gap-1">
               {question.options.map((option, index) => {
@@ -46,8 +48,8 @@ export default async function AdminCareerQuizQuestionsPage() {
                 );
               })}
             </ul>
-            <div className="mt-2 flex items-center gap-3">
-              <Link href={`/admin/career-quiz-questions/${question.id}/edit`} className="text-xs text-[#0F6E56]">
+            <div className="mt-3 flex items-center gap-4 border-t border-neutral-100 pt-3">
+              <Link href={`/admin/career-quiz-questions/${question.id}/edit`} className="text-xs font-semibold text-primary hover:text-primary-hover">
                 تعديل
               </Link>
               <DeleteButton
@@ -56,7 +58,7 @@ export default async function AdminCareerQuizQuestionsPage() {
                 confirmMessage="سيتم حذف هذا السؤال نهائيًا. هل أنت متأكد؟"
               />
             </div>
-          </div>
+          </Card>
         ))}
       </div>
     </div>

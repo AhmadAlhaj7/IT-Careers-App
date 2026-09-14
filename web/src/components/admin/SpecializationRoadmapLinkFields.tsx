@@ -41,8 +41,8 @@ export function SpecializationRoadmapLinkFields({
       </div>
 
       {linkedRoadmap && (
-        <div className="mt-4 flex items-center gap-3 rounded-xl bg-[#EEF3F1] px-4 py-3">
-          <span className="h-2 w-2 shrink-0 rounded-full bg-[#0F6E56]" />
+        <div className="mt-4 flex items-center gap-3 rounded-xl bg-primary-subtle px-4 py-3">
+          <span className="h-2 w-2 shrink-0 rounded-full bg-primary" />
           <div className="min-w-0 text-sm">
             <p className="font-semibold text-neutral-900">مربوطة بمسار «{linkedRoadmap.title.ar}»</p>
             <p className="text-xs text-[#5f7d73]">أي تعديل على سعر المسار أو عدد مراحله يظهر تلقائياً هنا.</p>

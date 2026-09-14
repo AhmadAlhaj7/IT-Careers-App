@@ -43,7 +43,7 @@ export function SpecializationEditor({
       <div className="sticky top-[70px] z-30 mb-4 rounded-2xl border border-neutral-100 bg-white p-5 shadow-lg shadow-neutral-900/10 sm:top-20">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#EEF3F1]">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary-subtle">
               <Logo size={26} />
             </div>
             <div>
@@ -51,7 +51,7 @@ export function SpecializationEditor({
                 <h1 className="text-xl font-bold text-neutral-900 sm:text-2xl">صفحة تخصص: {specialization.name.ar || "تخصص جديد"}</h1>
                 <span
                   className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${
-                    specialization.status === "Published" ? "bg-[#0F6E56]/10 text-[#0F6E56]" : "bg-[#E8764A]/10 text-[#E8764A]"
+                    specialization.status === "Published" ? "bg-primary/10 text-primary" : "bg-accent/10 text-accent"
                   }`}
                 >
                   {specialization.status === "Published" ? "منشورة" : "مسودة"}
@@ -84,7 +84,7 @@ export function SpecializationEditor({
               name="status"
               value="Published"
               disabled={pending}
-              className="rounded-xl bg-[#0F6E56] px-5 py-2.5 text-sm font-bold text-white transition active:scale-95 disabled:opacity-50"
+              className="rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-white transition active:scale-95 disabled:opacity-50"
             >
               {pending ? "جارٍ الحفظ..." : specialization.status === "Published" ? "تحديث المنشور" : "نشر التخصص"}
             </button>

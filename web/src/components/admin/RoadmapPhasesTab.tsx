@@ -17,8 +17,8 @@ type Item = {
 };
 
 const KIND_STYLE: Record<Item["kind"], string> = {
-  مصدر: "bg-[#5B3FC4]/10 text-[#5B3FC4]",
-  مشروع: "bg-[#E8764A]/10 text-[#E8764A]",
+  مصدر: "bg-secondary/10 text-secondary",
+  مشروع: "bg-accent/10 text-accent",
   اختبار: "bg-neutral-100 text-neutral-600",
 };
 
@@ -93,7 +93,7 @@ export function RoadmapPhasesTab({ roadmapId, phases }: { roadmapId: string; pha
           </div>
           <Link
             href={`/admin/roadmaps/${roadmapId}/phases/new`}
-            className="rounded-lg border border-[#0F6E56]/35 bg-[#0F6E56]/5 px-3 py-2 text-sm font-bold text-[#0F6E56] transition active:scale-95"
+            className="rounded-lg border border-primary/35 bg-primary/5 px-3 py-2 text-sm font-bold text-primary transition active:scale-95"
           >
             + مرحلة جديدة
           </Link>
@@ -107,7 +107,7 @@ export function RoadmapPhasesTab({ roadmapId, phases }: { roadmapId: string; pha
             const items = itemsFor(roadmapId, phase);
 
             return (
-              <div key={phase.id} className={`overflow-hidden rounded-xl border ${open ? "border-[#0F6E56]/35" : "border-neutral-200"}`}>
+              <div key={phase.id} className={`overflow-hidden rounded-xl border ${open ? "border-primary/35" : "border-neutral-200"}`}>
                 <div className="flex items-center gap-3 p-3">
                   <div className="flex flex-col gap-1">
                     <ReorderButton roadmapId={roadmapId} phaseId={phase.id} direction="up" disabled={index === 0} />
@@ -119,7 +119,7 @@ export function RoadmapPhasesTab({ roadmapId, phases }: { roadmapId: string; pha
                     onClick={() => setOpenPhaseId(open ? null : phase.id)}
                     className="flex flex-1 items-center gap-3 text-start"
                   >
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-neutral-200 font-mono text-sm font-bold text-[#0F6E56]">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-neutral-200 font-mono text-sm font-bold text-primary">
                       {phase.orderIndex}
                     </span>
                     <span className="min-w-0 flex-1">
@@ -131,7 +131,7 @@ export function RoadmapPhasesTab({ roadmapId, phases }: { roadmapId: string; pha
                   </button>
 
                   {incomplete && (
-                    <span className="shrink-0 rounded-full bg-[#E8764A]/10 px-2.5 py-1 text-[11px] font-semibold text-[#E8764A]">ناقصة</span>
+                    <span className="shrink-0 rounded-full bg-accent/10 px-2.5 py-1 text-[11px] font-semibold text-accent">ناقصة</span>
                   )}
 
                   <div className="flex shrink-0 gap-2">
@@ -158,7 +158,7 @@ export function RoadmapPhasesTab({ roadmapId, phases }: { roadmapId: string; pha
                           <span className={`shrink-0 rounded-md px-2 py-1 text-[10px] font-bold ${KIND_STYLE[item.kind]}`}>{item.kind}</span>
                           <span className="min-w-0 flex-1 truncate text-sm font-medium">{item.title}</span>
                           <span className="shrink-0 text-xs text-neutral-400">{item.meta}</span>
-                          <Link href={item.editHref} className="shrink-0 text-xs font-semibold text-[#0F6E56]">
+                          <Link href={item.editHref} className="shrink-0 text-xs font-semibold text-primary">
                             تحرير
                           </Link>
                           <DeleteButton
@@ -173,13 +173,13 @@ export function RoadmapPhasesTab({ roadmapId, phases }: { roadmapId: string; pha
                     <div className="mt-3 flex flex-wrap gap-2">
                       <Link
                         href={`/admin/roadmaps/${roadmapId}/phases/${phase.id}/resources/new`}
-                        className="rounded-lg border border-dashed border-[#5B3FC4]/35 bg-[#5B3FC4]/5 px-3 py-2 text-xs font-semibold text-[#5B3FC4]"
+                        className="rounded-lg border border-dashed border-secondary/35 bg-secondary/5 px-3 py-2 text-xs font-semibold text-secondary"
                       >
                         + مصدر
                       </Link>
                       <Link
                         href={`/admin/roadmaps/${roadmapId}/phases/${phase.id}/projects/new`}
-                        className="rounded-lg border border-dashed border-[#E8764A]/35 bg-[#E8764A]/5 px-3 py-2 text-xs font-semibold text-[#E8764A]"
+                        className="rounded-lg border border-dashed border-accent/35 bg-accent/5 px-3 py-2 text-xs font-semibold text-accent"
                       >
                         + مشروع
                       </Link>
@@ -204,15 +204,15 @@ export function RoadmapPhasesTab({ roadmapId, phases }: { roadmapId: string; pha
           <div className="flex flex-col gap-2.5 text-sm">
             <div className="flex items-center justify-between">
               <span className="text-neutral-600">المراحل</span>
-              <span className="font-mono font-bold text-[#0F6E56]">{phases.length}</span>
+              <span className="font-mono font-bold text-primary">{phases.length}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-neutral-600">المصادر</span>
-              <span className="font-mono font-bold text-[#5B3FC4]">{totalResources}</span>
+              <span className="font-mono font-bold text-secondary">{totalResources}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-neutral-600">المشاريع</span>
-              <span className="font-mono font-bold text-[#E8764A]">{totalProjects}</span>
+              <span className="font-mono font-bold text-accent">{totalProjects}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-neutral-600">الاختبارات القصيرة</span>
@@ -222,7 +222,7 @@ export function RoadmapPhasesTab({ roadmapId, phases }: { roadmapId: string; pha
         </div>
 
         {gaps.length > 0 && (
-          <div className="rounded-2xl border border-[#E8764A]/25 bg-[#E8764A]/5 p-4">
+          <div className="rounded-2xl border border-accent/25 bg-accent/5 p-4">
             <p className="mb-1.5 text-sm font-bold text-[#b0552f]">تنبيه قبل النشر</p>
             <p className="text-xs leading-[1.8] text-[#8a5638]">
               {gaps.map((p) => `المرحلة ${p.orderIndex} (${p.title.ar})`).join("، ")} — بلا{" "}

@@ -21,13 +21,13 @@ export function ClosingCta({ dict }: ClosingCtaProps) {
           <div className="flex flex-col justify-center gap-3 sm:flex-row">
             <Link
               href="/roadmaps"
-              className="w-full rounded-xl bg-[#E8764A] px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#E8764A]/30 transition active:scale-95 hover:bg-[#d35f35] sm:w-auto"
+              className="w-full rounded-xl bg-accent px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-accent/30 transition active:scale-95 hover:bg-accent-hover sm:w-auto"
             >
               {dict.closingCtaPrimary}
             </Link>
             <Link
               href="/tech-majors"
-              className="w-full rounded-xl border border-neutral-200 bg-white px-7 py-3.5 text-sm font-semibold text-neutral-800 transition active:scale-95 hover:border-[#0F6E56] hover:text-[#0F6E56] sm:w-auto"
+              className="w-full rounded-xl border border-neutral-200 bg-white px-7 py-3.5 text-sm font-semibold text-neutral-800 transition active:scale-95 hover:border-primary hover:text-primary sm:w-auto"
             >
               {dict.closingCtaSecondary}
             </Link>

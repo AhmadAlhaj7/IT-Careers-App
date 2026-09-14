@@ -3,6 +3,11 @@
 import { useActionState } from "react";
 import Link from "next/link";
 import { submitFinalExamAction, type FinalExamSubmitState } from "@/app/roadmaps/[slug]/actions";
+import { Card, cardVariants } from "@/components/ui/Card";
+import { Button, buttonVariants } from "@/components/ui/Button";
+import { RadioCard } from "@/components/ui/RadioCard";
+import type { Locale } from "@/lib/i18n/locale";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
 import type { PublicFinalExamQuestion } from "@/lib/types";
 
 const initialState: FinalExamSubmitState = {};
@@ -10,27 +15,28 @@ const initialState: FinalExamSubmitState = {};
 type FinalExamFormProps = {
   slug: string;
   questions: PublicFinalExamQuestion[];
+  locale: Locale;
+  dict: Dictionary;
 };
 
-export function FinalExamForm({ slug, questions }: FinalExamFormProps) {
+export function FinalExamForm({ slug, questions, locale, dict }: FinalExamFormProps) {
   const [state, formAction, pending] = useActionState(submitFinalExamAction, initialState);
+  const t = dict.finalExamForm;
+  const common = dict.quizCommon;
 
   if (state.result) {
     return (
-      <div className="rounded-lg border border-neutral-200 p-6 text-center">
-        <p className={state.result.passed ? "text-lg font-semibold text-[#0F6E56]" : "text-lg font-semibold text-red-600"}>
-          {state.result.passed ? "مبروك! لقد اجتزت الامتحان النهائي" : "لم تجتز الامتحان بعد"}
+      <Card padding="lg" shadow="subtle" radius="panel" className="text-center">
+        <p className={state.result.passed ? "text-lg font-semibold text-primary" : "text-lg font-semibold text-danger"}>
+          {state.result.passed ? t.passedTitle : t.failedTitle}
         </p>
         <p className="mt-2 text-sm text-neutral-600">
-          {state.result.correctCount} من {state.result.totalCount} إجابات صحيحة
+          {state.result.correctCount} {common.ofLabel} {state.result.totalCount} {common.correctAnswersSuffix}
         </p>
         {state.result.passed && state.result.certificateCode && (
           <div className="mt-4 flex flex-col items-center gap-3">
-            <Link
-              href={`/certificates/${state.result.certificateCode}`}
-              className="inline-block rounded-md bg-[#0F6E56] px-4 py-2 text-sm font-medium text-white"
-            >
-              عرض الشهادة
+            <Link href={`/certificates/${state.result.certificateCode}`} className={buttonVariants()}>
+              {t.viewCertificateCta}
             </Link>
             {/* Founder-configured, not per-roadmap content — set once via env, same pattern as
                 the Paddle client token. Absent by default, so this only appears once configured. */}
@@ -39,48 +45,47 @@ export function FinalExamForm({ slug, questions }: FinalExamFormProps) {
                 href={process.env.NEXT_PUBLIC_BOOKING_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-[#0F6E56] underline"
+                className="text-sm text-primary underline"
               >
-                احجز محادثة مجانية لمدة ١:١ مع المؤسس
+                {t.bookCallCta}
               </a>
             )}
           </div>
         )}
-        {!state.result.passed && (
-          <p className="mt-2 text-sm text-neutral-500">يمكنك المحاولة مرة أخرى بلا حدود — أعد تحميل الصفحة للمحاولة من جديد.</p>
-        )}
-      </div>
+        {!state.result.passed && <p className="mt-2 text-sm text-neutral-500">{common.retryNote}</p>}
+      </Card>
     );
   }
 
   return (
-    <form action={formAction} className="flex flex-col gap-6 rounded-lg border border-neutral-200 p-6">
+    <form action={formAction} className={cardVariants({ padding: "lg", shadow: "subtle", radius: "panel", className: "flex flex-col gap-6" })}>
       <input type="hidden" name="slug" value={slug} />
 
-      <h2 className="text-lg font-semibold text-neutral-900">الامتحان النهائي</h2>
+      <h2 className="text-lg font-semibold text-neutral-900">{t.title}</h2>
 
       {questions.map((question) => (
         <fieldset key={question.id} className="flex flex-col gap-2">
           <input type="hidden" name="questionId" value={question.id} />
-          <legend className="font-medium text-neutral-800">{question.text.ar}</legend>
-          {question.options.map((option) => (
-            <label key={option.index} className="flex items-center gap-2 text-sm text-neutral-700">
-              <input type="radio" name={`answer-${question.id}`} value={option.index} required />
-              {option.text.ar}
-            </label>
-          ))}
+          <legend className="mb-1 font-medium text-neutral-800">{question.text[locale]}</legend>
+          <div className="flex flex-col gap-2">
+            {question.options.map((option) => (
+              <RadioCard
+                key={option.index}
+                name={`answer-${question.id}`}
+                value={String(option.index)}
+                label={option.text[locale]}
+                required
+              />
+            ))}
+          </div>
         </fieldset>
       ))}
 
-      {state.message && <p className="text-sm text-red-600">{state.message}</p>}
+      {state.message && <p className="text-sm text-danger">{state.message}</p>}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded-md bg-[#0F6E56] px-4 py-2 text-sm font-medium text-white transition active:scale-95 disabled:opacity-50 disabled:active:scale-100"
-      >
-        {pending ? "جارٍ الإرسال..." : "إرسال الامتحان"}
-      </button>
+      <Button type="submit" loading={pending}>
+        {pending ? common.submitting : t.submitCta}
+      </Button>
     </form>
   );
 }

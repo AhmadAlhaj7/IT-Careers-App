@@ -1,15 +1,19 @@
+import { Card } from "@/components/ui/Card";
+import type { Locale } from "@/lib/i18n/locale";
 import type { Project } from "@/lib/types";
 
 type ProjectCardProps = {
   project: Project;
+  locale: Locale;
+  label: string;
 };
 
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard({ project, locale, label }: ProjectCardProps) {
   return (
-    <div className="rounded-lg border border-neutral-200 p-5">
-      <p className="text-sm font-medium text-[#1D9E75]">مشروع مصغّر</p>
-      <h3 className="mt-1 font-semibold text-neutral-900">{project.title.ar}</h3>
-      <p className="mt-2 leading-[1.7] text-neutral-600">{project.description.ar}</p>
-    </div>
+    <Card padding="md" shadow="subtle" radius="panel">
+      <p className="text-sm font-medium text-primary">{label}</p>
+      <h3 className="mt-1 font-semibold text-neutral-900">{project.title[locale]}</h3>
+      <p className="mt-2 leading-[1.7] text-neutral-600">{project.description[locale]}</p>
+    </Card>
   );
 }

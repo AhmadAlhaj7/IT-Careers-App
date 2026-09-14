@@ -11,11 +11,11 @@ type CertificateShowcaseProps = {
 // real issued code.
 export function CertificateShowcase({ dict }: CertificateShowcaseProps) {
   return (
-    <section id="certificate" className="mt-20 overflow-hidden rounded-3xl bg-[#0F6E56]">
+    <section id="certificate" className="mt-20 overflow-hidden rounded-3xl bg-primary">
       <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr]">
-        <div className="p-8 text-[#eef5f2] sm:p-12">
-          <p className="mb-3 text-xs font-semibold tracking-wide text-white/60">{dict.certificateEyebrow}</p>
-          <h2 className="mb-3.5 max-w-xl text-2xl leading-tight font-bold text-white sm:text-3xl">{dict.certificateTitle}</h2>
+        <div className="p-8 text-white/90 sm:p-12">
+          <p className="mb-3 text-xs font-semibold font-accent tracking-wide text-white/60">{dict.certificateEyebrow}</p>
+          <h2 className="mb-3.5 max-w-xl text-2xl leading-tight font-bold font-accent text-white sm:text-3xl">{dict.certificateTitle}</h2>
           <p className="mb-6 max-w-md text-sm leading-[1.9] text-white/80 sm:text-base">{dict.certificateBody}</p>
           <div className="flex flex-wrap gap-2">
             {[dict.certificateChip1, dict.certificateChip2, dict.certificateChip3].map((chip) => (
@@ -39,9 +39,9 @@ export function CertificateShowcase({ dict }: CertificateShowcaseProps) {
             <div className="mb-5 h-2.5 w-[46%] rounded-full bg-neutral-900/[0.06]" />
             <div className="flex items-center justify-between border-t border-dashed border-neutral-900/15 pt-3.5">
               <span dir="ltr" className="font-mono text-[10px] text-neutral-400">
-                verify/ITC-8F2K-4Q
+                verify/HLQ-8F2K-4Q
               </span>
-              <span className="h-8 w-8 rounded-full border border-dashed border-[#0F6E56]/45 bg-[#0F6E56]/10" />
+              <span className="h-8 w-8 rounded-full border border-dashed border-primary/45 bg-primary/10" />
             </div>
           </div>
         </div>

@@ -30,14 +30,14 @@ export function SpecializationSectionsFieldset({ specialization, pending }: { sp
           const prefix = `section_${def.key}_`;
 
           return (
-            <div key={def.key} className={`overflow-hidden rounded-xl border ${open ? "border-[#0F6E56]/40" : "border-neutral-200"}`}>
+            <div key={def.key} className={`overflow-hidden rounded-xl border ${open ? "border-primary/40" : "border-neutral-200"}`}>
               <div className={`flex items-center gap-3 px-4 py-3 ${open ? "bg-white" : "bg-neutral-50/70"}`}>
                 <button
                   type="button"
                   onClick={() => setOpenKey(open ? "" : def.key)}
                   className="flex min-w-0 flex-1 items-center gap-3 text-start"
                 >
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-neutral-200 bg-white font-mono text-xs font-bold text-[#0F6E56]">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-neutral-200 bg-white font-mono text-xs font-bold text-primary">
                     {index + 1}
                   </span>
                   <span className="min-w-0">
@@ -47,7 +47,7 @@ export function SpecializationSectionsFieldset({ specialization, pending }: { sp
                 </button>
 
                 {def.hasImage && (
-                  <span className="hidden shrink-0 rounded-full bg-[#5B3FC4]/10 px-2.5 py-1 text-[11px] font-semibold text-[#5B3FC4] sm:inline">
+                  <span className="hidden shrink-0 rounded-full bg-secondary/10 px-2.5 py-1 text-[11px] font-semibold text-secondary sm:inline">
                     يدعم صورة
                   </span>
                 )}
@@ -65,7 +65,7 @@ export function SpecializationSectionsFieldset({ specialization, pending }: { sp
                     disabled={pending}
                     className="peer sr-only"
                   />
-                  <span className="h-[25px] w-[44px] rounded-full bg-neutral-200 transition peer-checked:bg-[#0F6E56]" />
+                  <span className="h-[25px] w-[44px] rounded-full bg-neutral-200 transition peer-checked:bg-primary" />
                   <span className="absolute start-[3px] h-[19px] w-[19px] rounded-full bg-white shadow transition peer-checked:translate-x-[19px] rtl:peer-checked:-translate-x-[19px]" />
                 </label>
 

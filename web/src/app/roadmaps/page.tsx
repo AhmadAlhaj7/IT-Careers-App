@@ -17,7 +17,7 @@ export default async function RoadmapsPage() {
       <h1 className="mt-4 text-2xl font-bold text-neutral-900 sm:text-3xl">{dict.roadmapsPage.title}</h1>
       <p className="mt-3 max-w-3xl text-sm leading-[1.8] text-neutral-600 sm:text-base">
         {dict.roadmapsPage.intro}{" "}
-        <Link href="/tech-majors" className="font-semibold text-[#0F6E56] underline underline-offset-2 hover:text-[#0c5945]">
+        <Link href="/tech-majors" className="font-semibold text-primary underline underline-offset-2 hover:text-primary-hover">
           {dict.home.techMajorsCta}
         </Link>
         {dict.roadmapsPage.introLinkSuffix}
@@ -43,6 +43,7 @@ export default async function RoadmapsPage() {
             isMostPopular={roadmap.isMostPopular}
             userId={userId}
             buyNowLabel={dict.roadmapsPage.buyNow}
+            signInLabel={dict.roadmapDetailPage.signInToBuy}
             discoverMoreLabel={dict.roadmapsPage.discoverMore}
             continueLabel={dict.roadmapsPage.continue}
             ownedLabel={dict.roadmapsPage.owned}

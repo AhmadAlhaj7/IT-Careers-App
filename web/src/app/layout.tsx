@@ -34,8 +34,8 @@ const reemKufi = Reem_Kufi({
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   return locale === "en"
-    ? { title: "IT Careers", description: "Structured Arabic-first roadmaps for learning programming and tech" }
-    : { title: "IT Careers", description: "مسارات تعليمية عربية منظمة في البرمجة وتقنية المعلومات" };
+    ? { title: "Halaqa", description: "Structured Arabic-first roadmaps for learning programming and tech" }
+    : { title: "حلقة", description: "مسارات تعليمية عربية منظمة في البرمجة وتقنية المعلومات" };
 }
 
 export default async function RootLayout({
@@ -56,11 +56,7 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <div className="app-background" />
-        <Link
-          href="/"
-          aria-label="IT Careers"
-          className="fixed top-3 left-3 z-50 sm:top-6 sm:left-6"
-        >
+        <Link href="/" aria-label={dict.brand} className="fixed top-3 start-3 z-50 sm:top-6 sm:start-6">
           <Logo size={44} />
         </Link>
         <ClerkProvider localization={locale === "ar" ? arSA : enUS}>

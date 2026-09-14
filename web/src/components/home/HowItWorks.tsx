@@ -1,13 +1,14 @@
 import type { Dictionary } from "@/lib/i18n/dictionaries";
+import { ACCENT, ACCENT_SUBTLE, PRIMARY, PRIMARY_SUBTLE, SECONDARY, SECONDARY_SUBTLE } from "@/lib/theme";
 
 type HowItWorksProps = {
   dict: Dictionary["homePage"];
 };
 
 const STEP_STYLE = [
-  { tint: "#F1EEF8", mark: "#5B3FC4", ghost: "rgba(91,63,196,.07)" },
-  { tint: "#EEF3F1", mark: "#0F6E56", ghost: "rgba(15,110,86,.07)" },
-  { tint: "#F7EFE9", mark: "#E8764A", ghost: "rgba(232,118,74,.09)" },
+  { tint: SECONDARY_SUBTLE, mark: SECONDARY, ghost: "rgba(91,63,196,.07)" },
+  { tint: PRIMARY_SUBTLE, mark: PRIMARY, ghost: "rgba(15,110,86,.07)" },
+  { tint: ACCENT_SUBTLE, mark: ACCENT, ghost: "rgba(232,118,74,.09)" },
 ] as const;
 
 // Step 1's copy deliberately doesn't mention "بوصلة المهنة" (Career Compass) — that quiz was
@@ -23,8 +24,8 @@ export function HowItWorks({ dict }: HowItWorksProps) {
   return (
     <section className="mt-20">
       <div className="mb-8 text-center">
-        <p className="text-xs font-semibold tracking-wide text-[#0F6E56]">{dict.howEyebrow}</p>
-        <h2 className="mx-auto mt-2 max-w-xl text-2xl font-bold text-neutral-900 sm:text-3xl">{dict.howTitle}</h2>
+        <p className="text-xs font-semibold font-accent tracking-wide text-primary">{dict.howEyebrow}</p>
+        <h2 className="mx-auto mt-2 max-w-xl text-2xl font-bold font-accent text-neutral-900 sm:text-3xl">{dict.howTitle}</h2>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {steps.map((step, index) => {

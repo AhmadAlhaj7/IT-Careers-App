@@ -56,7 +56,7 @@ export function RoadmapExamTab({ roadmapId, passThresholdPercent, pending, quest
             </div>
             <Link
               href={`/admin/roadmaps/${roadmapId}/final-exam-questions/new`}
-              className="rounded-lg border border-[#0F6E56]/35 bg-[#0F6E56]/5 px-3 py-2 text-sm font-bold text-[#0F6E56] transition active:scale-95"
+              className="rounded-lg border border-primary/35 bg-primary/5 px-3 py-2 text-sm font-bold text-primary transition active:scale-95"
             >
               + سؤال جديد
             </Link>
@@ -77,15 +77,15 @@ export function RoadmapExamTab({ roadmapId, passThresholdPercent, pending, quest
                         <div
                           key={optionIndex}
                           className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm ${
-                            option.isCorrect ? "border-[#0F6E56]/35 bg-[#0F6E56]/5 text-[#0F6E56]" : "border-neutral-200 bg-white text-neutral-600"
+                            option.isCorrect ? "border-primary/35 bg-primary/5 text-primary" : "border-neutral-200 bg-white text-neutral-600"
                           }`}
                         >
                           <span
                             className={`flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full border-2 ${
-                              option.isCorrect ? "border-[#0F6E56]" : "border-neutral-300"
+                              option.isCorrect ? "border-primary" : "border-neutral-300"
                             }`}
                           >
-                            {option.isCorrect && <span className="h-1.5 w-1.5 rounded-full bg-[#0F6E56]" />}
+                            {option.isCorrect && <span className="h-1.5 w-1.5 rounded-full bg-primary" />}
                           </span>
                           {option.text.ar}
                         </div>
@@ -113,14 +113,14 @@ export function RoadmapExamTab({ roadmapId, passThresholdPercent, pending, quest
       </div>
 
       <div className="flex flex-col gap-4">
-        <div className="rounded-2xl bg-[#0F6E56] p-5 text-[#eef5f2]">
+        <div className="rounded-2xl bg-primary p-5 text-white/90">
           <p className="mb-2.5 text-xs font-semibold tracking-wide text-white/60">الشهادة</p>
           <p className="mb-2 text-base font-bold text-white">تصدر تلقائياً عند النجاح</p>
           <p className="mb-4 text-xs leading-[1.85] text-white/80">
             تحمل اسم الطالب واسم المسار ورقم تحقّق عام. لا حاجة لأي إجراء يدوي منك.
           </p>
           <div dir="ltr" className="rounded-lg bg-black/15 px-3.5 py-3 font-mono text-[11px] text-white/90">
-            /certificates/ITC-8F2K-4Q
+            /certificates/HLQ-8F2K-4Q
           </div>
         </div>
 
@@ -128,13 +128,13 @@ export function RoadmapExamTab({ roadmapId, passThresholdPercent, pending, quest
           <p className="mb-3 text-sm font-bold text-neutral-900">حالة الاختبار</p>
           <div className="flex items-baseline justify-between text-sm">
             <span className="text-neutral-600">أسئلة مضافة</span>
-            <span className="font-mono font-bold text-[#E8764A]">
+            <span className="font-mono font-bold text-accent">
               {questions.length} / {RECOMMENDED_MIN_QUESTIONS}
             </span>
           </div>
           <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-neutral-100">
             <div
-              className="h-full rounded-full bg-[#E8764A]"
+              className="h-full rounded-full bg-accent"
               style={{ width: `${Math.min(100, Math.round((questions.length / RECOMMENDED_MIN_QUESTIONS) * 100))}%` }}
             />
           </div>

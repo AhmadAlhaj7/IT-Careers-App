@@ -25,7 +25,7 @@ export default async function Home() {
         <FloatingChip
           label="Think"
           wrapperClassName="top-0 start-6"
-          className="bg-[#E6DFF9] text-[#5B21B6]"
+          className="bg-secondary-subtle text-secondary"
           rotate={-4}
           duration="6s"
           delay="0s"
@@ -41,7 +41,7 @@ export default async function Home() {
         <FloatingChip
           label="Win"
           wrapperClassName="top-20 end-4"
-          className="border border-[#E8764A] bg-white text-neutral-800"
+          className="border border-accent bg-white text-neutral-800"
           rotate={-2}
           duration="6.5s"
           delay="2s"
@@ -50,7 +50,7 @@ export default async function Home() {
           {dict.home.badge}
         </span>
         <h1 className="mt-6 text-3xl leading-tight font-bold text-neutral-900 sm:text-5xl">
-          {dict.home.titleStart} <span className="font-accent text-[#E8764A]">{dict.home.titleAccent}</span>{" "}
+          {dict.home.titleStart} <span className="font-accent text-accent">{dict.home.titleAccent}</span>{" "}
           {dict.home.titleEnd}
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base leading-[1.7] text-neutral-600 sm:text-lg">{dict.home.subtitle}</p>
@@ -58,7 +58,7 @@ export default async function Home() {
           <div className="relative w-full sm:w-auto">
             <Link
               href="/roadmaps"
-              className="w-full rounded-xl bg-[#E8764A] px-6 py-3 text-sm font-medium text-white shadow-lg shadow-[#E8764A]/30 transition active:scale-95 hover:bg-[#d35f35] sm:w-auto"
+              className="w-full rounded-xl bg-accent px-6 py-3 text-sm font-medium text-white shadow-lg shadow-accent/30 transition active:scale-95 hover:bg-accent-hover sm:w-auto"
             >
               {dict.home.browseCta}
             </Link>
@@ -67,7 +67,7 @@ export default async function Home() {
           <div className="relative w-full sm:w-auto">
             <Link
               href="/tech-majors"
-              className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition active:scale-95 hover:border-[#0F6E56] hover:text-[#0F6E56] sm:w-auto"
+              className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition active:scale-95 hover:border-primary hover:text-primary sm:w-auto"
             >
               {dict.home.techMajorsCta}
             </Link>

@@ -1,65 +1,55 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { createRoadmapAction, type ActionState } from "@/app/admin/actions";
 import { LocalizedTextInput } from "@/components/admin/LocalizedTextInput";
+import { restoreFormValues } from "@/lib/restoreFormValues";
+import { Input } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
+import { Button } from "@/components/ui/Button";
 import type { TrackSummary } from "@/lib/types";
 
 const initialState: ActionState = {};
 
 export function CreateRoadmapForm({ tracks }: { tracks: TrackSummary[] }) {
   const [state, formAction, pending] = useActionState(createRoadmapAction, initialState);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // Same fix as the editors: a failed save (a duplicate slug, a bad price) would otherwise
+  // wipe every field the admin just typed, since React resets uncontrolled fields once the
+  // action completes regardless of whether it succeeded.
+  useEffect(() => {
+    if (state.values) {
+      restoreFormValues(formRef.current, state.values);
+    }
+  }, [state]);
 
   return (
-    <form action={formAction} className="mt-6 flex flex-col gap-5">
-      <label className="flex flex-col gap-1">
-        <span className="text-sm font-medium text-neutral-700">المسار الرئيسي (Track)</span>
-        <select name="trackId" required className="rounded-md border border-neutral-300 px-3 py-2 text-sm">
-          {tracks.map((track) => (
-            <option key={track.id} value={track.id}>
-              {track.name.ar}
-            </option>
-          ))}
-        </select>
-      </label>
+    <form ref={formRef} action={formAction} className="mt-6 flex flex-col gap-5">
+      <Select label="المسار الرئيسي (Track)" name="trackId" required>
+        {tracks.map((track) => (
+          <option key={track.id} value={track.id}>
+            {track.name.ar}
+          </option>
+        ))}
+      </Select>
 
       <LocalizedTextInput label="العنوان" name="title" required />
 
-      <label className="flex flex-col gap-1">
-        <span className="text-sm font-medium text-neutral-700">الرابط المختصر (Slug)</span>
-        <input name="slug" required dir="ltr" className="rounded-md border border-neutral-300 px-3 py-2 text-sm" />
-      </label>
+      <Input label="الرابط المختصر (Slug)" name="slug" required dir="ltr" />
 
-      <label className="flex flex-col gap-1">
-        <span className="text-sm font-medium text-neutral-700">السعر</span>
-        <input
-          name="price"
-          type="number"
-          step="0.01"
-          min="0"
-          required
-          dir="ltr"
-          className="rounded-md border border-neutral-300 px-3 py-2 text-sm"
-        />
-      </label>
+      <Input label="السعر" name="price" type="number" step="0.01" min="0" required dir="ltr" />
 
-      <label className="flex flex-col gap-1">
-        <span className="text-sm font-medium text-neutral-700">الحالة</span>
-        <select name="status" defaultValue="Draft" className="rounded-md border border-neutral-300 px-3 py-2 text-sm">
-          <option value="Draft">مسودة (Draft)</option>
-          <option value="Published">منشور (Published)</option>
-        </select>
-      </label>
+      <Select label="الحالة" name="status" defaultValue="Draft">
+        <option value="Draft">مسودة (Draft)</option>
+        <option value="Published">منشور (Published)</option>
+      </Select>
 
-      {state.message && <p className="text-sm text-red-600">{state.message}</p>}
+      {state.message && <p className="text-sm text-danger">{state.message}</p>}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded-md bg-[#0F6E56] px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
-      >
+      <Button type="submit" loading={pending}>
         {pending ? "جارٍ الحفظ..." : "حفظ"}
-      </button>
+      </Button>
     </form>
   );
 }

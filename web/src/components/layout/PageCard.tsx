@@ -1,3 +1,5 @@
+import { Card } from "@/components/ui/Card";
+
 type PageCardProps = {
   children: React.ReactNode;
   maxWidth?: "2xl" | "4xl" | "5xl";
@@ -11,13 +13,16 @@ const MAX_WIDTH_CLASS: Record<NonNullable<PageCardProps["maxWidth"]>, string> = 
 
 // Shared "floating white card over the soft background blur" container used by every
 // public-facing page — centralizes the one visual pattern instead of repeating the same
-// class list per page.
+// class list per page. `w-full` matters here: body is `flex flex-col`, and mx-auto's auto
+// margins disable flex's default cross-axis stretch, so without it this shrink-wraps to its
+// content instead of actually reaching max-width (see the identical fix on /tech-majors and
+// /roadmaps).
 export function PageCard({ children, maxWidth = "2xl" }: PageCardProps) {
   return (
-    <div className={`mx-auto ${MAX_WIDTH_CLASS[maxWidth]} px-3 py-6 sm:px-6 sm:py-10`}>
-      <div className="rounded-2xl border border-neutral-100 bg-white p-5 shadow-lg shadow-neutral-900/5 sm:rounded-3xl sm:p-8">
+    <div className={`mx-auto w-full ${MAX_WIDTH_CLASS[maxWidth]} px-3 py-6 sm:px-6 sm:py-10`}>
+      <Card padding="lg" shadow="panel" radius="card">
         {children}
-      </div>
+      </Card>
     </div>
   );
 }

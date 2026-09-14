@@ -24,11 +24,11 @@ export function AdminSidebarNav({ items }: { items: AdminSidebarNavItem[] }) {
             key={item.href}
             href={item.href}
             className={`flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-sm transition ${
-              active ? "bg-[#0F6E56]/10 font-bold text-[#0F6E56]" : "font-medium text-neutral-600 hover:bg-neutral-50"
+              active ? "bg-primary/10 font-bold text-primary" : "font-medium text-neutral-600 hover:bg-neutral-50"
             }`}
           >
             <span className="flex items-center gap-2.5">
-              <span className={`h-1.5 w-1.5 rounded-full ${active ? "bg-[#0F6E56]" : "bg-neutral-300"}`} />
+              <span className={`h-1.5 w-1.5 rounded-full ${active ? "bg-primary" : "bg-neutral-300"}`} />
               {item.label}
             </span>
             {item.count !== null && <span className="font-mono text-xs text-neutral-400">{item.count}</span>}

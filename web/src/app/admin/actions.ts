@@ -73,7 +73,7 @@ export async function createRoadmapAction(_prevState: ActionState, formData: For
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   // The public home page and roadmap page cache their fetches for 60s (ISR) — without this,
@@ -110,7 +110,7 @@ export async function createPhaseAction(_prevState: ActionState, formData: FormD
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   redirect(`/admin/roadmaps/${roadmapId}/phases/${result.id}`);
@@ -134,7 +134,7 @@ export async function createResourceAction(_prevState: ActionState, formData: Fo
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   redirect(`/admin/roadmaps/${roadmapId}/phases/${phaseId}`);
@@ -157,7 +157,7 @@ export async function createProjectAction(_prevState: ActionState, formData: For
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   redirect(`/admin/roadmaps/${roadmapId}/phases/${phaseId}`);
@@ -319,7 +319,7 @@ export async function updatePhaseAction(_prevState: ActionState, formData: FormD
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   redirect(`/admin/roadmaps/${roadmapId}/phases/${id}`);
@@ -411,7 +411,7 @@ export async function updateResourceAction(_prevState: ActionState, formData: Fo
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   redirect(`/admin/roadmaps/${roadmapId}/phases/${phaseId}`);
@@ -448,7 +448,7 @@ export async function updateProjectAction(_prevState: ActionState, formData: For
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   redirect(`/admin/roadmaps/${roadmapId}/phases/${phaseId}`);
@@ -483,7 +483,7 @@ export async function createQuizQuestionAction(_prevState: ActionState, formData
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   redirect(`/admin/roadmaps/${roadmapId}/phases/${phaseId}`);
@@ -504,7 +504,7 @@ export async function updateQuizQuestionAction(_prevState: ActionState, formData
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   redirect(`/admin/roadmaps/${roadmapId}/phases/${phaseId}`);
@@ -538,7 +538,7 @@ export async function createFinalExamQuestionAction(_prevState: ActionState, for
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   redirect(`/admin/roadmaps/${roadmapId}`);
@@ -558,7 +558,7 @@ export async function updateFinalExamQuestionAction(_prevState: ActionState, for
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   redirect(`/admin/roadmaps/${roadmapId}`);
@@ -593,7 +593,7 @@ export async function createTrackAction(_prevState: ActionState, formData: FormD
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   redirect("/admin/tracks");
@@ -616,7 +616,7 @@ export async function updateTrackAction(_prevState: ActionState, formData: FormD
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   redirect("/admin/tracks");
@@ -677,7 +677,7 @@ export async function createCareerQuizQuestionAction(_prevState: ActionState, fo
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   redirect("/admin/career-quiz-questions");
@@ -696,7 +696,7 @@ export async function updateCareerQuizQuestionAction(_prevState: ActionState, fo
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   redirect("/admin/career-quiz-questions");
@@ -731,7 +731,7 @@ export async function createSpecializationAction(_prevState: ActionState, formDa
   });
 
   if (!result.ok) {
-    return { message: result.message };
+    return { message: result.message, values: snapshotFormValues(formData) };
   }
 
   revalidatePath("/tech-majors");

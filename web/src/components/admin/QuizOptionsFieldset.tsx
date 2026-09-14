@@ -11,7 +11,7 @@ export function QuizOptionsFieldset({ existingOptions }: QuizOptionsFieldsetProp
   const correctIndex = existingOptions?.findIndex((option) => option.isCorrect) ?? -1;
 
   return (
-    <fieldset className="flex flex-col gap-4 rounded-md border border-neutral-200 p-4">
+    <fieldset className="flex flex-col gap-4 rounded-panel border border-neutral-200 p-4">
       <legend className="px-1 text-sm font-medium text-neutral-700">الخيارات (اختر الإجابة الصحيحة)</legend>
       {[0, 1, 2, 3].map((index) => (
         <div key={index} className="flex items-start gap-3">
@@ -21,7 +21,7 @@ export function QuizOptionsFieldset({ existingOptions }: QuizOptionsFieldsetProp
             value={index}
             required={index === 0}
             defaultChecked={index === (correctIndex >= 0 ? correctIndex : 0)}
-            className="mt-3 h-4 w-4"
+            className="mt-3 h-4 w-4 accent-primary"
           />
           <div className="flex-1">
             <LocalizedTextInput

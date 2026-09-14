@@ -1,16 +1,17 @@
 import type { Dictionary } from "@/lib/i18n/dictionaries";
+import { ACCENT, PRIMARY, SECONDARY } from "@/lib/theme";
 
 type FeatureGridProps = {
   dict: Dictionary["homePage"];
 };
 
 const FEATURE_STYLE = [
-  { tint: "rgba(15,110,86,.10)", mark: "#0F6E56" },
-  { tint: "rgba(232,118,74,.12)", mark: "#E8764A" },
-  { tint: "rgba(91,63,196,.10)", mark: "#5B3FC4" },
-  { tint: "rgba(15,110,86,.10)", mark: "#0F6E56" },
-  { tint: "rgba(232,118,74,.12)", mark: "#E8764A" },
-  { tint: "rgba(91,63,196,.10)", mark: "#5B3FC4" },
+  { tint: "rgba(15,110,86,.10)", mark: PRIMARY },
+  { tint: "rgba(232,118,74,.12)", mark: ACCENT },
+  { tint: "rgba(91,63,196,.10)", mark: SECONDARY },
+  { tint: "rgba(15,110,86,.10)", mark: PRIMARY },
+  { tint: "rgba(232,118,74,.12)", mark: ACCENT },
+  { tint: "rgba(91,63,196,.10)", mark: SECONDARY },
 ] as const;
 
 // Every claim here is checked against what the product actually does. The original design's
@@ -29,8 +30,8 @@ export function FeatureGrid({ dict }: FeatureGridProps) {
   return (
     <section className="mt-20">
       <div className="mb-8 text-center">
-        <p className="text-xs font-semibold tracking-wide text-[#0F6E56]">{dict.featuresEyebrow}</p>
-        <h2 className="mx-auto mt-2 max-w-xl text-2xl font-bold text-neutral-900 sm:text-3xl">{dict.featuresTitle}</h2>
+        <p className="text-xs font-semibold font-accent tracking-wide text-primary">{dict.featuresEyebrow}</p>
+        <h2 className="mx-auto mt-2 max-w-xl text-2xl font-bold font-accent text-neutral-900 sm:text-3xl">{dict.featuresTitle}</h2>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {features.map((feature, index) => {

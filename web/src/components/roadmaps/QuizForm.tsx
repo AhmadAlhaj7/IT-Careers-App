@@ -2,6 +2,11 @@
 
 import { useActionState } from "react";
 import { submitQuizAction, type QuizSubmitState } from "@/app/roadmaps/[slug]/phases/[orderIndex]/actions";
+import { Card, cardVariants } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import { RadioCard } from "@/components/ui/RadioCard";
+import type { Locale } from "@/lib/i18n/locale";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
 import type { PublicQuizQuestion } from "@/lib/types";
 
 const initialState: QuizSubmitState = {};
@@ -10,56 +15,59 @@ type QuizFormProps = {
   slug: string;
   orderIndex: number;
   questions: PublicQuizQuestion[];
+  locale: Locale;
+  dict: Dictionary;
 };
 
-export function QuizForm({ slug, orderIndex, questions }: QuizFormProps) {
+export function QuizForm({ slug, orderIndex, questions, locale, dict }: QuizFormProps) {
   const [state, formAction, pending] = useActionState(submitQuizAction, initialState);
+  const t = dict.phaseDetailPage;
+  const common = dict.quizCommon;
 
   if (state.result) {
     return (
-      <div className="rounded-lg border border-neutral-200 p-6 text-center">
-        <p className={state.result.passed ? "text-lg font-semibold text-[#0F6E56]" : "text-lg font-semibold text-red-600"}>
-          {state.result.passed ? "أحسنت! لقد اجتزت الاختبار" : "لم تجتز الاختبار بعد"}
+      <Card padding="lg" shadow="subtle" radius="panel" className="text-center">
+        <p className={state.result.passed ? "text-lg font-semibold text-primary" : "text-lg font-semibold text-danger"}>
+          {state.result.passed ? t.quizPassedTitle : t.quizFailedTitle}
         </p>
         <p className="mt-2 text-sm text-neutral-600">
-          {state.result.correctCount} من {state.result.totalCount} إجابات صحيحة
+          {state.result.correctCount} {common.ofLabel} {state.result.totalCount} {common.correctAnswersSuffix}
         </p>
-        {!state.result.passed && (
-          <p className="mt-2 text-sm text-neutral-500">يمكنك المحاولة مرة أخرى بلا حدود — أعد تحميل الصفحة للمحاولة من جديد.</p>
-        )}
-      </div>
+        {!state.result.passed && <p className="mt-2 text-sm text-neutral-500">{common.retryNote}</p>}
+      </Card>
     );
   }
 
   return (
-    <form action={formAction} className="flex flex-col gap-6 rounded-lg border border-neutral-200 p-6">
+    <form action={formAction} className={cardVariants({ padding: "lg", shadow: "subtle", radius: "panel", className: "flex flex-col gap-6" })}>
       <input type="hidden" name="slug" value={slug} />
       <input type="hidden" name="orderIndex" value={orderIndex} />
 
-      <h2 className="text-lg font-semibold text-neutral-900">اختبار المرحلة</h2>
+      <h2 className="text-lg font-semibold text-neutral-900">{t.quizTitle}</h2>
 
       {questions.map((question) => (
         <fieldset key={question.id} className="flex flex-col gap-2">
           <input type="hidden" name="questionId" value={question.id} />
-          <legend className="font-medium text-neutral-800">{question.text.ar}</legend>
-          {question.options.map((option) => (
-            <label key={option.index} className="flex items-center gap-2 text-sm text-neutral-700">
-              <input type="radio" name={`answer-${question.id}`} value={option.index} required />
-              {option.text.ar}
-            </label>
-          ))}
+          <legend className="mb-1 font-medium text-neutral-800">{question.text[locale]}</legend>
+          <div className="flex flex-col gap-2">
+            {question.options.map((option) => (
+              <RadioCard
+                key={option.index}
+                name={`answer-${question.id}`}
+                value={String(option.index)}
+                label={option.text[locale]}
+                required
+              />
+            ))}
+          </div>
         </fieldset>
       ))}
 
-      {state.message && <p className="text-sm text-red-600">{state.message}</p>}
+      {state.message && <p className="text-sm text-danger">{state.message}</p>}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded-md bg-[#0F6E56] px-4 py-2 text-sm font-medium text-white transition active:scale-95 disabled:opacity-50 disabled:active:scale-100"
-      >
-        {pending ? "جارٍ الإرسال..." : "إرسال الإجابات"}
-      </button>
+      <Button type="submit" loading={pending}>
+        {pending ? common.submitting : t.quizSubmitCta}
+      </Button>
     </form>
   );
 }

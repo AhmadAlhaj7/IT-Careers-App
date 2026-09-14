@@ -19,9 +19,9 @@ export default async function NewPhasePage({ params }: { params: Promise<{ id: s
   const roadmap = result.data;
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12">
+    <div className="mx-auto w-full max-w-2xl px-3 py-10 sm:px-6 sm:py-16">
       <BackLink href={`/admin/roadmaps/${roadmap.id}`} label={roadmap.title.ar} />
-      <h1 className="mt-2 text-2xl font-semibold text-neutral-900">مرحلة جديدة</h1>
+      <h1 className="mt-4 text-2xl font-bold text-neutral-900 sm:text-3xl">مرحلة جديدة</h1>
       <CreatePhaseForm roadmapId={roadmap.id} nextOrderIndex={roadmap.phases.length} />
     </div>
   );

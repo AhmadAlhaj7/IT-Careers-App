@@ -8,6 +8,7 @@ import { PhaseTimeline } from "@/components/roadmaps/PhaseTimeline";
 import { BackLink } from "@/components/layout/BackLink";
 import { BuyButton } from "@/components/roadmaps/BuyButton";
 import { FinalExamForm } from "@/components/roadmaps/FinalExamForm";
+import { ACCENT } from "@/lib/theme";
 
 export default async function RoadmapPage({
   params,
@@ -34,7 +35,7 @@ export default async function RoadmapPage({
       <div className="mt-4 grid grid-cols-1 gap-0 overflow-hidden rounded-3xl bg-white shadow-xl shadow-neutral-900/10 lg:grid-cols-[1.15fr_0.85fr]">
         <div className="flex flex-col justify-center p-6 sm:p-10">
           {roadmap.level && (
-            <span className="mb-3 w-fit rounded-full bg-[#0F6E56]/10 px-3 py-1 text-xs font-semibold text-[#0F6E56]">
+            <span className="mb-3 w-fit rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
               {roadmap.level[locale]}
             </span>
           )}
@@ -45,16 +46,16 @@ export default async function RoadmapPage({
 
           <div className="mt-6 flex flex-wrap gap-2">
             <div className="flex items-center gap-1.5 rounded-xl border border-neutral-200 px-3 py-2 text-sm text-neutral-600">
-              <span className="font-bold text-[#0F6E56]">{roadmap.phases.length}</span> {dict.roadmapsPage.phases}
+              <span className="font-bold text-primary">{roadmap.phases.length}</span> {dict.roadmapsPage.phases}
             </div>
             {roadmap.totalResourceCount > 0 && (
               <div className="flex items-center gap-1.5 rounded-xl border border-neutral-200 px-3 py-2 text-sm text-neutral-600">
-                <span className="font-bold text-[#0F6E56]">{roadmap.totalResourceCount}</span> {t.resourcesLabel}
+                <span className="font-bold text-primary">{roadmap.totalResourceCount}</span> {t.resourcesLabel}
               </div>
             )}
             {roadmap.totalProjectCount > 0 && (
               <div className="flex items-center gap-1.5 rounded-xl border border-neutral-200 px-3 py-2 text-sm text-neutral-600">
-                <span className="font-bold text-[#0F6E56]">{roadmap.totalProjectCount}</span> {t.projectsLabel}
+                <span className="font-bold text-primary">{roadmap.totalProjectCount}</span> {t.projectsLabel}
               </div>
             )}
           </div>
@@ -65,20 +66,20 @@ export default async function RoadmapPage({
             <div>
               <div className="mb-2 flex items-baseline justify-between text-sm">
                 <span className="font-medium text-neutral-700">{t.unlockNoteEnrolled}</span>
-                <span className="font-bold text-[#0F6E56]">
+                <span className="font-bold text-primary">
                   {roadmap.completedPhaseCount}/{roadmap.phases.length}
                 </span>
               </div>
               <div className="h-2 overflow-hidden rounded-full bg-neutral-200">
                 <div
-                  className="h-full rounded-full bg-[#0F6E56]"
+                  className="h-full rounded-full bg-primary"
                   style={{ width: `${roadmap.phases.length > 0 ? Math.round((roadmap.completedPhaseCount / roadmap.phases.length) * 100) : 0}%` }}
                 />
               </div>
               {currentPhase && (
                 <Link
                   href={`/roadmaps/${roadmap.slug}/phases/${currentPhase.orderIndex}`}
-                  className="mt-4 block rounded-xl bg-[#0F6E56] px-4 py-3 text-center text-sm font-bold text-white transition active:scale-95"
+                  className="mt-4 block rounded-xl bg-primary px-4 py-3 text-center text-sm font-bold text-white transition active:scale-95"
                 >
                   {t.continueCta}
                 </Link>
@@ -87,12 +88,12 @@ export default async function RoadmapPage({
           ) : (
             <div>
               <div className="flex items-baseline gap-2" dir="ltr">
-                <span className="text-2xl font-bold text-[#0F6E56]">${roadmap.price.toFixed(2)}</span>
+                <span className="text-2xl font-bold text-primary">${roadmap.price.toFixed(2)}</span>
                 {roadmap.originalPrice && roadmap.originalPrice > roadmap.price && (
                   <span className="text-base text-neutral-400 line-through">${roadmap.originalPrice.toFixed(2)}</span>
                 )}
               </div>
-              <p className="mt-1 text-xs font-semibold text-[#E8764A]">{t.lifetimeAccess}</p>
+              <p className="mt-1 text-xs font-semibold text-accent">{t.lifetimeAccess}</p>
 
               {roadmap.paddlePriceId && (
                 <div className="mt-4">
@@ -101,7 +102,8 @@ export default async function RoadmapPage({
                     roadmapId={roadmap.id}
                     userId={userId}
                     label={t.enrollCta}
-                    className="block w-full rounded-xl bg-[#E8764A] px-4 py-3 text-center text-sm font-bold text-white transition active:scale-95 hover:bg-[#d35f35] disabled:opacity-50 disabled:active:scale-100"
+                    signInLabel={t.signInToBuy}
+                    className="block w-full rounded-xl bg-accent px-4 py-3 text-center text-sm font-bold text-white transition active:scale-95 hover:bg-accent-hover disabled:opacity-50 disabled:active:scale-100"
                   />
                 </div>
               )}
@@ -113,12 +115,12 @@ export default async function RoadmapPage({
       {/* Outcomes */}
       {roadmap.outcomes.length > 0 && (
         <div className="mt-14">
-          <p className="text-xs font-semibold tracking-wide text-[#0F6E56]">{t.outcomesEyebrow}</p>
-          <h2 className="mt-2 text-xl font-bold text-neutral-900 sm:text-2xl">{t.outcomesTitle}</h2>
+          <p className="text-xs font-semibold font-accent tracking-wide text-primary">{t.outcomesEyebrow}</p>
+          <h2 className="mt-2 text-xl font-bold font-accent text-neutral-900 sm:text-2xl">{t.outcomesTitle}</h2>
           <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {roadmap.outcomes.map((outcome, index) => (
               <div key={index} className="flex items-start gap-2.5 rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm shadow-neutral-900/5">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#E8764A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke={ACCENT} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0">
                   <path d="M20 6L9 17l-5-5" />
                 </svg>
                 <span className="text-sm leading-[1.6] text-neutral-700">{outcome[locale]}</span>
@@ -132,8 +134,8 @@ export default async function RoadmapPage({
       <div className="mt-14">
         <div className="mb-5 flex flex-wrap items-end justify-between gap-2">
           <div>
-            <p className="text-xs font-semibold tracking-wide text-[#0F6E56]">{t.contentEyebrow}</p>
-            <h2 className="mt-2 text-xl font-bold text-neutral-900 sm:text-2xl">{t.contentTitle}</h2>
+            <p className="text-xs font-semibold font-accent tracking-wide text-primary">{t.contentEyebrow}</p>
+            <h2 className="mt-2 text-xl font-bold font-accent text-neutral-900 sm:text-2xl">{t.contentTitle}</h2>
           </div>
           <span className="text-sm text-neutral-500">{roadmap.isEnrolled ? t.unlockNoteEnrolled : t.unlockNoteLocked}</span>
         </div>
@@ -149,9 +151,9 @@ export default async function RoadmapPage({
       </div>
 
       {/* Final exam + certificate */}
-      <div className="mt-14 overflow-hidden rounded-3xl bg-[#0F6E56] p-6 sm:p-10">
-        <p className="text-xs font-semibold tracking-wide text-white/60">{t.examEyebrow}</p>
-        <h2 className="mt-2 text-xl font-bold text-white sm:text-2xl">{t.examTitle}</h2>
+      <div className="mt-14 overflow-hidden rounded-3xl bg-primary p-6 sm:p-10">
+        <p className="text-xs font-semibold font-accent tracking-wide text-white/60">{t.examEyebrow}</p>
+        <h2 className="mt-2 text-xl font-bold font-accent text-white sm:text-2xl">{t.examTitle}</h2>
         <p className="mt-3 max-w-xl text-sm leading-[1.8] text-white/80">{t.examIntro}</p>
 
         <div className="mt-5 flex flex-wrap gap-2">
@@ -166,8 +168,8 @@ export default async function RoadmapPage({
         </div>
 
         {examResult.status === "granted" && examResult.questions.length > 0 && (
-          <div className="mt-6 rounded-2xl bg-white p-6">
-            <FinalExamForm slug={roadmap.slug} questions={examResult.questions} />
+          <div className="mt-6">
+            <FinalExamForm slug={roadmap.slug} questions={examResult.questions} locale={locale} dict={dict} />
           </div>
         )}
 
@@ -181,12 +183,12 @@ export default async function RoadmapPage({
         <div className="relative mt-14 overflow-hidden rounded-3xl bg-white p-6 shadow-xl shadow-neutral-900/10 sm:p-10">
           <div className="flex flex-col items-center gap-5 text-center sm:flex-row sm:justify-between sm:text-start">
             <div>
-              <h2 className="text-xl font-bold text-neutral-900 sm:text-2xl">{t.closingTitle}</h2>
+              <h2 className="text-xl font-bold font-accent text-neutral-900 sm:text-2xl">{t.closingTitle}</h2>
               <p className="mt-2 max-w-md text-sm leading-[1.7] text-neutral-600">{t.closingSubtitle}</p>
             </div>
             <div className="flex flex-col items-center gap-2 sm:items-end">
               <div className="flex items-baseline gap-2" dir="ltr">
-                <span className="text-xl font-bold text-[#0F6E56]">${roadmap.price.toFixed(2)}</span>
+                <span className="text-xl font-bold text-primary">${roadmap.price.toFixed(2)}</span>
                 {roadmap.originalPrice && roadmap.originalPrice > roadmap.price && (
                   <span className="text-sm text-neutral-400 line-through">${roadmap.originalPrice.toFixed(2)}</span>
                 )}
@@ -196,7 +198,8 @@ export default async function RoadmapPage({
                 roadmapId={roadmap.id}
                 userId={userId}
                 label={t.enrollCta}
-                className="rounded-xl bg-[#E8764A] px-6 py-3 text-sm font-bold text-white transition active:scale-95 hover:bg-[#d35f35] disabled:opacity-50 disabled:active:scale-100"
+                signInLabel={t.signInToBuy}
+                className="rounded-xl bg-accent px-6 py-3 text-sm font-bold text-white transition active:scale-95 hover:bg-accent-hover disabled:opacity-50 disabled:active:scale-100"
               />
             </div>
           </div>

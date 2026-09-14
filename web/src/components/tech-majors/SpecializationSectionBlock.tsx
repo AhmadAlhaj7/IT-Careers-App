@@ -30,7 +30,7 @@ export function SpecializationSectionBlock({ section, index, locale }: Specializ
   return (
     <div className="mt-12">
       <div className="flex items-center gap-3">
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0F6E56]/10 font-mono text-xs font-bold text-[#0F6E56]">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 font-mono text-xs font-bold text-primary">
           {index}
         </span>
         {title.length > 0 && <h2 className="text-xl font-bold text-neutral-900 sm:text-2xl">{title}</h2>}

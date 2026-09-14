@@ -14,9 +14,9 @@ export default async function NewCareerQuizQuestionPage() {
   const nextOrderIndex = questionsResult.status === "ok" ? questionsResult.data.length : 0;
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12">
+    <div className="mx-auto w-full max-w-2xl px-3 py-10 sm:px-6 sm:py-16">
       <BackLink href="/admin/career-quiz-questions" label="بوصلة المهنة" />
-      <h1 className="mt-2 text-2xl font-semibold text-neutral-900">سؤال جديد لبوصلة المهنة</h1>
+      <h1 className="mt-4 text-2xl font-bold text-neutral-900 sm:text-3xl">سؤال جديد لبوصلة المهنة</h1>
       <CreateCareerQuizQuestionForm tracks={tracks} nextOrderIndex={nextOrderIndex} />
     </div>
   );

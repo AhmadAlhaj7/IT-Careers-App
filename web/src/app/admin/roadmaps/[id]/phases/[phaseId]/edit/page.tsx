@@ -21,9 +21,9 @@ export default async function EditPhasePage({
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12">
+    <div className="mx-auto w-full max-w-2xl px-3 py-10 sm:px-6 sm:py-16">
       <BackLink href={`/admin/roadmaps/${id}/phases/${phaseId}`} label="المرحلة" />
-      <h1 className="mt-2 text-2xl font-semibold text-neutral-900">تعديل المرحلة</h1>
+      <h1 className="mt-4 text-2xl font-bold text-neutral-900 sm:text-3xl">تعديل المرحلة</h1>
       <EditPhaseForm phase={result.data} />
     </div>
   );

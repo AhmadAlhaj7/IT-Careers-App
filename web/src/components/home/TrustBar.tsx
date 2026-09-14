@@ -11,9 +11,9 @@ type TrustBarProps = {
 export function TrustBar({ stats, dict }: TrustBarProps) {
   const cells = [
     { value: stats.roadmapCount, label: dict.trustRoadmaps, color: "text-neutral-900" },
-    { value: stats.learnerCount, label: dict.trustLearners, color: "text-[#0F6E56]" },
-    { value: stats.certificatesIssuedCount, label: dict.trustCertificates, color: "text-[#0F6E56]" },
-    { value: `${Math.round(stats.phase1CompletionRate * 100)}%`, label: dict.trustPhase1, color: "text-[#E8764A]" },
+    { value: stats.learnerCount, label: dict.trustLearners, color: "text-primary" },
+    { value: stats.certificatesIssuedCount, label: dict.trustCertificates, color: "text-primary" },
+    { value: `${Math.round(stats.phase1CompletionRate * 100)}%`, label: dict.trustPhase1, color: "text-accent" },
   ];
 
   return (

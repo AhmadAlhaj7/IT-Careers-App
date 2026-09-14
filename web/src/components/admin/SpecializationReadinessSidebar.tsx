@@ -1,3 +1,4 @@
+import { PRIMARY } from "@/lib/theme";
 import type { AdminSpecializationDetail } from "@/lib/types";
 
 const MIN_FAQS_RECOMMENDED = 3;
@@ -29,14 +30,14 @@ export function SpecializationReadinessSidebar({ specialization }: { specializat
           {checklist.map((item) => (
             <div key={item.label} className="flex items-center gap-2.5">
               <span
-                className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${item.done ? "bg-[#0F6E56]/15" : "bg-[#E8764A]/15"}`}
+                className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${item.done ? "bg-primary/15" : "bg-accent/15"}`}
               >
                 {item.done ? (
-                  <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="#0F6E56" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke={PRIMARY} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M20 6L9 17l-5-5" />
                   </svg>
                 ) : (
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#E8764A]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                 )}
               </span>
               <span className={`text-sm ${item.done ? "text-neutral-600" : "text-neutral-800"}`}>{item.label}</span>
@@ -45,7 +46,7 @@ export function SpecializationReadinessSidebar({ specialization }: { specializat
         </div>
       </div>
 
-      <div className="rounded-2xl border border-[#5B3FC4]/25 bg-[#5B3FC4]/[0.06] p-5">
+      <div className="rounded-2xl border border-secondary/25 bg-secondary/[0.06] p-5">
         <p className="mb-1.5 text-sm font-bold text-[#4a32a8]">نصيحة تحرير</p>
         <p className="text-xs leading-[1.85] text-[#5a4a92]">
           اكتب كأنك تشرح لابن عمك في الثانوية: جملة قصيرة، مثال ملموس، وبدون مصطلح إنجليزي بلا تفسير. الصفحة هدفها القرار، لا التعليم.

@@ -1,5 +1,6 @@
 import { paletteFor } from "@/lib/cardPalette";
 import { Logo } from "@/components/layout/Logo";
+import { PRIMARY } from "@/lib/theme";
 import type { AdminRoadmapDetail } from "@/lib/types";
 
 const RECOMMENDED_MIN_QUESTIONS = 10;
@@ -45,7 +46,7 @@ export function RoadmapReadinessSidebar({ roadmap }: { roadmap: AdminRoadmapDeta
           <div className="p-3">
             <div className="mb-1 flex items-baseline justify-between gap-2">
               <span className="truncate text-sm font-bold text-neutral-900">{roadmap.title.ar || "بلا عنوان"}</span>
-              <span dir="ltr" className="shrink-0 font-mono text-sm font-bold text-[#0F6E56]">
+              <span dir="ltr" className="shrink-0 font-mono text-sm font-bold text-primary">
                 ${roadmap.price.toFixed(2)}
               </span>
             </div>
@@ -61,14 +62,14 @@ export function RoadmapReadinessSidebar({ roadmap }: { roadmap: AdminRoadmapDeta
           {checklist.map((item) => (
             <div key={item.label} className="flex items-center gap-2.5">
               <span
-                className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${item.done ? "bg-[#0F6E56]/15" : "bg-[#E8764A]/15"}`}
+                className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${item.done ? "bg-primary/15" : "bg-accent/15"}`}
               >
                 {item.done ? (
-                  <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="#0F6E56" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke={PRIMARY} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M20 6L9 17l-5-5" />
                   </svg>
                 ) : (
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#E8764A]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                 )}
               </span>
               <span className={`text-sm ${item.done ? "text-neutral-600" : "text-neutral-800"}`}>{item.label}</span>

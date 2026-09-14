@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { buttonVariants } from "@/components/ui/Button";
 
 type ActionState = { message?: string };
 
@@ -31,14 +32,10 @@ export function DeleteButton({ action, hiddenFields, confirmMessage, label = "ح
       {Object.entries(hiddenFields).map(([name, value]) => (
         <input key={name} type="hidden" name={name} value={value} />
       ))}
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded-md border border-red-300 px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 disabled:opacity-50"
-      >
+      <button type="submit" disabled={pending} className={buttonVariants({ variant: "danger", size: "sm" })}>
         {pending ? "جارٍ الحذف..." : label}
       </button>
-      {state.message && <p className="mt-1 text-xs text-red-600">{state.message}</p>}
+      {state.message && <p className="mt-1 text-xs text-danger">{state.message}</p>}
     </form>
   );
 }
