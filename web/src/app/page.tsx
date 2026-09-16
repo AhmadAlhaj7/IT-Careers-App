@@ -1,23 +1,12 @@
 import Link from "next/link";
-import { auth } from "@clerk/nextjs/server";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getLocale } from "@/lib/i18n/locale";
-import { getPublicStats, listRoadmaps } from "@/lib/api";
 import { FloatingChip } from "@/components/home/FloatingChip";
 import { GuideArrow } from "@/components/home/GuideArrow";
-import { TrustBar } from "@/components/home/TrustBar";
-import { HowItWorks } from "@/components/home/HowItWorks";
-import { FeaturedRoadmaps } from "@/components/home/FeaturedRoadmaps";
-import { FeatureGrid } from "@/components/home/FeatureGrid";
-import { CertificateShowcase } from "@/components/home/CertificateShowcase";
-import { Faq } from "@/components/home/Faq";
-import { ClosingCta } from "@/components/home/ClosingCta";
-import { SiteFooter } from "@/components/home/SiteFooter";
 
 export default async function Home() {
-  const [locale, { userId }] = await Promise.all([getLocale(), auth()]);
+  const locale = await getLocale();
   const dict = getDictionary(locale);
-  const [roadmaps, stats] = await Promise.all([listRoadmaps(), getPublicStats()]);
 
   return (
     <div className="mx-auto w-full max-w-5xl px-3 py-10 sm:px-6 sm:py-16">
@@ -74,25 +63,29 @@ export default async function Home() {
             <GuideArrow label="لسا محتار" className="top-full left-2 mt-2" duration="7s" delay="1.5s" />
           </div>
         </div>
+
+        {/* Not wired up yet — placeholders for the next set of entry points off the home page. */}
+        <div className="mt-4 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <button
+            type="button"
+            className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition active:scale-95 hover:border-primary hover:text-primary sm:w-auto"
+          >
+            {dict.home.learningFilesCta}
+          </button>
+          <button
+            type="button"
+            className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition active:scale-95 hover:border-primary hover:text-primary sm:w-auto"
+          >
+            {dict.home.bookConsultationCta}
+          </button>
+          <button
+            type="button"
+            className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition active:scale-95 hover:border-primary hover:text-primary sm:w-auto"
+          >
+            {dict.home.roadmapsCta}
+          </button>
+        </div>
       </section>
-
-      <div className="mt-20">
-        <TrustBar stats={stats} dict={dict.homePage} />
-      </div>
-
-      <HowItWorks dict={dict.homePage} />
-
-      <FeaturedRoadmaps roadmaps={roadmaps} locale={locale} userId={userId} dict={dict} />
-
-      <FeatureGrid dict={dict.homePage} />
-
-      <CertificateShowcase dict={dict.homePage} />
-
-      <Faq dict={dict.homePage} />
-
-      <ClosingCta dict={dict.homePage} />
-
-      <SiteFooter dict={dict} />
     </div>
   );
 }
