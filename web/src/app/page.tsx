@@ -64,8 +64,9 @@ export default async function Home() {
           </div>
         </div>
 
-        {/* Not wired up yet — placeholders for the next set of entry points off the home page. */}
-        <div className="mt-4 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        {/* Not wired up yet — placeholders for the next set of entry points off the home page.
+            mt-20 clears the GuideArrow labels pinned below the CTA row above (md and up). */}
+        <div className="mt-20 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <button
             type="button"
             className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition active:scale-95 hover:border-primary hover:text-primary sm:w-auto"
