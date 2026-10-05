@@ -151,7 +151,7 @@ export default async function SpecializationDetailPage({ params }: { params: Pro
       {/* FAQ */}
       {specialization.faqs.length > 0 && (
         <div className="mt-14">
-          <h2 className="mb-5 text-xl font-bold font-accent text-neutral-900 sm:text-2xl">{t.faqTitle}</h2>
+          <h2 className="mb-5 text-xl font-bold text-neutral-900 sm:text-2xl">{t.faqTitle}</h2>
           <SpecializationFaqAccordion faqs={specialization.faqs} locale={locale} />
         </div>
       )}
@@ -161,14 +161,14 @@ export default async function SpecializationDetailPage({ params }: { params: Pro
           just disappearing. */}
       {specialization.linkedRoadmap ? (
         <div className="relative mt-14 overflow-hidden rounded-3xl bg-primary p-6 sm:p-10">
-          <p className="text-xs font-semibold font-accent tracking-wide text-white/60">{t.closingEyebrow}</p>
-          <h2 className="mt-2 text-xl font-bold font-accent text-white sm:text-2xl">{dict.roadmapDetailPage.closingTitle}</h2>
+          <p className="text-xs font-semibold tracking-wide text-white/60">{t.closingEyebrow}</p>
+          <h2 className="mt-2 text-xl font-bold text-white sm:text-2xl">{dict.roadmapDetailPage.closingTitle}</h2>
           <p className="mt-3 max-w-xl text-sm leading-[1.8] text-white/80">{dict.roadmapDetailPage.closingSubtitle}</p>
 
           <div className="mt-6 flex flex-wrap items-center gap-4">
             <Link
               href={`/roadmaps/${specialization.linkedRoadmap.slug}`}
-              className="rounded-xl bg-accent px-6 py-3 text-sm font-bold text-white transition active:scale-95 hover:bg-accent-hover"
+              className="rounded-xl bg-accent-gradient px-6 py-3 text-sm font-bold text-white transition active:scale-95 hover:brightness-95"
             >
               {roadmapButtonLabel}
             </Link>
@@ -179,8 +179,8 @@ export default async function SpecializationDetailPage({ params }: { params: Pro
         </div>
       ) : (
         <div className="relative mt-14 overflow-hidden rounded-3xl border border-dashed border-neutral-300 bg-neutral-50 p-6 sm:p-10">
-          <p className="text-xs font-semibold font-accent tracking-wide text-neutral-400">{t.closingEyebrow}</p>
-          <h2 className="mt-2 text-xl font-bold font-accent text-neutral-900 sm:text-2xl">{t.comingSoonTitle}</h2>
+          <p className="text-xs font-semibold tracking-wide text-neutral-400">{t.closingEyebrow}</p>
+          <h2 className="mt-2 text-xl font-bold text-neutral-900 sm:text-2xl">{t.comingSoonTitle}</h2>
           <p className="mt-3 max-w-xl text-sm leading-[1.8] text-neutral-600">{t.comingSoonBody}</p>
 
           <Link
@@ -195,7 +195,7 @@ export default async function SpecializationDetailPage({ params }: { params: Pro
       {/* Related specializations */}
       {specialization.related.length > 0 && (
         <div className="mt-14">
-          <h2 className="mb-5 text-xl font-bold font-accent text-neutral-900 sm:text-2xl">{t.relatedTitle}</h2>
+          <h2 className="mb-5 text-xl font-bold text-neutral-900 sm:text-2xl">{t.relatedTitle}</h2>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {specialization.related.map((related) => {
               const relatedPalette = paletteFor(related.slug);

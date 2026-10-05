@@ -20,8 +20,8 @@ export function Faq({ dict }: FaqProps) {
     <section id="faq" className="mt-20">
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[0.8fr_1.2fr]">
         <div>
-          <p className="mb-2 text-xs font-semibold font-accent tracking-wide text-primary">{dict.faqEyebrow}</p>
-          <h2 className="mb-3.5 text-2xl font-bold font-accent text-neutral-900 sm:text-3xl">{dict.faqTitle}</h2>
+          <p className="mb-2 text-xs font-semibold tracking-wide text-primary">{dict.faqEyebrow}</p>
+          <h2 className="mb-3.5 text-2xl font-bold text-neutral-900 sm:text-3xl">{dict.faqTitle}</h2>
           <p className="max-w-sm text-sm leading-[1.9] text-neutral-600">{dict.faqSubtitle}</p>
         </div>
         <Accordion items={items} defaultOpenId="faq1" />

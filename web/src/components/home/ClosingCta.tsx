@@ -21,7 +21,7 @@ export function ClosingCta({ dict }: ClosingCtaProps) {
           <div className="flex flex-col justify-center gap-3 sm:flex-row">
             <Link
               href="/roadmaps"
-              className="w-full rounded-xl bg-accent px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-accent/30 transition active:scale-95 hover:bg-accent-hover sm:w-auto"
+              className="w-full rounded-xl bg-accent-gradient px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-accent/30 transition active:scale-95 hover:brightness-95 sm:w-auto"
             >
               {dict.closingCtaPrimary}
             </Link>

@@ -7,10 +7,12 @@ export const PRIMARY_HOVER = "#0C5845";
 export const PRIMARY_ACTIVE = "#0A4637";
 export const PRIMARY_SUBTLE = "#EEF3F1";
 
-export const ACCENT = "#E8764A";
-export const ACCENT_HOVER = "#D35F35";
-export const ACCENT_ACTIVE = "#B3512D";
-export const ACCENT_SUBTLE = "#F7EFE9";
+// Solid stand-in for the brand gradient below — see the matching comment in globals.css for
+// why (color/border/box-shadow properties can't take a gradient, only background-image can).
+export const ACCENT = "#A21F4A";
+export const ACCENT_HOVER = "#8A1A3F";
+export const ACCENT_ACTIVE = "#711634";
+export const ACCENT_SUBTLE = "#FDECE1";
 
 export const SECONDARY = "#5B3FC4";
 export const SECONDARY_HOVER = "#4C33AE";
@@ -20,7 +22,7 @@ export const DANGER = "#DC2626";
 export const DANGER_HOVER = "#B91C1C";
 export const DANGER_SUBTLE = "#FEF2F2";
 
-// The logo mark's own gradient (135deg, matches the brand's logo file) — distinct from
-// ACCENT, which still drives buttons/badges/CTAs across the rest of the app.
+// The brand gradient — same two stops used by the logo mark and, via globals.css's
+// .bg-accent-gradient, every solid-fill accent button/CTA across the site.
 export const LOGO_GRADIENT_FROM = "#fc9867";
 export const LOGO_GRADIENT_TO = "#a21f4a";

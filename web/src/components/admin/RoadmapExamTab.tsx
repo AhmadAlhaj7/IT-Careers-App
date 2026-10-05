@@ -134,7 +134,7 @@ export function RoadmapExamTab({ roadmapId, passThresholdPercent, pending, quest
           </div>
           <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-neutral-100">
             <div
-              className="h-full rounded-full bg-accent"
+              className="h-full rounded-full bg-accent-gradient"
               style={{ width: `${Math.min(100, Math.round((questions.length / RECOMMENDED_MIN_QUESTIONS) * 100))}%` }}
             />
           </div>

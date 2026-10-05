@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import type {
   AdminAnalytics,
   AdminCareerQuizQuestion,
+  AdminConsultationBooking,
   AdminPhaseDetail,
   AdminRoadmapDetail,
   AdminRoadmapSummary,
@@ -83,6 +84,10 @@ export function listSpecializations() {
 
 export function getSpecialization(id: string) {
   return adminGet<AdminSpecializationDetail>(`/api/admin/specializations/${id}`);
+}
+
+export function listAdminConsultationBookings() {
+  return adminGet<AdminConsultationBooking[]>("/api/admin/consultation-bookings");
 }
 
 type AdminMutateResult = { ok: true; id?: string } | { ok: false; message: string };

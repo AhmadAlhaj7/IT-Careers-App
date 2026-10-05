@@ -51,7 +51,7 @@ export default async function AdminAnalyticsPage() {
         الإيراد تقديري: يُحسب من السعر الحالي لكل مسار × عدد المشتركين فيه، وليس السعر الفعلي وقت كل عملية شراء.
       </p>
 
-      <h2 className="mt-10 text-sm font-semibold font-accent tracking-wide text-primary">المبيعات حسب المسار</h2>
+      <h2 className="mt-10 text-sm font-semibold tracking-wide text-primary">المبيعات حسب المسار</h2>
       <div className="mt-3 flex flex-col gap-2">
         {data.roadmapSales.length === 0 && <p className="text-sm text-neutral-500">لا توجد بيانات بعد.</p>}
         {data.roadmapSales.map((sale) => (
@@ -64,7 +64,7 @@ export default async function AdminAnalyticsPage() {
         ))}
       </div>
 
-      <h2 className="mt-10 text-sm font-semibold font-accent tracking-wide text-primary">معدلات إكمال المراحل</h2>
+      <h2 className="mt-10 text-sm font-semibold tracking-wide text-primary">معدلات إكمال المراحل</h2>
       <p className="mt-1 text-xs text-neutral-400">من بين المشتركين المدفوعين في كل مسار — لتحديد أين يتوقف المتعلمون.</p>
       <div className="mt-3 flex flex-col gap-2">
         {data.phaseCompletionRates.length === 0 && <p className="text-sm text-neutral-500">لا توجد بيانات بعد.</p>}
@@ -86,7 +86,7 @@ export default async function AdminAnalyticsPage() {
         ))}
       </div>
 
-      <h2 className="mt-10 text-sm font-semibold font-accent tracking-wide text-primary">تحويل بوصلة المهنة إلى شراء</h2>
+      <h2 className="mt-10 text-sm font-semibold tracking-wide text-primary">تحويل بوصلة المهنة إلى شراء</h2>
       <p className="mt-1 text-xs text-neutral-400">فقط الإجابات المرتبطة بمستخدم مسجّل يمكن تتبعها حتى الشراء.</p>
       <div className="mt-3 flex flex-col gap-2">
         {data.trackConversions.length === 0 && <p className="text-sm text-neutral-500">لا توجد بيانات بعد.</p>}

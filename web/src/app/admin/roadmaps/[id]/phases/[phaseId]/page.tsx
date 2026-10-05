@@ -51,7 +51,7 @@ export default async function AdminPhaseDetailPage({
       </div>
 
       <div className="mt-8 flex items-center justify-between">
-        <h2 className="text-sm font-semibold font-accent tracking-wide text-primary">الموارد</h2>
+        <h2 className="text-sm font-semibold tracking-wide text-primary">الموارد</h2>
         <Link href={`/admin/roadmaps/${id}/phases/${phase.id}/resources/new`} className="text-sm font-semibold text-primary hover:text-primary-hover">
           + مورد جديد
         </Link>
@@ -84,7 +84,7 @@ export default async function AdminPhaseDetailPage({
       </div>
 
       <div className="mt-8 flex items-center justify-between">
-        <h2 className="text-sm font-semibold font-accent tracking-wide text-primary">المشاريع</h2>
+        <h2 className="text-sm font-semibold tracking-wide text-primary">المشاريع</h2>
         <Link href={`/admin/roadmaps/${id}/phases/${phase.id}/projects/new`} className="text-sm font-semibold text-primary hover:text-primary-hover">
           + مشروع جديد
         </Link>
@@ -112,7 +112,7 @@ export default async function AdminPhaseDetailPage({
       </div>
 
       <div className="mt-8 flex items-center justify-between">
-        <h2 className="text-sm font-semibold font-accent tracking-wide text-primary">أسئلة الاختبار</h2>
+        <h2 className="text-sm font-semibold tracking-wide text-primary">أسئلة الاختبار</h2>
         <Link href={`/admin/roadmaps/${id}/phases/${phase.id}/quiz-questions/new`} className="text-sm font-semibold text-primary hover:text-primary-hover">
           + سؤال جديد
         </Link>

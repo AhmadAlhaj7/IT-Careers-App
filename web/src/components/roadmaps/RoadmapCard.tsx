@@ -159,7 +159,7 @@ export function RoadmapCard({
                 userId={userId}
                 label={buyNowLabel}
                 signInLabel={signInLabel}
-                className="block w-full rounded-xl bg-accent px-4 py-2.5 text-center text-sm font-medium text-white transition active:scale-95 hover:bg-accent-hover disabled:opacity-50 disabled:active:scale-100"
+                className="block w-full rounded-xl bg-accent-gradient px-4 py-2.5 text-center text-sm font-medium text-white transition active:scale-95 hover:brightness-95 disabled:opacity-50 disabled:active:scale-100"
               />
             </div>
           )

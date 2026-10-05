@@ -10,7 +10,7 @@ const BASE =
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: "bg-primary text-white shadow-subtle hover:bg-primary-hover focus-visible:ring-primary/40",
-  accent: "bg-accent text-white shadow-subtle hover:bg-accent-hover focus-visible:ring-accent/40",
+  accent: "bg-accent-gradient text-white shadow-subtle hover:brightness-95 active:brightness-90 focus-visible:ring-accent/40",
   secondary: "bg-secondary text-white shadow-subtle hover:bg-secondary-hover focus-visible:ring-secondary/40",
   outline:
     "border border-neutral-200 bg-white text-neutral-700 hover:border-primary hover:text-primary focus-visible:ring-primary/30",

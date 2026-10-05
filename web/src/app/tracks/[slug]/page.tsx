@@ -25,7 +25,7 @@ export default async function TrackPage({ params }: { params: Promise<{ slug: st
       <p className="mt-3 max-w-2xl text-sm leading-[1.8] text-neutral-600 sm:text-base">{track.description[locale]}</p>
 
       <div className="mt-8">
-        <h2 className="mb-4 text-sm font-semibold font-accent tracking-wide text-primary">{t.roadmapsTitle}</h2>
+        <h2 className="mb-4 text-sm font-semibold tracking-wide text-primary">{t.roadmapsTitle}</h2>
 
         {track.roadmaps.length === 0 ? (
           <p className="text-sm text-neutral-500">{t.empty}</p>

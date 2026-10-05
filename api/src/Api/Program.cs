@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using ItCareers.Application.Analytics;
 using ItCareers.Application.CareerQuiz;
 using ItCareers.Application.Certificates;
+using ItCareers.Application.ConsultationBookings;
 using ItCareers.Application.Enrollments;
 using ItCareers.Application.Quizzes;
 using ItCareers.Application.Roadmaps;
@@ -56,6 +57,8 @@ builder.Services.AddScoped<IPublicStatsQueries, PublicStatsQueries>();
 builder.Services.AddScoped<IAdminSpecializationQueries, AdminSpecializationQueries>();
 builder.Services.AddScoped<ISpecializationCommands, SpecializationCommands>();
 builder.Services.AddScoped<ISpecializationQueries, SpecializationQueries>();
+builder.Services.AddScoped<IConsultationBookingCommands, ConsultationBookingCommands>();
+builder.Services.AddScoped<IAdminConsultationBookingQueries, AdminConsultationBookingQueries>();
 
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<ItCareersDbContext>();

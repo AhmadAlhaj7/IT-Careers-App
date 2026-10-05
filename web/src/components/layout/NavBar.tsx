@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { Show, SignInButton, UserButton } from "@clerk/nextjs";
 import { LanguageSwitcher } from "./LanguageSwitcher";
@@ -13,14 +14,33 @@ type NavBarProps = {
   isAdmin: boolean;
 };
 
+// Standalone landing pages get a quiet nav: no nav links, no sign-in CTA — a booking/sales page
+// should offer exactly one path (the thing it's selling), not compete with itself for attention.
+const QUIET_NAV_PATHS = ["/book-consultation"];
+
 export function NavBar({ isAdmin }: NavBarProps) {
   const { dict } = useLocale();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const quiet = QUIET_NAV_PATHS.includes(pathname);
 
   const navLinks = [
     { href: "/", label: dict.nav.home },
     { href: "/roadmaps", label: dict.nav.roadmaps },
   ];
+
+  if (quiet) {
+    return (
+      <div className="sticky top-0 z-40 pt-3 pe-3 ps-20 sm:pt-6 sm:pe-6 sm:ps-28">
+        <header className="mx-auto flex max-w-5xl items-center justify-between gap-3 rounded-panel border border-neutral-100 bg-white/90 px-4 py-2.5 shadow-panel backdrop-blur sm:px-6">
+          <Link href="/" className="flex items-center gap-2 font-semibold text-neutral-500">
+            <span>{dict.brand}</span>
+          </Link>
+          <LanguageSwitcher />
+        </header>
+      </div>
+    );
+  }
 
   return (
     <div className="sticky top-0 z-40 pt-3 pe-3 ps-20 sm:pt-6 sm:pe-6 sm:ps-28">

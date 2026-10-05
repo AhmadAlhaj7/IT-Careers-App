@@ -240,6 +240,17 @@ export type AdminFinalExamQuestion = {
   options: AdminQuizOption[];
 };
 
+export type AdminConsultationBooking = {
+  id: string;
+  fullName: string;
+  phone: string;
+  email: string;
+  hasPriorExperience: boolean;
+  websiteIdea: string;
+  preferredContactTime: string;
+  submittedAt: string;
+};
+
 export type AdminTrack = {
   id: string;
   slug: string;

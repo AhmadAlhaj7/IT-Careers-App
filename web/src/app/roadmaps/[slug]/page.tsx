@@ -103,7 +103,7 @@ export default async function RoadmapPage({
                     userId={userId}
                     label={t.enrollCta}
                     signInLabel={t.signInToBuy}
-                    className="block w-full rounded-xl bg-accent px-4 py-3 text-center text-sm font-bold text-white transition active:scale-95 hover:bg-accent-hover disabled:opacity-50 disabled:active:scale-100"
+                    className="block w-full rounded-xl bg-accent-gradient px-4 py-3 text-center text-sm font-bold text-white transition active:scale-95 hover:brightness-95 disabled:opacity-50 disabled:active:scale-100"
                   />
                 </div>
               )}
@@ -115,8 +115,8 @@ export default async function RoadmapPage({
       {/* Outcomes */}
       {roadmap.outcomes.length > 0 && (
         <div className="mt-14">
-          <p className="text-xs font-semibold font-accent tracking-wide text-primary">{t.outcomesEyebrow}</p>
-          <h2 className="mt-2 text-xl font-bold font-accent text-neutral-900 sm:text-2xl">{t.outcomesTitle}</h2>
+          <p className="text-xs font-semibold tracking-wide text-primary">{t.outcomesEyebrow}</p>
+          <h2 className="mt-2 text-xl font-bold text-neutral-900 sm:text-2xl">{t.outcomesTitle}</h2>
           <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {roadmap.outcomes.map((outcome, index) => (
               <div key={index} className="flex items-start gap-2.5 rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm shadow-neutral-900/5">
@@ -134,8 +134,8 @@ export default async function RoadmapPage({
       <div className="mt-14">
         <div className="mb-5 flex flex-wrap items-end justify-between gap-2">
           <div>
-            <p className="text-xs font-semibold font-accent tracking-wide text-primary">{t.contentEyebrow}</p>
-            <h2 className="mt-2 text-xl font-bold font-accent text-neutral-900 sm:text-2xl">{t.contentTitle}</h2>
+            <p className="text-xs font-semibold tracking-wide text-primary">{t.contentEyebrow}</p>
+            <h2 className="mt-2 text-xl font-bold text-neutral-900 sm:text-2xl">{t.contentTitle}</h2>
           </div>
           <span className="text-sm text-neutral-500">{roadmap.isEnrolled ? t.unlockNoteEnrolled : t.unlockNoteLocked}</span>
         </div>
@@ -152,8 +152,8 @@ export default async function RoadmapPage({
 
       {/* Final exam + certificate */}
       <div className="mt-14 overflow-hidden rounded-3xl bg-primary p-6 sm:p-10">
-        <p className="text-xs font-semibold font-accent tracking-wide text-white/60">{t.examEyebrow}</p>
-        <h2 className="mt-2 text-xl font-bold font-accent text-white sm:text-2xl">{t.examTitle}</h2>
+        <p className="text-xs font-semibold tracking-wide text-white/60">{t.examEyebrow}</p>
+        <h2 className="mt-2 text-xl font-bold text-white sm:text-2xl">{t.examTitle}</h2>
         <p className="mt-3 max-w-xl text-sm leading-[1.8] text-white/80">{t.examIntro}</p>
 
         <div className="mt-5 flex flex-wrap gap-2">
@@ -183,7 +183,7 @@ export default async function RoadmapPage({
         <div className="relative mt-14 overflow-hidden rounded-3xl bg-white p-6 shadow-xl shadow-neutral-900/10 sm:p-10">
           <div className="flex flex-col items-center gap-5 text-center sm:flex-row sm:justify-between sm:text-start">
             <div>
-              <h2 className="text-xl font-bold font-accent text-neutral-900 sm:text-2xl">{t.closingTitle}</h2>
+              <h2 className="text-xl font-bold text-neutral-900 sm:text-2xl">{t.closingTitle}</h2>
               <p className="mt-2 max-w-md text-sm leading-[1.7] text-neutral-600">{t.closingSubtitle}</p>
             </div>
             <div className="flex flex-col items-center gap-2 sm:items-end">
@@ -199,7 +199,7 @@ export default async function RoadmapPage({
                 userId={userId}
                 label={t.enrollCta}
                 signInLabel={t.signInToBuy}
-                className="rounded-xl bg-accent px-6 py-3 text-sm font-bold text-white transition active:scale-95 hover:bg-accent-hover disabled:opacity-50 disabled:active:scale-100"
+                className="rounded-xl bg-accent-gradient px-6 py-3 text-sm font-bold text-white transition active:scale-95 hover:brightness-95 disabled:opacity-50 disabled:active:scale-100"
               />
             </div>
           </div>

@@ -24,8 +24,8 @@ export function HowItWorks({ dict }: HowItWorksProps) {
   return (
     <section className="mt-20">
       <div className="mb-8 text-center">
-        <p className="text-xs font-semibold font-accent tracking-wide text-primary">{dict.howEyebrow}</p>
-        <h2 className="mx-auto mt-2 max-w-xl text-2xl font-bold font-accent text-neutral-900 sm:text-3xl">{dict.howTitle}</h2>
+        <p className="text-xs font-semibold tracking-wide text-primary">{dict.howEyebrow}</p>
+        <h2 className="mx-auto mt-2 max-w-xl text-2xl font-bold text-neutral-900 sm:text-3xl">{dict.howTitle}</h2>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {steps.map((step, index) => {

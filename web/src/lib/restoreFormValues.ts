@@ -21,6 +21,13 @@ export function restoreFormValues(form: HTMLFormElement | null, values: Record<s
       continue;
     }
 
+    // A radio group shares one name across several elements — formData only ever carries the
+    // checked one's value, so restoring means finding which element that value belongs to.
+    if (element instanceof HTMLInputElement && element.type === "radio") {
+      element.checked = name in values && element.value === values[name];
+      continue;
+    }
+
     // File inputs can't be restored programmatically (browser security restriction) — the
     // admin has to re-pick the file, but that's the one field that's expected to need it.
     if (element instanceof HTMLInputElement && element.type === "file") {

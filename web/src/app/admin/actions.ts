@@ -634,6 +634,19 @@ export async function deleteTrackAction(_prevState: ActionState, formData: FormD
   redirect("/admin/tracks");
 }
 
+export async function deleteConsultationBookingAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const id = String(formData.get("id") ?? "");
+
+  const result = await adminDelete(`/api/admin/consultation-bookings/${id}`);
+
+  if (!result.ok) {
+    return { message: result.message };
+  }
+
+  revalidatePath("/admin/consultation-bookings");
+  return {};
+}
+
 // Same "always 4 slots" shape as parseQuizOptions, but each option also carries a weight
 // toward every track — field names come out as `option{i}Track_{trackId}` from the fieldset,
 // so we scan every FormData key for that prefix rather than needing the track list here too.

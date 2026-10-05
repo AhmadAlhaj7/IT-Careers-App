@@ -1,27 +1,38 @@
 import Link from "next/link";
-import { getAdminAnalytics, listAdminCareerQuizQuestions, listRoadmaps, listSpecializations, listTracks } from "@/lib/admin-api";
+import {
+  getAdminAnalytics,
+  listAdminCareerQuizQuestions,
+  listAdminConsultationBookings,
+  listRoadmaps,
+  listSpecializations,
+  listTracks,
+} from "@/lib/admin-api";
 import { AdminSidebarNav } from "@/components/admin/AdminSidebarNav";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const [roadmapsResult, specializationsResult, tracksResult, quizQuestionsResult, analyticsResult] = await Promise.all([
-    listRoadmaps(),
-    listSpecializations(),
-    listTracks(),
-    listAdminCareerQuizQuestions(),
-    getAdminAnalytics(),
-  ]);
+  const [roadmapsResult, specializationsResult, tracksResult, quizQuestionsResult, analyticsResult, consultationBookingsResult] =
+    await Promise.all([
+      listRoadmaps(),
+      listSpecializations(),
+      listTracks(),
+      listAdminCareerQuizQuestions(),
+      getAdminAnalytics(),
+      listAdminConsultationBookings(),
+    ]);
 
   const roadmapCount = roadmapsResult.status === "ok" ? roadmapsResult.data.length : null;
   const specializationCount = specializationsResult.status === "ok" ? specializationsResult.data.length : null;
   const trackCount = tracksResult.status === "ok" ? tracksResult.data.length : null;
   const quizQuestionCount = quizQuestionsResult.status === "ok" ? quizQuestionsResult.data.length : null;
   const analytics = analyticsResult.status === "ok" ? analyticsResult.data : null;
+  const consultationBookingCount = consultationBookingsResult.status === "ok" ? consultationBookingsResult.data.length : null;
 
   const navItems = [
     { href: "/admin", label: "المسارات", count: roadmapCount },
     { href: "/admin/specializations", label: "التخصصات", count: specializationCount },
     { href: "/admin/tracks", label: "المسارات الرئيسية", count: trackCount },
     { href: "/admin/career-quiz-questions", label: "بوصلة المهنة", count: quizQuestionCount },
+    { href: "/admin/consultation-bookings", label: "طلبات الاستشارة", count: consultationBookingCount },
     { href: "/admin/analytics", label: "الإحصائيات", count: null },
   ];
 
