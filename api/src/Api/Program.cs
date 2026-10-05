@@ -9,6 +9,7 @@ using ItCareers.Application.Quizzes;
 using ItCareers.Application.Roadmaps;
 using ItCareers.Application.Specializations;
 using ItCareers.Application.Tracks;
+using ItCareers.Application.WebsiteOrders;
 using ItCareers.Infrastructure.Data;
 using ItCareers.Infrastructure.Data.Commands;
 using ItCareers.Infrastructure.Data.Queries;
@@ -59,6 +60,8 @@ builder.Services.AddScoped<ISpecializationCommands, SpecializationCommands>();
 builder.Services.AddScoped<ISpecializationQueries, SpecializationQueries>();
 builder.Services.AddScoped<IConsultationBookingCommands, ConsultationBookingCommands>();
 builder.Services.AddScoped<IAdminConsultationBookingQueries, AdminConsultationBookingQueries>();
+builder.Services.AddScoped<IWebsiteOrderCommands, WebsiteOrderCommands>();
+builder.Services.AddScoped<IAdminWebsiteOrderQueries, AdminWebsiteOrderQueries>();
 
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<ItCareersDbContext>();

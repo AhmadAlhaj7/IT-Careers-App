@@ -16,7 +16,7 @@ type NavBarProps = {
 
 // Standalone landing pages get a quiet nav: no nav links, no sign-in CTA — a booking/sales page
 // should offer exactly one path (the thing it's selling), not compete with itself for attention.
-const QUIET_NAV_PATHS = ["/book-consultation"];
+const QUIET_NAV_PATHS = ["/services", "/book-consultation", "/build-website"];
 
 export function NavBar({ isAdmin }: NavBarProps) {
   const { dict } = useLocale();

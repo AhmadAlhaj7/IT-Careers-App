@@ -1,5 +1,8 @@
 "use server";
 
+import { getLocale } from "@/lib/i18n/locale";
+import { consultationContent } from "@/lib/i18n/content/consultation";
+
 const API_URL = process.env.API_URL ?? "http://localhost:5212";
 
 export type ConsultationBookingState = { message?: string; success?: boolean; values?: Record<string, string> };
@@ -20,6 +23,8 @@ export async function submitConsultationBookingAction(
   _prevState: ConsultationBookingState,
   formData: FormData,
 ): Promise<ConsultationBookingState> {
+  const t = consultationContent[await getLocale()].form;
+
   const fullName = String(formData.get("fullName") ?? "").trim();
   const phone = String(formData.get("phone") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim();
@@ -28,7 +33,7 @@ export async function submitConsultationBookingAction(
   const preferredContactTime = String(formData.get("preferredContactTime") ?? "").trim();
 
   if (!fullName || !phone || !email) {
-    return { message: "الرجاء تعبئة الاسم ورقم الهاتف والبريد الإلكتروني.", values: snapshotFormValues(formData) };
+    return { message: t.errorRequired, values: snapshotFormValues(formData) };
   }
 
   const response = await fetch(`${API_URL}/api/consultation-bookings`, {
@@ -45,7 +50,7 @@ export async function submitConsultationBookingAction(
   });
 
   if (!response.ok) {
-    return { message: `تعذّر إرسال طلبك (${response.status}). حاول مرة أخرى.`, values: snapshotFormValues(formData) };
+    return { message: t.errorSendFailed.replace("{status}", String(response.status)), values: snapshotFormValues(formData) };
   }
 
   return { success: true };

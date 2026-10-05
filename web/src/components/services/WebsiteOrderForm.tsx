@@ -1,18 +1,21 @@
 "use client";
 
 import { useActionState, useEffect, useRef } from "react";
-import { submitConsultationBookingAction, type ConsultationBookingState } from "@/app/book-consultation/actions";
+import { submitWebsiteOrderAction, type WebsiteOrderState } from "@/app/build-website/actions";
 import { restoreFormValues } from "@/lib/restoreFormValues";
-import type { ConsultationContent } from "@/lib/i18n/content/consultation";
+import { WEBSITE_TYPE_KEYS } from "@/lib/websiteOrderOptions";
+import type { BuildWebsiteContent } from "@/lib/i18n/content/buildWebsite";
 import { Input } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
-import { RadioCard } from "@/components/ui/RadioCard";
 import { Button } from "@/components/ui/Button";
 
-const initialState: ConsultationBookingState = {};
+const initialState: WebsiteOrderState = {};
 
-export function ConsultationBookingForm({ t }: { t: ConsultationContent["form"] }) {
-  const [state, formAction, pending] = useActionState(submitConsultationBookingAction, initialState);
+// maxLength values mirror the column limits in WebsiteOrderConfiguration, so an over-long entry
+// is stopped in the browser instead of failing as a database error after submit.
+export function WebsiteOrderForm({ t }: { t: BuildWebsiteContent["form"] }) {
+  const [state, formAction, pending] = useActionState(submitWebsiteOrderAction, initialState);
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
@@ -38,15 +41,17 @@ export function ConsultationBookingForm({ t }: { t: ConsultationContent["form"] 
         <Input label={t.email} name="email" type="email" dir="ltr" maxLength={320} required />
       </div>
 
-      <Textarea label={t.websiteIdea} name="websiteIdea" placeholder={t.websiteIdeaPlaceholder} rows={3} maxLength={2000} />
+      <Input label={t.projectName} name="projectName" maxLength={200} required />
 
-      <fieldset>
-        <legend className="mb-2 text-sm font-medium text-neutral-700">{t.experienceLegend}</legend>
-        <div className="grid grid-cols-2 gap-3">
-          <RadioCard name="hasPriorExperience" value="yes" label={t.yes} />
-          <RadioCard name="hasPriorExperience" value="no" label={t.no} defaultChecked />
-        </div>
-      </fieldset>
+      <Select label={t.websiteType} name="websiteType" defaultValue={WEBSITE_TYPE_KEYS[0]}>
+        {WEBSITE_TYPE_KEYS.map((key) => (
+          <option key={key} value={key}>
+            {t.types[key]}
+          </option>
+        ))}
+      </Select>
+
+      <Textarea label={t.description} name="description" placeholder={t.descriptionPlaceholder} rows={4} maxLength={2000} required />
 
       <Input label={t.contactTime} name="preferredContactTime" placeholder={t.contactTimePlaceholder} maxLength={200} />
 

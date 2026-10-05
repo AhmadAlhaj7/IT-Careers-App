@@ -9,6 +9,7 @@ import type {
   AdminSpecializationDetail,
   AdminSpecializationSummary,
   AdminTrack,
+  AdminWebsiteOrder,
   TrackSummary,
 } from "./types";
 
@@ -88,6 +89,10 @@ export function getSpecialization(id: string) {
 
 export function listAdminConsultationBookings() {
   return adminGet<AdminConsultationBooking[]>("/api/admin/consultation-bookings");
+}
+
+export function listAdminWebsiteOrders() {
+  return adminGet<AdminWebsiteOrder[]>("/api/admin/website-orders");
 }
 
 type AdminMutateResult = { ok: true; id?: string } | { ok: false; message: string };

@@ -46,25 +46,25 @@ export default async function Home() {
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <div className="relative w-full sm:w-auto">
             <Link
-              href="/roadmaps"
+              href="/book-consultation"
               className="w-full rounded-xl bg-accent-gradient px-6 py-3 text-sm font-medium text-white shadow-lg shadow-accent/30 transition active:scale-95 hover:brightness-95 sm:w-auto"
             >
-              {dict.home.browseCta}
+              {dict.home.consultationCta}
             </Link>
-            <GuideArrow label="جاهز اتعلم" flip className="top-full right-2 mt-2" duration="6.5s" delay="0.6s" />
+            <GuideArrow label={dict.home.guideLearn} flip className="top-full right-2 mt-2" duration="6.5s" delay="0.6s" />
           </div>
           <div className="relative w-full sm:w-auto">
             <Link
-              href="/tech-majors"
+              href="/build-website"
               className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition active:scale-95 hover:border-primary hover:text-primary sm:w-auto"
             >
-              {dict.home.techMajorsCta}
+              {dict.home.buildWebsiteCta}
             </Link>
-            <GuideArrow label="لسا محتار" className="top-full left-2 mt-2" duration="7s" delay="1.5s" />
+            <GuideArrow label={dict.home.guideWebsite} className="top-full left-2 mt-2" duration="7s" delay="1.5s" />
           </div>
         </div>
 
-        {/* Not wired up yet — placeholders for the next set of entry points off the home page.
+        {/* Secondary entry points. Learning Files and Roadmaps aren't wired up yet (placeholders).
             mt-20 clears the GuideArrow labels pinned below the CTA row above (md and up). */}
         <div className="mt-20 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <button
@@ -74,10 +74,10 @@ export default async function Home() {
             {dict.home.learningFilesCta}
           </button>
           <Link
-            href="/book-consultation"
+            href="/tech-majors"
             className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition active:scale-95 hover:border-primary hover:text-primary sm:w-auto"
           >
-            {dict.home.bookConsultationCta}
+            {dict.home.specializationsCta}
           </Link>
           <button
             type="button"

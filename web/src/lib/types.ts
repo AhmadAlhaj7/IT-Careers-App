@@ -251,6 +251,18 @@ export type AdminConsultationBooking = {
   submittedAt: string;
 };
 
+export type AdminWebsiteOrder = {
+  id: string;
+  fullName: string;
+  phone: string;
+  email: string;
+  projectName: string;
+  websiteType: string;
+  description: string;
+  preferredContactTime: string;
+  submittedAt: string;
+};
+
 export type AdminTrack = {
   id: string;
   slug: string;

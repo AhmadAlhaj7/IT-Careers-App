@@ -3,6 +3,7 @@ import {
   getAdminAnalytics,
   listAdminCareerQuizQuestions,
   listAdminConsultationBookings,
+  listAdminWebsiteOrders,
   listRoadmaps,
   listSpecializations,
   listTracks,
@@ -10,15 +11,23 @@ import {
 import { AdminSidebarNav } from "@/components/admin/AdminSidebarNav";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const [roadmapsResult, specializationsResult, tracksResult, quizQuestionsResult, analyticsResult, consultationBookingsResult] =
-    await Promise.all([
-      listRoadmaps(),
-      listSpecializations(),
-      listTracks(),
-      listAdminCareerQuizQuestions(),
-      getAdminAnalytics(),
-      listAdminConsultationBookings(),
-    ]);
+  const [
+    roadmapsResult,
+    specializationsResult,
+    tracksResult,
+    quizQuestionsResult,
+    analyticsResult,
+    consultationBookingsResult,
+    websiteOrdersResult,
+  ] = await Promise.all([
+    listRoadmaps(),
+    listSpecializations(),
+    listTracks(),
+    listAdminCareerQuizQuestions(),
+    getAdminAnalytics(),
+    listAdminConsultationBookings(),
+    listAdminWebsiteOrders(),
+  ]);
 
   const roadmapCount = roadmapsResult.status === "ok" ? roadmapsResult.data.length : null;
   const specializationCount = specializationsResult.status === "ok" ? specializationsResult.data.length : null;
@@ -26,6 +35,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const quizQuestionCount = quizQuestionsResult.status === "ok" ? quizQuestionsResult.data.length : null;
   const analytics = analyticsResult.status === "ok" ? analyticsResult.data : null;
   const consultationBookingCount = consultationBookingsResult.status === "ok" ? consultationBookingsResult.data.length : null;
+  const websiteOrderCount = websiteOrdersResult.status === "ok" ? websiteOrdersResult.data.length : null;
 
   const navItems = [
     { href: "/admin", label: "المسارات", count: roadmapCount },
@@ -33,6 +43,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     { href: "/admin/tracks", label: "المسارات الرئيسية", count: trackCount },
     { href: "/admin/career-quiz-questions", label: "بوصلة المهنة", count: quizQuestionCount },
     { href: "/admin/consultation-bookings", label: "طلبات الاستشارة", count: consultationBookingCount },
+    { href: "/admin/website-orders", label: "طلبات المواقع", count: websiteOrderCount },
     { href: "/admin/analytics", label: "الإحصائيات", count: null },
   ];
 
