@@ -43,47 +43,38 @@ export default async function Home() {
           {dict.home.titleEnd}
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base leading-[1.7] text-neutral-600 sm:text-lg">{dict.home.subtitle}</p>
-        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <div className="relative w-full sm:w-auto">
-            <Link
-              href="/book-consultation"
-              className="w-full rounded-xl bg-accent-gradient px-6 py-3 text-sm font-medium text-white shadow-lg shadow-accent/30 transition active:scale-95 hover:brightness-95 sm:w-auto"
-            >
-              {dict.home.consultationCta}
-            </Link>
-            <GuideArrow label={dict.home.guideLearn} flip className="top-full right-2 mt-2" duration="6.5s" delay="0.6s" />
-          </div>
-          <div className="relative w-full sm:w-auto">
-            <Link
-              href="/build-website"
-              className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition active:scale-95 hover:border-primary hover:text-primary sm:w-auto"
-            >
-              {dict.home.buildWebsiteCta}
-            </Link>
-            <GuideArrow label={dict.home.guideWebsite} className="top-full left-2 mt-2" duration="7s" delay="1.5s" />
-          </div>
-        </div>
 
-        {/* Secondary entry points. Learning Files and Roadmaps aren't wired up yet (placeholders).
-            mt-20 clears the GuideArrow labels pinned below the CTA row above (md and up). */}
-        <div className="mt-20 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        {/* sm:w-fit makes this wrapper exactly as wide as the main button row, so the Learning
+            Files button below can simply be w-full and line up with it in either language. */}
+        <div className="mx-auto mt-8 w-full sm:w-fit">
+          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <div className="relative w-full sm:w-auto">
+              <Link
+                href="/book-consultation"
+                className="w-full rounded-xl bg-accent-gradient px-6 py-3 text-sm font-medium text-white shadow-lg shadow-accent/30 transition active:scale-95 hover:brightness-95 max-sm:block max-sm:text-center sm:w-auto"
+              >
+                {dict.home.consultationCta}
+              </Link>
+              <GuideArrow label={dict.home.guideLearn} flip className="top-full right-2 mt-2" duration="6.5s" delay="0.6s" />
+            </div>
+            <div className="relative w-full sm:w-auto">
+              <Link
+                href="/build-website"
+                className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition active:scale-95 hover:border-primary hover:text-primary max-sm:block max-sm:text-center sm:w-auto"
+              >
+                {dict.home.buildWebsiteCta}
+              </Link>
+              <GuideArrow label={dict.home.guideWebsite} className="top-full left-2 mt-2" duration="7s" delay="1.5s" />
+            </div>
+          </div>
+
+          {/* Not wired up yet (placeholder). md:mt-20 clears the GuideArrow labels pinned below the
+              main buttons above — they're hidden below md, so mobile keeps a normal gap. */}
           <button
             type="button"
-            className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition active:scale-95 hover:border-primary hover:text-primary sm:w-auto"
+            className="mt-6 w-full md:mt-20 rounded-xl border border-primary/20 bg-primary-subtle px-6 py-3 text-sm font-medium text-primary transition active:scale-95 hover:bg-primary/10"
           >
             {dict.home.learningFilesCta}
-          </button>
-          <Link
-            href="/tech-majors"
-            className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition active:scale-95 hover:border-primary hover:text-primary sm:w-auto"
-          >
-            {dict.home.specializationsCta}
-          </Link>
-          <button
-            type="button"
-            className="w-full rounded-xl border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-800 transition active:scale-95 hover:border-primary hover:text-primary sm:w-auto"
-          >
-            {dict.home.roadmapsCta}
           </button>
         </div>
       </section>

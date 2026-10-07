@@ -32,8 +32,6 @@ const dictionaries = {
       quizCta: "لا تعرف من أين تبدأ؟ جرّب بوصلة المهنة",
         techMajorsCta: "استكشف افضل التخصصات التقنية ",
       learningFilesCta: "ملفات تعليمية",
-      specializationsCta: "التخصصات",
-      roadmapsCta: "المسارات",
     },
     roadmapsPage: {
       title: "المسارات التعليمية",
@@ -267,8 +265,6 @@ const dictionaries = {
       quizCta: "Not sure where to start? Try the career compass",
       techMajorsCta: "What Tech Programs are there?",
       learningFilesCta: "Learning Files",
-      specializationsCta: "Specializations",
-      roadmapsCta: "Roadmaps",
     },
     roadmapsPage: {
       title: "Learning Roadmaps",
