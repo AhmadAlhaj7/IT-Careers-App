@@ -3,6 +3,7 @@ import type {
   AdminAnalytics,
   AdminCareerQuizQuestion,
   AdminConsultationBooking,
+  AdminLearningFile,
   AdminPhaseDetail,
   AdminRoadmapDetail,
   AdminRoadmapSummary,
@@ -93,6 +94,14 @@ export function listAdminConsultationBookings() {
 
 export function listAdminWebsiteOrders() {
   return adminGet<AdminWebsiteOrder[]>("/api/admin/website-orders");
+}
+
+export function listAdminLearningFiles() {
+  return adminGet<AdminLearningFile[]>("/api/admin/files");
+}
+
+export function getAdminLearningFile(id: string) {
+  return adminGet<AdminLearningFile>(`/api/admin/files/${id}`);
 }
 
 type AdminMutateResult = { ok: true; id?: string } | { ok: false; message: string };

@@ -21,6 +21,8 @@ public class ItCareersDbContext : DbContext
     public DbSet<Specialization> Specializations => Set<Specialization>();
     public DbSet<ConsultationBooking> ConsultationBookings => Set<ConsultationBooking>();
     public DbSet<WebsiteOrder> WebsiteOrders => Set<WebsiteOrder>();
+    public DbSet<LearningFile> LearningFiles => Set<LearningFile>();
+    public DbSet<LearningFileContent> LearningFileContents => Set<LearningFileContent>();
 
     public ItCareersDbContext(DbContextOptions<ItCareersDbContext> options)
         : base(options)

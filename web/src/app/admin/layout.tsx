@@ -3,6 +3,7 @@ import {
   getAdminAnalytics,
   listAdminCareerQuizQuestions,
   listAdminConsultationBookings,
+  listAdminLearningFiles,
   listAdminWebsiteOrders,
   listRoadmaps,
   listSpecializations,
@@ -19,6 +20,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     analyticsResult,
     consultationBookingsResult,
     websiteOrdersResult,
+    learningFilesResult,
   ] = await Promise.all([
     listRoadmaps(),
     listSpecializations(),
@@ -27,6 +29,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     getAdminAnalytics(),
     listAdminConsultationBookings(),
     listAdminWebsiteOrders(),
+    listAdminLearningFiles(),
   ]);
 
   const roadmapCount = roadmapsResult.status === "ok" ? roadmapsResult.data.length : null;
@@ -36,6 +39,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const analytics = analyticsResult.status === "ok" ? analyticsResult.data : null;
   const consultationBookingCount = consultationBookingsResult.status === "ok" ? consultationBookingsResult.data.length : null;
   const websiteOrderCount = websiteOrdersResult.status === "ok" ? websiteOrdersResult.data.length : null;
+  const learningFileCount = learningFilesResult.status === "ok" ? learningFilesResult.data.length : null;
 
   const navItems = [
     { href: "/admin", label: "المسارات", count: roadmapCount },
@@ -44,6 +48,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     { href: "/admin/career-quiz-questions", label: "بوصلة المهنة", count: quizQuestionCount },
     { href: "/admin/consultation-bookings", label: "طلبات الاستشارة", count: consultationBookingCount },
     { href: "/admin/website-orders", label: "طلبات المواقع", count: websiteOrderCount },
+    { href: "/admin/files", label: "الملفات التعليمية", count: learningFileCount },
     { href: "/admin/analytics", label: "الإحصائيات", count: null },
   ];
 

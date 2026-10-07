@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import {
   Certificate,
+  LearningFile,
   LocalizedText,
   PhaseDetail,
   PublicCareerQuizQuestion,
@@ -225,6 +226,32 @@ export async function getSpecialization(slug: string): Promise<SpecializationDet
 
   if (!response.ok) {
     throw new Error(`Failed to load specialization "${slug}": ${response.status}`);
+  }
+
+  return response.json();
+}
+
+// The file library is public and identical for every visitor, so a short ISR window is safe here
+// (no per-user state, unlike the roadmap fetchers above).
+export async function listLearningFiles(): Promise<LearningFile[]> {
+  const response = await fetch(`${API_URL}/api/files`, { next: { revalidate: 30 } });
+
+  if (!response.ok) {
+    throw new Error(`Failed to load files: ${response.status}`);
+  }
+
+  return response.json();
+}
+
+export async function getLearningFile(id: string): Promise<LearningFile | null> {
+  const response = await fetch(`${API_URL}/api/files/${id}`, { next: { revalidate: 30 } });
+
+  if (response.status === 404) {
+    return null;
+  }
+
+  if (!response.ok) {
+    throw new Error(`Failed to load file ${id}: ${response.status}`);
   }
 
   return response.json();

@@ -1028,3 +1028,17 @@ export async function deleteSpecializationAction(_prevState: ActionState, formDa
   }
   redirect("/admin/specializations");
 }
+
+export async function deleteLearningFileAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const id = String(formData.get("id") ?? "");
+
+  const result = await adminDelete(`/api/admin/files/${id}`);
+
+  if (!result.ok) {
+    return { message: result.message };
+  }
+
+  revalidatePath("/admin/files");
+  revalidatePath("/files");
+  return {};
+}

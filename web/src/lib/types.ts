@@ -458,3 +458,21 @@ export type SpecializationDetail = {
   roadmapButtonText: LocalizedText | null;
   related: RelatedSpecialization[];
 };
+
+export type LearningFile = {
+  id: string;
+  title: LocalizedText;
+  description: LocalizedText;
+  category: LocalizedText;
+  fileName: string;
+  contentType: string;
+  sizeBytes: number;
+  allowDownload: boolean;
+  canPreview: boolean;
+  createdAt: string;
+};
+
+export type AdminLearningFile = LearningFile & {
+  published: boolean;
+  updatedAt: string;
+};

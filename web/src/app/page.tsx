@@ -68,14 +68,14 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Not wired up yet (placeholder). md:mt-20 clears the GuideArrow labels pinned below the
-              main buttons above — they're hidden below md, so mobile keeps a normal gap. */}
-          <button
-            type="button"
-            className="mt-6 w-full md:mt-20 rounded-xl border border-primary/20 bg-primary-subtle px-6 py-3 text-sm font-medium text-primary transition active:scale-95 hover:bg-primary/10"
+          {/* md:mt-20 clears the GuideArrow labels pinned below the main buttons above — they are
+              hidden below md, so mobile keeps a normal gap. */}
+          <Link
+            href="/files"
+            className="mt-6 block w-full text-center md:mt-20 rounded-xl border border-primary/20 bg-primary-subtle px-6 py-3 text-sm font-medium text-primary transition active:scale-95 hover:bg-primary/10"
           >
             {dict.home.learningFilesCta}
-          </button>
+          </Link>
         </div>
       </section>
     </div>

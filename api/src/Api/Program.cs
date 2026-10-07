@@ -5,6 +5,7 @@ using ItCareers.Application.CareerQuiz;
 using ItCareers.Application.Certificates;
 using ItCareers.Application.ConsultationBookings;
 using ItCareers.Application.Enrollments;
+using ItCareers.Application.LearningFiles;
 using ItCareers.Application.Quizzes;
 using ItCareers.Application.Roadmaps;
 using ItCareers.Application.Specializations;
@@ -62,6 +63,9 @@ builder.Services.AddScoped<IConsultationBookingCommands, ConsultationBookingComm
 builder.Services.AddScoped<IAdminConsultationBookingQueries, AdminConsultationBookingQueries>();
 builder.Services.AddScoped<IWebsiteOrderCommands, WebsiteOrderCommands>();
 builder.Services.AddScoped<IAdminWebsiteOrderQueries, AdminWebsiteOrderQueries>();
+builder.Services.AddScoped<ILearningFileQueries, LearningFileQueries>();
+builder.Services.AddScoped<IAdminLearningFileQueries, AdminLearningFileQueries>();
+builder.Services.AddScoped<ILearningFileCommands, LearningFileCommands>();
 
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<ItCareersDbContext>();
@@ -70,6 +74,15 @@ builder.Services.AddHealthChecks()
 // password. Authority points at Clerk's per-instance issuer, which ASP.NET Core uses
 // to fetch Clerk's public signing keys (JWKS) and check a token's signature and expiry.
 var authorizedParties = builder.Configuration.GetSection("Clerk:AuthorizedParties").Get<string[]>() ?? [];
+
+// Large admin uploads go from the browser straight to this API (Vercel caps request bodies passing
+// through the Next.js server). The only origins allowed to do that are the same frontends already
+// trusted as Clerk authorized parties, and only with a bearer token — nothing here is open to
+// arbitrary sites, and plain GETs (viewing/downloading files) need no CORS at all.
+builder.Services.AddCors(options => options.AddPolicy("web", policy => policy
+    .WithOrigins(authorizedParties)
+    .WithHeaders("Authorization")
+    .WithMethods("POST", "PUT")));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -138,6 +151,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseForwardedHeaders();
 app.UseHttpsRedirection();
+
+app.UseCors("web");
 
 app.UseAuthentication();
 app.UseAuthorization();
