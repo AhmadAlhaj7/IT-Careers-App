@@ -80,10 +80,9 @@ var authorizedParties = builder.Configuration.GetSection("Clerk:AuthorizedPartie
 // trusted as Clerk authorized parties, and only with a bearer token — nothing here is open to
 // arbitrary sites, and plain GETs (viewing/downloading files) need no CORS at all.
 builder.Services.AddCors(options => options.AddPolicy("web", policy => policy
-            .WithOrigins("https://halqalearn.vercel.app")
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
+    .WithOrigins(authorizedParties)
+    .WithHeaders("Authorization")
+    .WithMethods("POST", "PUT")));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -158,13 +157,6 @@ app.UseCors("web");
 app.UseAuthentication();
 app.UseAuthorization();
 
-
-app.UseCors("web");
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
 app.MapControllers();
 app.MapHealthChecks("/health");
 
