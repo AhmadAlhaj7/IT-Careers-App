@@ -78,7 +78,7 @@ export function LearningFileForm({ file }: { file?: AdminLearningFile }) {
 
       if (!response.ok) {
         const body = (await response.json().catch(() => null)) as { message?: string } | null;
-        setError(body?.message ?? (response.status === 413 ? "حجم الملف أكبر من المسموح." : "تعذّر الحفظ، حاول مرة أخرى."));
+        setError(body?.message ?? (response.status === 413 ? "حجم الملف أكبر من المسموح." : `تعذّر الحفظ (رمز الخطأ ${response.status}).`));
         return;
       }
 
