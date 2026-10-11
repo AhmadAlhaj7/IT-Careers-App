@@ -2,7 +2,10 @@ import { File, FileArchive, FileText, Image, Music, Video, type LucideIcon } fro
 
 // The browser talks to the file endpoints directly (they stream bytes, and admin uploads can be far
 // bigger than Vercel lets a request through the Next.js server), so this one is public by design.
-export const PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5212";
+// Tolerates a value saved without the scheme or with a trailing slash — a bare host would otherwise be
+// treated by the browser as a path relative to the frontend itself.
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5212";
+export const PUBLIC_API_URL = (/^https?:\/\//.test(rawApiUrl) ? rawApiUrl : `https://${rawApiUrl}`).replace(/\/+$/, "");
 
 // Mirrors LearningFileLimits.MaxFileBytes in the API — the server is the real gate, this just lets
 // the admin form fail fast before pushing 50MB+ over the wire.
