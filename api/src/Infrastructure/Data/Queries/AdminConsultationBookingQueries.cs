@@ -26,7 +26,8 @@ public class AdminConsultationBookingQueries : IAdminConsultationBookingQueries
                 b.HasPriorExperience,
                 b.WebsiteIdea,
                 b.PreferredContactTime,
-                b.SubmittedAt))
+                b.SubmittedAt,
+                b.Status))
             .ToListAsync(cancellationToken);
     }
 }

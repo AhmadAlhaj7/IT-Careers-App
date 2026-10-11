@@ -27,7 +27,8 @@ public class AdminWebsiteOrderQueries : IAdminWebsiteOrderQueries
                 o.WebsiteType,
                 o.Description,
                 o.PreferredContactTime,
-                o.SubmittedAt))
+                o.SubmittedAt,
+                o.Status))
             .ToListAsync(cancellationToken);
     }
 }

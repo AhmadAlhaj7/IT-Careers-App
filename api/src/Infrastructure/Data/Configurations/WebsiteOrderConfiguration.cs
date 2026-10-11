@@ -17,5 +17,6 @@ public class WebsiteOrderConfiguration : IEntityTypeConfiguration<WebsiteOrder>
         builder.Property(o => o.WebsiteType).HasMaxLength(40).IsRequired();
         builder.Property(o => o.Description).HasMaxLength(2000).IsRequired();
         builder.Property(o => o.PreferredContactTime).HasMaxLength(200).IsRequired();
+        builder.Property(o => o.Status).HasConversion<string>().HasMaxLength(20);
     }
 }

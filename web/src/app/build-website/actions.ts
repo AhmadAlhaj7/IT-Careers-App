@@ -1,7 +1,9 @@
 "use server";
 
+import { after } from "next/server";
 import { getLocale } from "@/lib/i18n/locale";
 import { buildWebsiteContent } from "@/lib/i18n/content/buildWebsite";
+import { notifyNewLead } from "@/lib/email/leadEmails";
 import { WEBSITE_TYPE_KEYS } from "@/lib/websiteOrderOptions";
 
 const API_URL = process.env.API_URL ?? "http://localhost:5212";
@@ -20,7 +22,8 @@ function snapshotFormValues(formData: FormData): Record<string, string> {
 
 // Public lead-capture form — no auth check, same reasoning as submitConsultationBookingAction.
 export async function submitWebsiteOrderAction(_prevState: WebsiteOrderState, formData: FormData): Promise<WebsiteOrderState> {
-  const t = buildWebsiteContent[await getLocale()].form;
+  const locale = await getLocale();
+  const t = buildWebsiteContent[locale].form;
 
   const fullName = String(formData.get("fullName") ?? "").trim();
   const phone = String(formData.get("phone") ?? "").trim();
@@ -46,6 +49,11 @@ export async function submitWebsiteOrderAction(_prevState: WebsiteOrderState, fo
   if (!response.ok) {
     return { message: t.errorSendFailed.replace("{status}", String(response.status)), values: snapshotFormValues(formData) };
   }
+
+  // Same as the consultation form: emails go out after the response, failures are only logged.
+  after(() =>
+    notifyNewLead({ kind: "website", fullName, email, phone, preferredContactTime, projectName, websiteType, description }, locale),
+  );
 
   return { success: true };
 }

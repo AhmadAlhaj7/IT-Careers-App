@@ -1,7 +1,9 @@
 "use server";
 
+import { after } from "next/server";
 import { getLocale } from "@/lib/i18n/locale";
 import { consultationContent } from "@/lib/i18n/content/consultation";
+import { notifyNewLead } from "@/lib/email/leadEmails";
 
 const API_URL = process.env.API_URL ?? "http://localhost:5212";
 
@@ -23,7 +25,8 @@ export async function submitConsultationBookingAction(
   _prevState: ConsultationBookingState,
   formData: FormData,
 ): Promise<ConsultationBookingState> {
-  const t = consultationContent[await getLocale()].form;
+  const locale = await getLocale();
+  const t = consultationContent[locale].form;
 
   const fullName = String(formData.get("fullName") ?? "").trim();
   const phone = String(formData.get("phone") ?? "").trim();
@@ -52,6 +55,12 @@ export async function submitConsultationBookingAction(
   if (!response.ok) {
     return { message: t.errorSendFailed.replace("{status}", String(response.status)), values: snapshotFormValues(formData) };
   }
+
+  // Confirmation to the visitor + notification to you, sent after the response so the visitor never
+  // waits on Gmail. A mail failure is only logged — the lead is already saved.
+  after(() =>
+    notifyNewLead({ kind: "consultation", fullName, email, phone, preferredContactTime, hasPriorExperience, websiteIdea }, locale),
+  );
 
   return { success: true };
 }

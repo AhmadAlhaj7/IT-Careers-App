@@ -240,6 +240,9 @@ export type AdminFinalExamQuestion = {
   options: AdminQuizOption[];
 };
 
+// Mirrors the API's LeadStatus enum (serialized as its name).
+export type LeadStatus = "New" | "Contacted" | "Agreed" | "Closed";
+
 export type AdminConsultationBooking = {
   id: string;
   fullName: string;
@@ -249,6 +252,7 @@ export type AdminConsultationBooking = {
   websiteIdea: string;
   preferredContactTime: string;
   submittedAt: string;
+  status: LeadStatus;
 };
 
 export type AdminWebsiteOrder = {
@@ -261,6 +265,7 @@ export type AdminWebsiteOrder = {
   description: string;
   preferredContactTime: string;
   submittedAt: string;
+  status: LeadStatus;
 };
 
 export type AdminTrack = {

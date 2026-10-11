@@ -1,8 +1,9 @@
 using ItCareers.Domain.Common;
+using ItCareers.Domain.Enums;
 
 namespace ItCareers.Domain.Entities;
 
-// Write-once, like CareerQuizSubmission — a lead capture record from the public consultation
+// Write-once details (only the inbox Status moves), like CareerQuizSubmission — a lead capture record from the public consultation
 // booking page, never edited after the fact. No user/auth link: this form is deliberately
 // open to anyone, signed in or not. No Budget/PrefersRemote fields — the offer is fixed-price
 // and remote-only, so asking either would just invite negotiation or a scheduling option that
@@ -16,6 +17,9 @@ public class ConsultationBooking : Entity
     public string WebsiteIdea { get; private set; } = string.Empty;
     public string PreferredContactTime { get; private set; } = string.Empty;
     public DateTimeOffset SubmittedAt { get; private set; }
+
+    // Where this lead is in the admin inbox pipeline. The submitted details themselves stay write-once.
+    public LeadStatus Status { get; private set; } = LeadStatus.New;
 
     private ConsultationBooking()
     {
@@ -39,5 +43,10 @@ public class ConsultationBooking : Entity
         WebsiteIdea = websiteIdea;
         PreferredContactTime = preferredContactTime;
         SubmittedAt = submittedAt;
+    }
+
+    public void ChangeStatus(LeadStatus status)
+    {
+        Status = status;
     }
 }

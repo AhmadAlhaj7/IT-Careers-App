@@ -37,8 +37,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const trackCount = tracksResult.status === "ok" ? tracksResult.data.length : null;
   const quizQuestionCount = quizQuestionsResult.status === "ok" ? quizQuestionsResult.data.length : null;
   const analytics = analyticsResult.status === "ok" ? analyticsResult.data : null;
-  const consultationBookingCount = consultationBookingsResult.status === "ok" ? consultationBookingsResult.data.length : null;
-  const websiteOrderCount = websiteOrdersResult.status === "ok" ? websiteOrdersResult.data.length : null;
+  // The inbox badge counts only leads nobody has acted on yet — the number that needs attention.
+  const newLeadCount =
+    consultationBookingsResult.status === "ok" && websiteOrdersResult.status === "ok"
+      ? [...consultationBookingsResult.data, ...websiteOrdersResult.data].filter((lead) => lead.status === "New").length
+      : null;
   const learningFileCount = learningFilesResult.status === "ok" ? learningFilesResult.data.length : null;
 
   const navItems = [
@@ -46,8 +49,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     { href: "/admin/specializations", label: "التخصصات", count: specializationCount },
     { href: "/admin/tracks", label: "المسارات الرئيسية", count: trackCount },
     { href: "/admin/career-quiz-questions", label: "بوصلة المهنة", count: quizQuestionCount },
-    { href: "/admin/consultation-bookings", label: "طلبات الاستشارة", count: consultationBookingCount },
-    { href: "/admin/website-orders", label: "طلبات المواقع", count: websiteOrderCount },
+    { href: "/admin/inbox", label: "صندوق الطلبات", count: newLeadCount, highlight: true },
     { href: "/admin/files", label: "الملفات التعليمية", count: learningFileCount },
     { href: "/admin/analytics", label: "الإحصائيات", count: null },
   ];

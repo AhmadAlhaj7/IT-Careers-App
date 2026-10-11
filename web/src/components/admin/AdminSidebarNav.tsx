@@ -7,6 +7,8 @@ type AdminSidebarNavItem = {
   href: string;
   label: string;
   count: number | null;
+  // Show a non-zero count as a coloured pill instead of grey text (e.g. unhandled leads).
+  highlight?: boolean;
 };
 
 // Client-only for usePathname() — everything else about the sidebar (counts, "this week"
@@ -31,7 +33,12 @@ export function AdminSidebarNav({ items }: { items: AdminSidebarNavItem[] }) {
               <span className={`h-1.5 w-1.5 rounded-full ${active ? "bg-primary" : "bg-neutral-300"}`} />
               {item.label}
             </span>
-            {item.count !== null && <span className="font-mono text-xs text-neutral-400">{item.count}</span>}
+            {item.count !== null &&
+              (item.highlight && item.count > 0 ? (
+                <span className="rounded-full bg-accent px-2 py-0.5 font-mono text-[11px] font-bold text-white">{item.count}</span>
+              ) : (
+                <span className="font-mono text-xs text-neutral-400">{item.count}</span>
+              ))}
           </Link>
         );
       })}

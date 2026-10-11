@@ -1,3 +1,4 @@
+using ItCareers.Application.Leads;
 using ItCareers.Application.WebsiteOrders;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,13 @@ public class AdminWebsiteOrdersController : ControllerBase
     public async Task<ActionResult<IReadOnlyList<AdminWebsiteOrderDto>>> List(CancellationToken cancellationToken)
     {
         return Ok(await _queries.ListAsync(cancellationToken));
+    }
+
+    [HttpPut("{id:guid}/status")]
+    public async Task<IActionResult> ChangeStatus(Guid id, ChangeLeadStatusRequest request, CancellationToken cancellationToken)
+    {
+        var changed = await _commands.ChangeStatusAsync(id, request.Status, cancellationToken);
+        return changed ? NoContent() : NotFound();
     }
 
     [HttpDelete("{id:guid}")]

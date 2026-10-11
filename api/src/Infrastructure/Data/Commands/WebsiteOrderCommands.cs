@@ -1,5 +1,6 @@
 using ItCareers.Application.WebsiteOrders;
 using ItCareers.Domain.Entities;
+using ItCareers.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace ItCareers.Infrastructure.Data.Commands;
@@ -30,6 +31,20 @@ public class WebsiteOrderCommands : IWebsiteOrderCommands
         await _context.SaveChangesAsync(cancellationToken);
 
         return order.Id;
+    }
+
+    public async Task<bool> ChangeStatusAsync(Guid id, LeadStatus status, CancellationToken cancellationToken = default)
+    {
+        var order = await _context.WebsiteOrders.FirstOrDefaultAsync(o => o.Id == id && !o.IsDeleted, cancellationToken);
+        if (order is null)
+        {
+            return false;
+        }
+
+        order.ChangeStatus(status);
+        await _context.SaveChangesAsync(cancellationToken);
+
+        return true;
     }
 
     public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)

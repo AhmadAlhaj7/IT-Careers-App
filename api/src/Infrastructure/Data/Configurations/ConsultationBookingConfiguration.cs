@@ -15,5 +15,6 @@ public class ConsultationBookingConfiguration : IEntityTypeConfiguration<Consult
         builder.Property(b => b.Email).HasMaxLength(320).IsRequired();
         builder.Property(b => b.WebsiteIdea).HasMaxLength(2000).IsRequired();
         builder.Property(b => b.PreferredContactTime).HasMaxLength(200).IsRequired();
+        builder.Property(b => b.Status).HasConversion<string>().HasMaxLength(20);
     }
 }

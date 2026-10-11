@@ -1,5 +1,6 @@
 using ItCareers.Application.ConsultationBookings;
 using ItCareers.Domain.Entities;
+using ItCareers.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace ItCareers.Infrastructure.Data.Commands;
@@ -29,6 +30,20 @@ public class ConsultationBookingCommands : IConsultationBookingCommands
         await _context.SaveChangesAsync(cancellationToken);
 
         return booking.Id;
+    }
+
+    public async Task<bool> ChangeStatusAsync(Guid id, LeadStatus status, CancellationToken cancellationToken = default)
+    {
+        var booking = await _context.ConsultationBookings.FirstOrDefaultAsync(b => b.Id == id && !b.IsDeleted, cancellationToken);
+        if (booking is null)
+        {
+            return false;
+        }
+
+        booking.ChangeStatus(status);
+        await _context.SaveChangesAsync(cancellationToken);
+
+        return true;
     }
 
     public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)

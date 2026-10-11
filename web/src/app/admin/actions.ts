@@ -5,6 +5,8 @@ import { revalidatePath } from "next/cache";
 import { put } from "@vercel/blob";
 import { adminDelete, adminPost, adminPut, getPhase, getRoadmap, getSpecialization } from "@/lib/admin-api";
 import { MAX_FAQS, MAX_SECTION_ITEMS, SPECIALIZATION_SECTION_DEFS } from "@/lib/specializationSections";
+import { leadApiPath, type LeadKind } from "@/lib/leads";
+import type { LeadStatus } from "@/lib/types";
 
 export type ActionState = { message?: string; values?: Record<string, string> };
 
@@ -634,29 +636,30 @@ export async function deleteTrackAction(_prevState: ActionState, formData: FormD
   redirect("/admin/tracks");
 }
 
-export async function deleteConsultationBookingAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
-  const id = String(formData.get("id") ?? "");
-
-  const result = await adminDelete(`/api/admin/consultation-bookings/${id}`);
+// Both lead actions revalidate the whole admin layout, not just the inbox page — the sidebar's
+// "new leads" badge lives in the layout and has to move with every status change or delete.
+export async function changeLeadStatusAction(kind: LeadKind, id: string, status: LeadStatus): Promise<ActionState> {
+  const result = await adminPut(`${leadApiPath(kind, id)}/status`, { status });
 
   if (!result.ok) {
     return { message: result.message };
   }
 
-  revalidatePath("/admin/consultation-bookings");
+  revalidatePath("/admin", "layout");
   return {};
 }
 
-export async function deleteWebsiteOrderAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+export async function deleteLeadAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
+  const kind = formData.get("kind") === "website" ? "website" : "consultation";
   const id = String(formData.get("id") ?? "");
 
-  const result = await adminDelete(`/api/admin/website-orders/${id}`);
+  const result = await adminDelete(leadApiPath(kind, id));
 
   if (!result.ok) {
     return { message: result.message };
   }
 
-  revalidatePath("/admin/website-orders");
+  revalidatePath("/admin", "layout");
   return {};
 }
 

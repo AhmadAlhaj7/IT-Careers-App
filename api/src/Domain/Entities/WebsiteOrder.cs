@@ -1,9 +1,11 @@
 using ItCareers.Domain.Common;
+using ItCareers.Domain.Enums;
 
 namespace ItCareers.Domain.Entities;
 
 // Write-once lead from the public "build me a website" page, same shape of idea as
-// ConsultationBooking: a record of one submission, never edited afterwards, no user/auth link.
+// ConsultationBooking: a record of one submission whose details are never edited afterwards (only the
+// inbox Status moves), no user/auth link.
 // WebsiteType holds a stable key from the frontend's option list (e.g. "business"), not display text.
 public class WebsiteOrder : Entity
 {
@@ -15,6 +17,9 @@ public class WebsiteOrder : Entity
     public string Description { get; private set; } = string.Empty;
     public string PreferredContactTime { get; private set; } = string.Empty;
     public DateTimeOffset SubmittedAt { get; private set; }
+
+    // Where this lead is in the admin inbox pipeline. The submitted details themselves stay write-once.
+    public LeadStatus Status { get; private set; } = LeadStatus.New;
 
     private WebsiteOrder()
     {
@@ -40,5 +45,10 @@ public class WebsiteOrder : Entity
         Description = description;
         PreferredContactTime = preferredContactTime;
         SubmittedAt = submittedAt;
+    }
+
+    public void ChangeStatus(LeadStatus status)
+    {
+        Status = status;
     }
 }

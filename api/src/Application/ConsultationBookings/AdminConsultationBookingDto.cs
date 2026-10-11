@@ -1,3 +1,5 @@
+using ItCareers.Domain.Enums;
+
 namespace ItCareers.Application.ConsultationBookings;
 
 public record AdminConsultationBookingDto(
@@ -8,4 +10,5 @@ public record AdminConsultationBookingDto(
     bool HasPriorExperience,
     string WebsiteIdea,
     string PreferredContactTime,
-    DateTimeOffset SubmittedAt);
+    DateTimeOffset SubmittedAt,
+    LeadStatus Status);

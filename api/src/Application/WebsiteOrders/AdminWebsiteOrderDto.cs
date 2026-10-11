@@ -1,3 +1,5 @@
+using ItCareers.Domain.Enums;
+
 namespace ItCareers.Application.WebsiteOrders;
 
 public record AdminWebsiteOrderDto(
@@ -9,4 +11,5 @@ public record AdminWebsiteOrderDto(
     string WebsiteType,
     string Description,
     string PreferredContactTime,
-    DateTimeOffset SubmittedAt);
+    DateTimeOffset SubmittedAt,
+    LeadStatus Status);
