@@ -3,14 +3,14 @@ import type { Locale } from "../locale";
 const ar = {
   meta: {
     title: "أبني لك موقعك — حلقة",
-    description: "تعطيني فكرتك ومحتواك، وأبني لك موقعًا كاملًا جاهزًا للنشر بالذكاء الاصطناعي.",
+    description: "تعطيني فكرتك ومحتواك، وأبني لك موقعًا احترافيًا كاملًا جاهزًا للنشر.",
   },
   hero: {
     eyebrow: "خدمة بناء المواقع",
     titleStart: "أبني لك موقعك",
     titleAccent: "بالكامل",
     titleEnd: "، جاهز للنشر",
-    subtitle: "تعطيني فكرتك ومحتواك، وأبني لك موقعًا حقيقيًا بالذكاء الاصطناعي — وتستلمه ملكك بالكامل.",
+    subtitle: "تعطيني فكرتك ومحتواك، وأبني لك موقعًا احترافيًا من الصفر — وتستلمه ملكك بالكامل.",
     cta: "اطلب موقعك",
   },
   features: [
@@ -21,10 +21,6 @@ const ar = {
     { title: "مساعدة بالنشر والتسليم", body: "أساعدك تنشر الموقع على رابطك الخاص وأسلّمك كل شي جاهز." },
     { title: "ملكية كاملة", body: "الموقع وكل ملفاته ملكك بالكامل بعد التسليم." },
   ],
-  pkg: {
-    price: "[سعر الباقة]",
-    lines: ["مدة التسليم: [مدة التسليم]", "جولات التعديل: [عدد جولات التعديل]", "الدومين والاستضافة: [مشمولان / غير مشمولين]"],
-  },
   process: [
     { title: "تعبّي النموذج", body: "تحكيلي عن موقعك وفكرته في النموذج بالأسفل." },
     { title: "أتواصل معك خلال 24 ساعة", body: "أراجع طلبك وأتواصل معك لنحدد التفاصيل." },
@@ -40,11 +36,6 @@ const ar = {
     "لا حاجة لأي خبرة تقنية من جهتك.",
   ],
   faqs: [
-    {
-      id: "price",
-      question: "كم السعر وشو يشمل؟",
-      answer: "[سعر الباقة]. يشمل جلسة فهم المشروع، بناء الموقع، جولات التعديل المتفق عليها، والمساعدة في النشر والتسليم.",
-    },
     { id: "duration", question: "كم تستغرق مدة التسليم؟", answer: "[مدة التسليم] من تأكيد الطلب واستلام المحتوى." },
     { id: "content", question: "هل لازم يكون عندي محتوى جاهز؟", answer: "يفيدك لو عندك نصوص وشعار وصور. وإذا ما عندك، نناقش الخيارات في أول تواصل." },
     { id: "revisions", question: "هل أقدر أطلب تعديلات؟", answer: "أكيد — جولات التعديل المتفق عليها مشمولة، وأي شي خارجها نتفق عليه بشكل منفصل." },
@@ -86,14 +77,14 @@ const ar = {
 const en: typeof ar = {
   meta: {
     title: "I'll build your website — Halaqa",
-    description: "Give me your idea and content, and I'll build you a complete website, ready to publish, with AI.",
+    description: "Give me your idea and content, and I'll build you a complete, professional website, ready to publish.",
   },
   hero: {
     eyebrow: "Website building service",
     titleStart: "I build your website",
     titleAccent: "end to end",
     titleEnd: ", ready to publish",
-    subtitle: "You give me your idea and content, and I build you a real website with AI — and you receive it fully yours.",
+    subtitle: "You give me your idea and content, and I build you a professional website from scratch — and you receive it fully yours.",
     cta: "Order your website",
   },
   features: [
@@ -104,10 +95,6 @@ const en: typeof ar = {
     { title: "Help with publishing and delivery", body: "I help you publish the website on your own link and hand everything over, ready to go." },
     { title: "Full ownership", body: "The website and all its files are entirely yours after delivery." },
   ],
-  pkg: {
-    price: "[Package price]",
-    lines: ["Delivery time: [Delivery time]", "Revision rounds: [Number of revision rounds]", "Domain and hosting: [Included / not included]"],
-  },
   process: [
     { title: "Fill in the form", body: "Tell me about your website and its idea in the form below." },
     { title: "I contact you within 24 hours", body: "I review your request and reach out to nail down the details." },
@@ -123,12 +110,6 @@ const en: typeof ar = {
     "No technical experience needed on your side.",
   ],
   faqs: [
-    {
-      id: "price",
-      question: "How much does it cost and what's included?",
-      answer:
-        "[Package price]. It includes a project-understanding session, building the website, the agreed revision rounds, and help with publishing and delivery.",
-    },
     { id: "duration", question: "How long does delivery take?", answer: "[Delivery time] from confirming the order and receiving your content." },
     {
       id: "content",

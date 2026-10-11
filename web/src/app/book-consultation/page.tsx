@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Card } from "@/components/ui/Card";
 import { buttonVariants } from "@/components/ui/Button";
+import { ScrollToSectionLink } from "@/components/ui/ScrollToSectionLink";
 import { Accordion } from "@/components/ui/Accordion";
 import { BackLink } from "@/components/layout/BackLink";
 import { MediaPlaceholder } from "@/components/consultation/MediaPlaceholder";
@@ -37,9 +38,9 @@ export default async function BookConsultationPage() {
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base leading-[1.8] text-neutral-600">{t.hero.subtitle}</p>
         <p className="mt-3 text-sm font-bold text-accent">{t.hero.seats}</p>
-        <a href="#register" className={buttonVariants({ variant: "accent", size: "lg", className: "mt-6" })}>
+        <ScrollToSectionLink targetId="register" className={buttonVariants({ variant: "accent", size: "lg", className: "mt-6" })}>
           {t.hero.cta}
-        </a>
+        </ScrollToSectionLink>
       </section>
 
       {/* Intro video */}

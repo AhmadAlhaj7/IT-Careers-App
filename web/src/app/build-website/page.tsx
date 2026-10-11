@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Card } from "@/components/ui/Card";
 import { buttonVariants } from "@/components/ui/Button";
+import { ScrollToSectionLink } from "@/components/ui/ScrollToSectionLink";
 import { Accordion } from "@/components/ui/Accordion";
 import { BackLink } from "@/components/layout/BackLink";
 import { AboutMeSection } from "@/components/services/AboutMeSection";
@@ -35,26 +36,15 @@ export default async function BuildWebsitePage() {
           {t.hero.titleEnd}
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base leading-[1.8] text-neutral-600">{t.hero.subtitle}</p>
-        <a href="#order" className={buttonVariants({ variant: "accent", size: "lg", className: "mt-8" })}>
+        <ScrollToSectionLink targetId="order" className={buttonVariants({ variant: "accent", size: "lg", className: "mt-8" })}>
           {t.hero.cta}
-        </a>
+        </ScrollToSectionLink>
       </section>
 
       <AboutMeSection t={shared.about} />
 
-      {/* What you get + package & price */}
       <section className="mt-20">
         <NumberedCardGrid title={shared.sections.whatYouGet} items={t.features} />
-
-        <Card padding="lg" shadow="panel" radius="card" className="mx-auto mt-6 max-w-xl text-center">
-          <p className="text-sm font-semibold text-neutral-500">{shared.sections.packageLabel}</p>
-          <p className="mt-2 text-2xl font-bold text-accent">{t.pkg.price}</p>
-          <div className="mt-4 flex flex-col gap-2 text-sm text-neutral-700">
-            {t.pkg.lines.map((line) => (
-              <p key={line}>{line}</p>
-            ))}
-          </div>
-        </Card>
       </section>
 
       <section className="mt-20">
@@ -68,7 +58,7 @@ export default async function BuildWebsitePage() {
       {/* FAQ */}
       <section className="mt-20">
         <h2 className="text-center text-2xl font-bold text-neutral-900">{shared.sections.faq}</h2>
-        <Accordion items={t.faqs} defaultOpenId="price" className="mx-auto mt-6 max-w-xl" />
+        <Accordion items={t.faqs} defaultOpenId="duration" className="mx-auto mt-6 max-w-xl" />
       </section>
 
       {/* Order form */}
