@@ -14,11 +14,15 @@ const ar = {
   },
   about: {
     title: "مين أنا",
-    photoLabel: "صورتك",
-    name: "أحمد الحاج",
-    bio: "مطوّر أنظمة أستخدم الذكاء الاصطناعي — وتحديدًا Claude — في شغلي الحقيقي يوميًا، مو بس أشرح إمكانياته نظريًا. أشارك رحلتي في تعلّم البرمجة والذكاء الاصطناعي مع أكثر من 11.6 ألف متابع على إنستغرام.",
-    worksLead: "من أعمالي: موقع صالة رياضية بنيته بالكامل بنفس الأدوات اللي أستخدمها",
-    screenshotLabel: "لقطة من موقع الصالة الرياضية — تُضاف لاحقًا",
+    photoAlt: "صورة أحمد الحاج أحمد",
+    name: "أحمد الحاج أحمد",
+    bio: "مهندس برمجيات متخرّج بتخصص هندسة البرمجيات، وعندي خبرة عملية في بناء الأنظمة والمواقع الحقيقية.",
+    // Rendered as "{instagramLead} @handle{instagramTail}" — the handle is a link to the profile, and the
+    // tail starts with its own comma so it sits right against the handle.
+    instagramLead: "أنشر محتوى برمجي على إنستغرام في حسابي",
+    instagramTail: "، ويتابعني فيه أكثر من 11.6 ألف شخص.",
+    worksLead: "من أعمالي: موقع صالة رياضية بنيته بالكامل",
+    videoLabel: "فيديو جولة في موقع صالة إس كيه ستاديوم الرياضية",
   },
 };
 
@@ -33,11 +37,13 @@ const en: typeof ar = {
   },
   about: {
     title: "Who am I",
-    photoLabel: "Your photo",
-    name: "Ahmad Alhaj",
-    bio: "I'm an AI systems developer who uses AI — Claude in particular — in my real daily work, not just explaining what it can do in theory. I share my journey learning programming and AI with more than 11.6K followers on Instagram.",
-    worksLead: "From my work: a gym website I built entirely with the same tools I use",
-    screenshotLabel: "Screenshot of the gym website — added later",
+    photoAlt: "Photo of Ahmad Alhaj Ahmad",
+    name: "Ahmad Alhaj Ahmad",
+    bio: "I'm an experienced software engineer with a degree in software engineering and hands-on experience building real systems and websites.",
+    instagramLead: "I post programming content on Instagram at",
+    instagramTail: ", where more than 11.6K people follow along.",
+    worksLead: "From my work: a gym website I built from scratch",
+    videoLabel: "Video tour of the S.K. Stadium gym website",
   },
 };
 

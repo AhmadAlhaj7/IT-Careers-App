@@ -20,7 +20,7 @@ const ar = {
     description: "وصف الموقع",
   },
   replyHint: "إذا أردت إضافة أي تفاصيل، يمكنك الرد على هذا البريد مباشرة.",
-  signoff: "أحمد الحاج — حلقة",
+  signoff: "أحمد الحاج أحمد — حلقة",
 };
 
 const en: typeof ar = {
@@ -41,7 +41,7 @@ const en: typeof ar = {
     description: "Website description",
   },
   replyHint: "If you'd like to add anything, just reply to this email.",
-  signoff: "Ahmad Alhaj — Halaqa",
+  signoff: "Ahmad Alhaj Ahmad — Halaqa",
 };
 
 export const leadEmailsContent: Record<Locale, typeof ar> = { ar, en };
