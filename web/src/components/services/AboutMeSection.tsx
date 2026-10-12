@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { AutoplayVideo } from "@/components/ui/AutoplayVideo";
 import { Card } from "@/components/ui/Card";
 import type { SharedContent } from "@/lib/i18n/content/shared";
 
@@ -40,15 +41,11 @@ export function AboutMeSection({ t }: { t: SharedContent["about"] }) {
 
         <div className="mt-6 border-t border-neutral-100 pt-6">
           <p className="text-sm font-semibold text-neutral-700">{t.worksLead}</p>
-          {/* Silent screen recording (no audio track). preload="metadata" so the 3MB file only downloads
-              once the visitor presses play; the poster stands in until then. */}
-          <video
+          <AutoplayVideo
             src="/about/gym-website-demo.mp4"
             poster="/about/gym-website-demo-poster.jpg"
             aria-label={t.videoLabel}
             controls
-            playsInline
-            preload="metadata"
             className="mt-4 aspect-[848/432] w-full rounded-xl bg-neutral-900"
           />
         </div>
