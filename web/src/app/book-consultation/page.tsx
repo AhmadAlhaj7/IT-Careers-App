@@ -6,6 +6,7 @@ import { Accordion } from "@/components/ui/Accordion";
 import { BackLink } from "@/components/layout/BackLink";
 import { MediaPlaceholder } from "@/components/consultation/MediaPlaceholder";
 import { ConsultationBookingForm } from "@/components/consultation/ConsultationBookingForm";
+import { ConsultationMascot } from "@/components/consultation/ConsultationMascot";
 import { AboutMeSection } from "@/components/services/AboutMeSection";
 import { NumberedCardGrid } from "@/components/services/NumberedCardGrid";
 import { CheckList } from "@/components/services/CheckList";
@@ -30,9 +31,10 @@ export default async function BookConsultationPage() {
   return (
     <div className="mx-auto w-full max-w-3xl px-3 py-10 sm:px-6 sm:py-16">
       <BackLink href="/services" label={shared.backToServices} />
+      <ConsultationMascot />
 
       {/* Hero */}
-      <section className="mt-6 text-center">
+      <section id="offer" className="mt-6 text-center">
         <span className="inline-block rounded-tag border border-neutral-200 bg-white px-4 py-1.5 text-xs text-neutral-600 shadow-subtle">
           {t.hero.eyebrow}
         </span>
@@ -46,12 +48,13 @@ export default async function BookConsultationPage() {
           <div className="flex items-center gap-3" dir="ltr">
             <span className="text-3xl font-bold text-accent">{t.hero.priceNow}</span>
             <span className="text-lg text-neutral-400 line-through">{t.hero.priceWas}</span>
-            <span className="rounded-full bg-accent px-2.5 py-1 text-xs font-bold text-white">{t.hero.discountBadge}</span>
+            <span dir="auto" className="rounded-full bg-accent px-2.5 py-1 text-xs font-bold text-white">
+              {t.hero.discountBadge}
+            </span>
           </div>
           <p className="text-sm font-semibold text-neutral-700">{t.hero.discountNote}</p>
         </div>
         <p className="mt-3 text-sm font-bold text-accent">{t.hero.seats}</p>
-        <p className="mt-1 text-sm text-secondary">{t.hero.studentNote}</p>
         <ScrollToSectionLink targetId="register" className={buttonVariants({ variant: "accent", size: "lg", className: "mt-6" })}>
           {t.hero.cta}
         </ScrollToSectionLink>
@@ -65,22 +68,24 @@ export default async function BookConsultationPage() {
         </section>
       )}
 
-      <AboutMeSection t={shared.about} />
+      <div id="about">
+        <AboutMeSection t={shared.about} />
+      </div>
 
-      <section className="mt-20">
+      <section id="features" className="mt-20">
         <NumberedCardGrid title={shared.sections.whatYouGet} items={t.features} />
       </section>
 
-      <section className="mt-20">
+      <section id="process" className="mt-20">
         <NumberedCardGrid title={shared.sections.process} items={t.process} badgeVariant="primary" />
       </section>
 
-      <section className="mt-20">
+      <section id="terms" className="mt-20">
         <CheckList title={shared.sections.terms} items={t.terms} />
       </section>
 
       {/* FAQ */}
-      <section className="mt-20">
+      <section id="faq" className="mt-20">
         <h2 className="text-center text-2xl font-bold text-neutral-900">{shared.sections.faq}</h2>
         <Accordion items={t.faqs} defaultOpenId="duration" className="mx-auto mt-6 max-w-xl" />
       </section>

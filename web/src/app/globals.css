@@ -119,6 +119,147 @@ body {
   }
 }
 
+/* Consultation-page mascots (ConsultationMascot). Two layers: .mascot-float drifts the whole sprite
+   like the home page's chips, at a similar calm pace (6.5s); the inner .mascot-<kind> class adds a
+   small motion that suits each pose, so the still pixel art reads as animated. */
+@keyframes mascot-float {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(-2deg);
+  }
+  25% {
+    transform: translate(5px, -9px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-3px, -4px) rotate(-1deg);
+  }
+  75% {
+    transform: translate(-6px, -10px) rotate(2deg);
+  }
+}
+
+.mascot-float {
+  animation: mascot-float 6.5s ease-in-out infinite;
+}
+
+/* Rocket: an eager little hop before launch. */
+@keyframes mascot-hop {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+  }
+  70% {
+    transform: translateY(-6px);
+  }
+  80% {
+    transform: translateY(0);
+  }
+  88% {
+    transform: translateY(-3px);
+  }
+}
+
+.mascot-rocket {
+  animation: mascot-hop 3.6s ease-in-out infinite;
+}
+
+/* Coffee / laptop: a quick typing jiggle. */
+@keyframes mascot-type {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.mascot-coffee,
+.mascot-laptop {
+  animation: mascot-type 0.9s steps(2, end) infinite;
+}
+
+/* Book: slow breathing — it's napping under the book. */
+@keyframes mascot-breathe {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.94);
+  }
+}
+
+.mascot-book {
+  transform-origin: bottom center;
+  animation: mascot-breathe 4.5s ease-in-out infinite;
+}
+
+/* Headphones: nodding to the beat. */
+@keyframes mascot-nod {
+  0%,
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  25% {
+    transform: rotate(-4deg) translateY(-2px);
+  }
+  75% {
+    transform: rotate(4deg) translateY(-2px);
+  }
+}
+
+.mascot-headphones {
+  transform-origin: bottom center;
+  animation: mascot-nod 1.6s ease-in-out infinite;
+}
+
+/* Thinking: a slow, puzzled head tilt. */
+@keyframes mascot-ponder {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+.mascot-thinking {
+  transform-origin: bottom center;
+  animation: mascot-ponder 5s ease-in-out infinite;
+}
+
+/* Parachute: swaying from the canopy on the way down. */
+@keyframes mascot-sway {
+  0%,
+  100% {
+    transform: rotate(-7deg);
+  }
+  50% {
+    transform: rotate(7deg);
+  }
+}
+
+.mascot-parachute {
+  transform-origin: top center;
+  animation: mascot-sway 4.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot-float,
+  .mascot-rocket,
+  .mascot-coffee,
+  .mascot-laptop,
+  .mascot-book,
+  .mascot-headphones,
+  .mascot-thinking,
+  .mascot-parachute {
+    animation: none;
+  }
+}
+
 /* Brand-mark entrance: inner ring spins clockwise into place, then the outer ring spins
    counter-clockwise into place — plays ONCE on mount (not an infinite loop) and lands
    exactly on the original artwork angle. A persistently-spinning logo in a fixed nav-corner
