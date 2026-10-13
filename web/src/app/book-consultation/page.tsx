@@ -13,6 +13,10 @@ import { getLocale } from "@/lib/i18n/locale";
 import { consultationContent } from "@/lib/i18n/content/consultation";
 import { sharedContent } from "@/lib/i18n/content/shared";
 
+// The intro video isn't recorded yet. Flip this to true (and swap the placeholder for the real video)
+// once it is.
+const SHOW_INTRO_VIDEO = false;
+
 export async function generateMetadata(): Promise<Metadata> {
   const { meta } = consultationContent[await getLocale()];
   return { title: meta.title, description: meta.description };
@@ -43,27 +47,18 @@ export default async function BookConsultationPage() {
         </ScrollToSectionLink>
       </section>
 
-      {/* Intro video */}
-      <section className="mt-16">
-        <p className="mb-4 text-center text-sm font-semibold text-neutral-500">{t.video.heading}</p>
-        <MediaPlaceholder label={t.video.placeholder} aspect="video" icon="video" />
-      </section>
+      {/* Intro video — hidden until it is recorded */}
+      {SHOW_INTRO_VIDEO && (
+        <section className="mt-16">
+          <p className="mb-4 text-center text-sm font-semibold text-neutral-500">{t.video.heading}</p>
+          <MediaPlaceholder label={t.video.placeholder} aspect="video" icon="video" />
+        </section>
+      )}
 
       <AboutMeSection t={shared.about} />
 
-      {/* What you get + package & price */}
       <section className="mt-20">
         <NumberedCardGrid title={shared.sections.whatYouGet} items={t.features} />
-
-        <Card padding="lg" shadow="panel" radius="card" className="mx-auto mt-6 max-w-xl text-center">
-          <p className="text-sm font-semibold text-neutral-500">{shared.sections.packageLabel}</p>
-          <p className="mt-2 text-2xl font-bold text-accent">{t.pkg.price}</p>
-          <div className="mt-4 flex flex-col gap-2 text-sm text-neutral-700">
-            {t.pkg.lines.map((line) => (
-              <p key={line}>{line}</p>
-            ))}
-          </div>
-        </Card>
       </section>
 
       <section className="mt-20">
@@ -77,7 +72,7 @@ export default async function BookConsultationPage() {
       {/* FAQ */}
       <section className="mt-20">
         <h2 className="text-center text-2xl font-bold text-neutral-900">{shared.sections.faq}</h2>
-        <Accordion items={t.faqs} defaultOpenId="price" className="mx-auto mt-6 max-w-xl" />
+        <Accordion items={t.faqs} defaultOpenId="duration" className="mx-auto mt-6 max-w-xl" />
       </section>
 
       {/* Registration form */}

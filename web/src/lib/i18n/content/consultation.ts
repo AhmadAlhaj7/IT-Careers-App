@@ -23,10 +23,6 @@ const ar = {
     { title: "أسبوع دعم عبر واتساب", body: "بعد آخر جلسة، عندك أسبوع كامل تتواصل معي فيه عبر واتساب لأي عائق يواجهك." },
     { title: "دليل Claude Code الكامل", body: "دليل شامل يشرح كل ما تحتاجه عن Claude Code، يبقى معك بعد انتهاء الجلسات." },
   ],
-  pkg: {
-    price: "[السعر الخاص بأول 5 عملاء]",
-    lines: ["3 جلسات فردية عن بُعد — مدة كل جلسة: [مدة الجلسة]", "أسبوع دعم عبر واتساب بعد آخر جلسة", "دليل Claude Code الكامل"],
-  },
   process: [
     { title: "تعبّي النموذج", body: "تسجّل بياناتك وفكرة موقعك في النموذج بالأسفل." },
     { title: "أتواصل معك خلال 24 ساعة", body: "أراجع فكرتك وأتواصل معك لتنسيق التفاصيل." },
@@ -43,11 +39,6 @@ const ar = {
     "الموقع ملكك بالكامل بعد انتهاء الجلسات.",
   ],
   faqs: [
-    {
-      id: "price",
-      question: "كم السعر وشو يشمل؟",
-      answer: "[السعر الخاص بأول 5 عملاء]. يشمل 3 جلسات فردية، أسبوع دعم عبر واتساب بعد آخر جلسة، ودليل Claude Code الكامل.",
-    },
     { id: "subscription", question: "هل اشتراك Claude مشمول بالسعر؟", answer: "لا. اشتراك Claude Pro أو Max مطلوب بشكل منفصل وغير مشمول بسعر الاستشارة." },
     { id: "duration", question: "كم تستغرق مدة بناء الموقع؟", answer: "3 جلسات فردية، بالإضافة لأسبوع دعم عبر واتساب بعد آخر جلسة." },
     { id: "sessions", question: "هل الجلسات فردية أم جماعية؟", answer: "فردية بالكامل، مبنية حول فكرتك ووتيرتك أنت." },
@@ -75,6 +66,9 @@ const ar = {
     no: "لا",
     contactTime: "الوقت المناسب للتواصل معك",
     contactTimePlaceholder: "مثال: مساءً بعد السابعة",
+    fullNamePlaceholder: "مثال: محمد أحمد",
+    phonePlaceholder: "+962 7X XXX XXXX",
+    emailPlaceholder: "name@example.com",
     submit: "تأكيد التسجيل",
     sending: "جارٍ الإرسال...",
     privacy: "بياناتك ما رح تنشارك مع أي جهة.",
@@ -108,14 +102,6 @@ const en: typeof ar = {
     { title: "One week of WhatsApp support", body: "After the last session, you get a full week to reach me on WhatsApp for anything that blocks you." },
     { title: "The complete Claude Code guide", body: "A comprehensive guide to everything you need to know about Claude Code, yours to keep after the sessions end." },
   ],
-  pkg: {
-    price: "[Price for the first 5 customers]",
-    lines: [
-      "3 one-on-one remote sessions — session length: [Session length]",
-      "One week of WhatsApp support after the last session",
-      "The complete Claude Code guide",
-    ],
-  },
   process: [
     { title: "Fill in the form", body: "Leave your details and website idea in the form below." },
     { title: "I contact you within 24 hours", body: "I review your idea and reach out to arrange the details." },
@@ -132,12 +118,6 @@ const en: typeof ar = {
     "The website is entirely yours once the sessions end.",
   ],
   faqs: [
-    {
-      id: "price",
-      question: "How much does it cost and what's included?",
-      answer:
-        "[Price for the first 5 customers]. It includes 3 one-on-one sessions, one week of WhatsApp support after the last session, and the complete Claude Code guide.",
-    },
     {
       id: "subscription",
       question: "Is a Claude subscription included in the price?",
@@ -182,6 +162,9 @@ const en: typeof ar = {
     no: "No",
     contactTime: "Best time to reach you",
     contactTimePlaceholder: "e.g. evenings after 7",
+    fullNamePlaceholder: "e.g. Mohammad Ahmad",
+    phonePlaceholder: "+962 7X XXX XXXX",
+    emailPlaceholder: "name@example.com",
     submit: "Confirm booking",
     sending: "Sending...",
     privacy: "Your details won't be shared with anyone.",

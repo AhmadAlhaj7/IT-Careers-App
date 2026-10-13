@@ -32,10 +32,10 @@ export function ConsultationBookingForm({ t }: { t: ConsultationContent["form"] 
 
   return (
     <form ref={formRef} action={formAction} className="flex flex-col gap-4">
-      <Input label={t.fullName} name="fullName" maxLength={200} required />
+      <Input label={t.fullName} name="fullName" placeholder={t.fullNamePlaceholder} maxLength={200} required />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <Input label={t.phone} name="phone" type="tel" dir="ltr" maxLength={40} required />
-        <Input label={t.email} name="email" type="email" dir="ltr" maxLength={320} required />
+        <Input label={t.phone} name="phone" type="tel" placeholder={t.phonePlaceholder} dir="ltr" maxLength={40} required />
+        <Input label={t.email} name="email" type="email" placeholder={t.emailPlaceholder} dir="ltr" maxLength={320} required />
       </div>
 
       <Textarea label={t.websiteIdea} name="websiteIdea" placeholder={t.websiteIdeaPlaceholder} rows={3} maxLength={2000} />
