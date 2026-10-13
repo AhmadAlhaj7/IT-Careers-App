@@ -43,19 +43,7 @@ export default async function BookConsultationPage() {
           {t.hero.titleEnd}
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base leading-[1.8] text-neutral-600">{t.hero.subtitle}</p>
-        {/* Launch price: new price, struck-through old price, and the discount it works out to. */}
-        <div className="mx-auto mt-6 flex w-fit flex-col items-center gap-1 rounded-panel border border-accent/20 bg-white px-6 py-4 shadow-subtle">
-          <div className="flex items-center gap-3" dir="ltr">
-            <span className="text-3xl font-bold text-accent">{t.hero.priceNow}</span>
-            <span className="text-lg text-neutral-400 line-through">{t.hero.priceWas}</span>
-            <span dir="auto" className="rounded-full bg-accent px-2.5 py-1 text-xs font-bold text-white">
-              {t.hero.discountBadge}
-            </span>
-          </div>
-          <p className="text-sm font-semibold text-neutral-700">{t.hero.discountNote}</p>
-        </div>
-        <p className="mt-3 text-sm font-bold text-accent">{t.hero.seats}</p>
-        <ScrollToSectionLink targetId="register" className={buttonVariants({ variant: "accent", size: "lg", className: "mt-6" })}>
+        <ScrollToSectionLink targetId="price" className={buttonVariants({ variant: "accent", size: "lg", className: "mt-8" })}>
           {t.hero.cta}
         </ScrollToSectionLink>
       </section>
@@ -90,8 +78,23 @@ export default async function BookConsultationPage() {
         <Accordion items={t.faqs} defaultOpenId="duration" className="mx-auto mt-6 max-w-xl" />
       </section>
 
+      {/* Launch price, right before the form: new price, struck-through old price, and the discount it works out to. */}
+      <section id="price" className="mt-20 scroll-mt-24 text-center">
+        <div className="mx-auto flex w-fit flex-col items-center gap-1 rounded-panel border border-accent/20 bg-white px-6 py-4 shadow-subtle">
+          <div className="flex items-center gap-3" dir="ltr">
+            <span className="text-3xl font-bold text-accent">{t.hero.priceNow}</span>
+            <span className="text-lg text-neutral-400 line-through">{t.hero.priceWas}</span>
+            <span dir="auto" className="rounded-full bg-accent px-2.5 py-1 text-xs font-bold text-white">
+              {t.hero.discountBadge}
+            </span>
+          </div>
+          <p className="text-sm font-semibold text-neutral-700">{t.hero.discountNote}</p>
+        </div>
+        <p className="mt-3 text-sm font-bold text-accent">{t.hero.seats}</p>
+      </section>
+
       {/* Registration form */}
-      <section id="register" className="mt-20 scroll-mt-24">
+      <section id="register" className="mt-12 scroll-mt-24">
         <h2 className="text-center text-2xl font-bold text-neutral-900">{t.register.heading}</h2>
         <p className="mx-auto mt-2 max-w-md text-center text-sm text-neutral-500">{t.register.subtitle}</p>
         <Card padding="lg" shadow="panel" radius="card" className="mx-auto mt-8 max-w-lg">

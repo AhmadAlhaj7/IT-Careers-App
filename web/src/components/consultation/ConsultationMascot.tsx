@@ -5,14 +5,16 @@ import { useEffect, useState, type CSSProperties } from "react";
 type MascotKind = "rocket" | "coffee" | "book" | "laptop" | "headphones" | "thinking" | "parachute";
 
 // One mascot per section, matched to what the visitor is reading: a rocket by the launch price, a
-// parachute "landing" on the registration form, and so on.
+// parachute "landing" on the registration form, and so on. Headphones appear twice (hero and terms),
+// far enough apart that it never reads as a repeat.
 const ZONES: { sectionId: string; mascot: MascotKind }[] = [
-  { sectionId: "offer", mascot: "rocket" },
+  { sectionId: "offer", mascot: "headphones" },
   { sectionId: "about", mascot: "coffee" },
   { sectionId: "features", mascot: "book" },
   { sectionId: "process", mascot: "laptop" },
   { sectionId: "terms", mascot: "headphones" },
   { sectionId: "faq", mascot: "thinking" },
+  { sectionId: "price", mascot: "rocket" },
   { sectionId: "register", mascot: "parachute" },
 ];
 
