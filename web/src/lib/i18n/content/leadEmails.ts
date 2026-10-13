@@ -18,7 +18,9 @@ const ar = {
     idea: "فكرة الموقع",
     projectName: "اسم المشروع",
     description: "وصف الموقع",
+    studentDiscount: "خصم الطلاب",
   },
+  studentDiscountRequested: "طلبته — سأؤكد التفاصيل معك عند التواصل.",
   replyHint: "إذا أردت إضافة أي تفاصيل، يمكنك الرد على هذا البريد مباشرة.",
   signoff: "أحمد الحاج أحمد — حلقة",
 };
@@ -39,7 +41,9 @@ const en: typeof ar = {
     idea: "Website idea",
     projectName: "Project name",
     description: "Website description",
+    studentDiscount: "Student discount",
   },
+  studentDiscountRequested: "Requested — I'll confirm the details with you when I get in touch.",
   replyHint: "If you'd like to add anything, just reply to this email.",
   signoff: "Ahmad Alhaj Ahmad — Halaqa",
 };

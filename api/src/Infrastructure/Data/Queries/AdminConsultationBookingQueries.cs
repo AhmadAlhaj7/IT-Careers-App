@@ -24,6 +24,7 @@ public class AdminConsultationBookingQueries : IAdminConsultationBookingQueries
                 b.Phone,
                 b.Email,
                 b.HasPriorExperience,
+                b.IsStudent,
                 b.WebsiteIdea,
                 b.PreferredContactTime,
                 b.SubmittedAt,

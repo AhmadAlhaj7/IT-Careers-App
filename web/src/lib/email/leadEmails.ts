@@ -13,6 +13,7 @@ export type NewLead =
       phone: string;
       preferredContactTime: string;
       hasPriorExperience: boolean;
+      isStudent: boolean;
       websiteIdea: string;
     }
   | {
@@ -59,7 +60,10 @@ function visitorConfirmation(lead: NewLead, locale: Locale): OutgoingEmail {
   const rows: Row[] = [
     { label: t.fields.phone, value: lead.phone, ltr: true },
     ...(lead.kind === "consultation"
-      ? [{ label: t.fields.idea, value: lead.websiteIdea }]
+      ? [
+          { label: t.fields.idea, value: lead.websiteIdea },
+          ...(lead.isStudent ? [{ label: t.fields.studentDiscount, value: t.studentDiscountRequested }] : []),
+        ]
       : [
           { label: t.fields.projectName, value: lead.projectName },
           { label: t.fields.description, value: lead.description },
@@ -109,6 +113,7 @@ function ownerNotification(lead: NewLead, ownerEmail: string): OutgoingEmail {
     ...(lead.kind === "consultation"
       ? [
           { label: "خبرة سابقة", value: lead.hasPriorExperience ? "نعم" : "لا" },
+          { label: "طالب", value: lead.isStudent ? "نعم — طلب خصم الطلاب" : "لا" },
           { label: "فكرة الموقع", value: lead.websiteIdea },
         ]
       : [

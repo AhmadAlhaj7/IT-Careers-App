@@ -32,6 +32,7 @@ export async function submitConsultationBookingAction(
   const phone = String(formData.get("phone") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim();
   const hasPriorExperience = formData.get("hasPriorExperience") === "yes";
+  const isStudent = formData.get("isStudent") === "on";
   const websiteIdea = String(formData.get("websiteIdea") ?? "").trim();
   const preferredContactTime = String(formData.get("preferredContactTime") ?? "").trim();
 
@@ -47,6 +48,7 @@ export async function submitConsultationBookingAction(
       phone,
       email,
       hasPriorExperience,
+      isStudent,
       websiteIdea,
       preferredContactTime,
     }),
@@ -59,7 +61,7 @@ export async function submitConsultationBookingAction(
   // Confirmation to the visitor + notification to you, sent after the response so the visitor never
   // waits on Gmail. A mail failure is only logged — the lead is already saved.
   after(() =>
-    notifyNewLead({ kind: "consultation", fullName, email, phone, preferredContactTime, hasPriorExperience, websiteIdea }, locale),
+    notifyNewLead({ kind: "consultation", fullName, email, phone, preferredContactTime, hasPriorExperience, isStudent, websiteIdea }, locale),
   );
 
   return { success: true };

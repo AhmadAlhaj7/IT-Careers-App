@@ -22,6 +22,7 @@ public class ConsultationBookingCommands : IConsultationBookingCommands
             request.Phone,
             request.Email,
             request.HasPriorExperience,
+            request.IsStudent,
             request.WebsiteIdea,
             request.PreferredContactTime,
             DateTimeOffset.UtcNow);

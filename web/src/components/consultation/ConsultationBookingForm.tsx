@@ -48,6 +48,15 @@ export function ConsultationBookingForm({ t }: { t: ConsultationContent["form"] 
         </div>
       </fieldset>
 
+      {/* Student discount opt-in. A plain checkbox: submits "on" when ticked, nothing otherwise. */}
+      <label className="flex cursor-pointer items-start gap-3 rounded-panel border border-secondary/20 bg-secondary/5 p-4">
+        <input type="checkbox" name="isStudent" className="mt-1 h-4 w-4 shrink-0 accent-secondary" />
+        <span>
+          <span className="block text-sm font-semibold text-secondary">{t.studentLabel}</span>
+          <span className="mt-0.5 block text-xs text-neutral-500">{t.studentHint}</span>
+        </span>
+      </label>
+
       <Input label={t.contactTime} name="preferredContactTime" placeholder={t.contactTimePlaceholder} maxLength={200} />
 
       {state.message && <p className="text-sm text-danger">{state.message}</p>}

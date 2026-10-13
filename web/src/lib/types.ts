@@ -249,6 +249,7 @@ export type AdminConsultationBooking = {
   phone: string;
   email: string;
   hasPriorExperience: boolean;
+  isStudent: boolean;
   websiteIdea: string;
   preferredContactTime: string;
   submittedAt: string;

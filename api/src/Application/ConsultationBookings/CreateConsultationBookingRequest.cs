@@ -5,5 +5,6 @@ public record CreateConsultationBookingRequest(
     string Phone,
     string Email,
     bool HasPriorExperience,
+    bool IsStudent,
     string WebsiteIdea,
     string PreferredContactTime);

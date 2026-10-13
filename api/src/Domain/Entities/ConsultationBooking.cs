@@ -14,6 +14,9 @@ public class ConsultationBooking : Entity
     public string Phone { get; private set; } = string.Empty;
     public string Email { get; private set; } = string.Empty;
     public bool HasPriorExperience { get; private set; }
+
+    // Ticked "I'm a student" on the form — eligible for the extra student discount (verified when contacted).
+    public bool IsStudent { get; private set; }
     public string WebsiteIdea { get; private set; } = string.Empty;
     public string PreferredContactTime { get; private set; } = string.Empty;
     public DateTimeOffset SubmittedAt { get; private set; }
@@ -31,6 +34,7 @@ public class ConsultationBooking : Entity
         string phone,
         string email,
         bool hasPriorExperience,
+        bool isStudent,
         string websiteIdea,
         string preferredContactTime,
         DateTimeOffset submittedAt)
@@ -40,6 +44,7 @@ public class ConsultationBooking : Entity
         Phone = phone;
         Email = email;
         HasPriorExperience = hasPriorExperience;
+        IsStudent = isStudent;
         WebsiteIdea = websiteIdea;
         PreferredContactTime = preferredContactTime;
         SubmittedAt = submittedAt;

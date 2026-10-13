@@ -8,6 +8,7 @@ public record AdminConsultationBookingDto(
     string Phone,
     string Email,
     bool HasPriorExperience,
+    bool IsStudent,
     string WebsiteIdea,
     string PreferredContactTime,
     DateTimeOffset SubmittedAt,

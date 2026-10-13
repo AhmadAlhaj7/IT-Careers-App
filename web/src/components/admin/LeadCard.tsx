@@ -31,9 +31,16 @@ export function LeadCard({ lead }: { lead: InboxLead }) {
       <div className="mt-3 border-t border-neutral-100 pt-3 text-sm text-neutral-700">
         {lead.kind === "consultation" ? (
           <>
-            <Badge variant={lead.hasPriorExperience ? "primary" : "neutral"} size="sm">
-              {lead.hasPriorExperience ? "لديه خبرة سابقة" : "بدون خبرة سابقة"}
-            </Badge>
+            <div className="flex flex-wrap gap-2">
+              <Badge variant={lead.hasPriorExperience ? "primary" : "neutral"} size="sm">
+                {lead.hasPriorExperience ? "لديه خبرة سابقة" : "بدون خبرة سابقة"}
+              </Badge>
+              {lead.isStudent && (
+                <Badge variant="secondary" size="sm">
+                  طالب — يستحق خصم الطلاب
+                </Badge>
+              )}
+            </div>
             {lead.websiteIdea && (
               <p className="mt-2 whitespace-pre-line">
                 <span className="font-semibold text-neutral-900">فكرة الموقع: </span>
